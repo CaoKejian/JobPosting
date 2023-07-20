@@ -6,6 +6,7 @@ import { history } from './shared/history'
 import './assets/css/reset.scss'
 import './assets/css/vari.scss'
 import "@svgstore"
+import './assets/fonts/fonts.css'
 
 const app = createApp(App)
 const router = createRouter({

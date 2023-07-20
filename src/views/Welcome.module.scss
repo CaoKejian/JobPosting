@@ -1,4 +1,72 @@
 .wrapper{
-  width: 750px;
-  background: red;
+  background: var(--theme-bg);
+  height: 100vh;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  .main{
+    height: 18%;
+    background: linear-gradient(to bottom,var(--body-bg-top),var(--body-bg-bottom));
+    
+  }
+  .body{
+    background: var(--body-bg-bottom);
+    flex: 1;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    .svg{ 
+      padding: 140px;
+      width: 248px;
+      height: 248px;
+      animation: shakeAnimation 1.5s 1; /* 持续2秒，无限循环 */
+
+    }
+    .box{
+      width: 70%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      font-size: 1.2rem;
+      color: var(--theme-font-color);
+    }
+  }
+  .footer{
+    height: 10%;
+    background: var(--body-bg-bottom);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    .title{
+      padding: 0 40px;
+      font-size: 1.2rem;
+    }
+  }
+}
+
+.title{
+  padding: 60px 40px;
+  font-size: 2rem;
+  color: var(--theme-font-color);
+}
+
+/* 定义动画的关键帧 */
+@keyframes shakeAnimation {
+  0% {
+    transform: translateX(2000px); /* 初始位置：不偏移 */
+  }
+  25% {
+    transform: translateX(-100px); /* 向左偏移10像素 */
+  }
+  50% {
+    transform: translateX(90px); /* 向右偏移10像素 */
+  }
+  75% {
+    transform: translateX(-40px); /* 向左偏移10像素 */
+  }
+  100% {
+    transform: translateX(0); /* 回到初始位置：不偏移 */
+  }
 }
