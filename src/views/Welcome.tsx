@@ -11,7 +11,12 @@ export const Welcome = defineComponent({
     return () => (
       <div class={s.wrapper}>
         <div class={s.main}>
-          <div class={s.title}>收作业啦</div>
+          <div class={s.title}>
+            <span style="--index: 1;">收</span>  
+            <span style="--index: 2;">作</span>  
+            <span style="--index: 3;">业</span>  
+            <span style="--index: 4;">啦</span>  
+          </div>
         </div>
         <div class={s.body}>
           <svg class={s.svg}>
@@ -27,7 +32,9 @@ export const Welcome = defineComponent({
           </div>
         </div>
         <div class={s.footer}>
-          <div class={s.title}>每天进步一点点啦</div>
+           <svg class={s.icon}><use xlinkHref='#progress'></use></svg>
+          <div class={s.title}>每天进步一点点啦
+          </div>
         </div>
       </div>
     )

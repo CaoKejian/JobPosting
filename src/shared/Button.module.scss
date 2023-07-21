@@ -1,9 +1,10 @@
 .button{
-  background: var(--body-bg-top);
+  background: linear-gradient(to right,var(--button-left),var(--button-right));
   border: none;
-  color: var(--theme-font-color);
+  color: var(--body-bg-bottom);
+  box-shadow: 0 0 10px var(--button-right);
   border-radius: 8px;
-  line-height: 2rem;
+  line-height: 2.5rem;
   padding: 0 2rem;
   
 }

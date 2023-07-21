@@ -5,27 +5,42 @@
   display: flex;
   flex-direction: column;
   .main{
-    height: 18%;
+    height: 12%;
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    padding-left: 2rem;
     background: linear-gradient(to bottom,var(--body-bg-top),var(--body-bg-bottom));
-    
+    .title{
+      animation: fadeInText 2s ease-in-out forwards;
+      animation-delay: 4s; 
+      >span{
+        display: inline-block;
+        animation: fadeInText 2s ease-in-out forwards;
+        animation-delay: 4s; /* 根据索引值计算延迟时间 */
+      }
+    }
   }
   .body{
     background: var(--body-bg-bottom);
-    flex: 1;
+    flex-grow: 1;
     display: flex;
     align-items: center;
     flex-direction: column;
+    padding: 6rem 0;
+    box-sizing: border-box;
     .svg{ 
-      padding: 140px;
-      width: 248px;
-      height: 248px;
-      animation: shakeAnimation 1.5s 1; /* 持续2秒，无限循环 */
-
+      box-sizing: border-box;
+      margin-bottom: 6rem;
+      width: 8rem;
+      height: 8rem;
+      animation: rollInAnimation 4s 1;
     }
     .box{
       width: 70%;
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       justify-content: space-between;
       margin-bottom: 24px;
       font-size: 1.2rem;
@@ -33,40 +48,68 @@
     }
   }
   .footer{
-    height: 10%;
+    height: 6%;
+    flex-shrink: 0;
     background: var(--body-bg-bottom);
-    position: fixed;
+    position: sticky;
     bottom: 0;
-    left: 0;
-    right: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+    box-sizing: border-box;
     .title{
-      padding: 0 40px;
+      padding: 0 20px;
       font-size: 1.2rem;
+    }
+    .icon{
+      width: 36px;
+      height: 36px;
     }
   }
 }
 
 .title{
-  padding: 60px 40px;
   font-size: 2rem;
   color: var(--theme-font-color);
 }
 
-/* 定义动画的关键帧 */
-@keyframes shakeAnimation {
+
+
+
+@keyframes rollInAnimation {
   0% {
-    transform: translateX(2000px); /* 初始位置：不偏移 */
+    transform: translateX(100%) rotate(360deg); /* 初始位置：在屏幕右侧，向左旋转 360 度 */
   }
-  25% {
-    transform: translateX(-100px); /* 向左偏移10像素 */
+  25%{
+    transform: translateX(-100px) rotate(-120deg);
   }
-  50% {
-    transform: translateX(90px); /* 向右偏移10像素 */
+  50%{
+    transform: translateX(100px) rotate(90deg);
   }
-  75% {
-    transform: translateX(-40px); /* 向左偏移10像素 */
+  75%{
+    transform: translateX(0) rotate(0); /* 最终位置：回到初始位置，不旋转 */
+  }
+  85%{
+    transform: translateY(-100px);
+  }
+  92%{
+    transform: translateY(60px);
   }
   100% {
-    transform: translateX(0); /* 回到初始位置：不偏移 */
+    transform: translateY(0px);
   }
 }
+@keyframes fadeInText {
+  0% {
+    opacity: 0;
+  }
+  75%{
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
