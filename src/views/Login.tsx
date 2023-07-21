@@ -5,6 +5,7 @@ import { Form, FormItem } from '../shared/Form';
 import { useBool } from '../hooks/useBool';
 import { Rules, hasError, validate } from '../shared/Validate';
 import { Button } from '../shared/Button';
+import { Model } from '../shared/Model';
 export const Login = defineComponent({
   props: {
     name: {
@@ -13,21 +14,22 @@ export const Login = defineComponent({
   },
   setup: () => {
     const formData = reactive({
-      id:'',
+      id: '',
       email: '',
       code: ''
     })
     const errors = reactive({
-      id:[],
+      id: [],
       email: [],
       code: []
     })
     const refValidationCode = ref<any>('')
     const { ref: refDisabled } = useBool(false)
+    const modelVisible = ref<boolean>(true)
     const onSubmit = (e: Event) => {
-      // e.preventDefault()
+      e.preventDefault()
       Object.assign(errors, {
-        id:[], email: [], code: []
+        id: [], email: [], code: []
       })
       const reules: Rules<typeof formData> = [
         { key: 'id', type: 'required', message: '必填' },
@@ -37,17 +39,21 @@ export const Login = defineComponent({
       ]
       Object.assign(errors, validate(formData, reules))
 
-      if(!hasError(errors)){
+      if (!hasError(errors)) {
         console.log('成功,发送请求')
-      }else{
+      } else {
         console.log('信息不完整');
-        
+
       }
     }
     const onClickSendValidationCode = async () => {
       console.log('发送校验信息');
-      
+
       refValidationCode.value.startCount()
+    }
+    const gotoInfo = () => {
+      console.log('我已经免邮登录了');
+      modelVisible.value = true
     }
     return () => (
       <MainLayout>{
@@ -70,11 +76,23 @@ export const Login = defineComponent({
                   onClick={onClickSendValidationCode}
                   v-model={formData.code} error={errors.code?.[0] ?? '　'}
                 ></FormItem>
-                 <FormItem style={{ paddingTop: '28px' }}>
-                  <Button type='submit'>登录</Button>
+                <FormItem style={{ paddingTop: '28px' }}>
+                  <div class={s.submit}>
+                    <Button type='submit'>登录</Button>
+                    <Button type='button' onClick={() => gotoInfo()}>免邮登录</Button>
+                  </div>
                 </FormItem>
               </Form>
             </div>
+            {modelVisible.value ?
+              <Model v-model:modelVisible={modelVisible.value}>{
+                {
+                  title: () => '弹框',
+                  content:() => '确认免邮登录吗？（不安全）',
+                }
+              }</Model> :
+              null
+            }
           </div>
         }
       }</MainLayout>

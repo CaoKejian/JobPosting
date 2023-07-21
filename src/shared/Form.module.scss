@@ -22,6 +22,7 @@
     padding: 0 ;
     padding-left: 16px;
     padding-right: 16px;
+    box-sizing: border-box;
     box-shadow: inset 0 0 3px var(--input-shadow);
     color: var(--theme-font-color);
     &.error {
