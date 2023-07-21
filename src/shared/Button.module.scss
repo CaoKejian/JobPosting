@@ -5,8 +5,16 @@
   box-shadow: 0 0 10px var(--button-right);
   border-radius: 8px;
   line-height: 2.5rem;
-  padding: 0 2rem;
+  padding: 0 1.2rem;
+  &[disabled]{
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
   &:active{
     background: var(--button-light);
+  }
+  &.danger{
+    background: var(--button-bg-danger);
+    border-color: var(--button-bg-danger);
   }
 }
