@@ -41,7 +41,6 @@ export const Button = defineComponent({
       } else {
         return
       }
-      console.log(selfDisabled.value);
       setTimeout(() => {
         selfDisabled.value = false
       }, 1000)
