@@ -6,5 +6,7 @@
   border-radius: 8px;
   line-height: 2.5rem;
   padding: 0 2rem;
-  
+  &:active{
+    background: var(--button-light);
+  }
 }

@@ -59,12 +59,19 @@
     padding: 0 2rem;
     box-sizing: border-box;
     .title{
-      padding: 0 20px;
       font-size: 1.2rem;
-    }
-    .icon{
-      width: 36px;
-      height: 36px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      >span{
+        display: inline-block;
+        animation: jumpUp 1s ease-in-out forwards;
+        animation-delay: calc( 4s + 0.2s * var(--index));/* 根据索引值计算延迟时间 */
+        .icon{
+          width: 36px;
+          height: 36px;
+        }
+      }
     }
   }
 }
@@ -113,3 +120,14 @@
   }
 }
 
+@keyframes jumpUp {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px); /* 往上跳的高度 */
+  }
+  100% {
+    transform: translateY(0);
+  }
+}

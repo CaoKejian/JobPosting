@@ -12,10 +12,10 @@ export const Welcome = defineComponent({
       <div class={s.wrapper}>
         <div class={s.main}>
           <div class={s.title}>
-            <span style="--index: 1;">收</span>  
-            <span style="--index: 2;">作</span>  
-            <span style="--index: 3;">业</span>  
-            <span style="--index: 4;">啦</span>  
+            <span style="--index: 1;">收</span>
+            <span style="--index: 2;">作</span>
+            <span style="--index: 3;">业</span>
+            <span style="--index: 4;">啦</span>
           </div>
         </div>
         <div class={s.body}>
@@ -32,8 +32,16 @@ export const Welcome = defineComponent({
           </div>
         </div>
         <div class={s.footer}>
-           <svg class={s.icon}><use xlinkHref='#progress'></use></svg>
-          <div class={s.title}>每天进步一点点啦
+          <div class={s.title}>
+            <span style="--index:1;"><svg class={s.icon}><use xlinkHref='#progress'></use></svg></span>
+            <span style="--index: 2;">每</span>
+            <span style="--index: 3;">天</span>
+            <span style="--index: 4;">进</span>
+            <span style="--index: 5;">步</span>
+            <span style="--index: 6;">一</span>
+            <span style="--index: 7;">点</span>
+            <span style="--index: 8;">点</span>
+            <span style="--index: 9;">啦</span>
           </div>
         </div>
       </div>
