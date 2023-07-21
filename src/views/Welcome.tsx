@@ -1,6 +1,7 @@
 import { PropType, defineComponent, ref } from 'vue';
 import s from './Welcome.module.scss';
 import { Button } from '../shared/Button';
+import { useRouter } from 'vue-router';
 export const Welcome = defineComponent({
   props: {
     name: {
@@ -8,9 +9,9 @@ export const Welcome = defineComponent({
     }
   },
   setup: (props, context) => {
+    const router = useRouter()
     const gotoInfo = () => {
-      console.log(1);
-      
+      router.push('/login')
     }
     return () => (
       <div class={s.wrapper}>

@@ -1,5 +1,6 @@
 import { PropType, defineComponent, ref } from 'vue';
 import s from './Login.module.scss';
+import { MainLayout } from '../layouts/MainLayout';
 export const Login = defineComponent({
   props: {
     name: {
@@ -8,7 +9,15 @@ export const Login = defineComponent({
   },
   setup: (props, context) => {
     return () => (
-      <div>Login</div>
+      <MainLayout>{
+        {
+          title:() => '1',
+          fTitle:() => '1',
+          default:() => '2'
+        }
+      }</MainLayout>
     )
   }
 })
+
+export default Login
