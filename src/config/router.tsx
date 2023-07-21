@@ -4,5 +4,8 @@ export const routes:RouteRecordRaw[] = [
   {path:'/',redirect:'/welcome'},
   {
     path:'/welcome',component:() => import('../views/Welcome')
+  },
+  {
+    path:'/login',component:() => import('../views/Login')
   }
 ]

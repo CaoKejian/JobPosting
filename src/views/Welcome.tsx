@@ -8,6 +8,10 @@ export const Welcome = defineComponent({
     }
   },
   setup: (props, context) => {
+    const gotoInfo = () => {
+      console.log(1);
+      
+    }
     return () => (
       <div class={s.wrapper}>
         <div class={s.main}>
@@ -24,7 +28,7 @@ export const Welcome = defineComponent({
           </svg>
           <div class={s.box}>
             <span>我是大学生</span>
-            <Button>点击进入</Button>
+            <Button onClick={() => gotoInfo()}>点击进入</Button>
           </div>
           <div class={s.box}>
             <span>我是老师</span>
