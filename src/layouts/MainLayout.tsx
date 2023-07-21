@@ -17,11 +17,16 @@ export const MainLayout = defineComponent({
         <div class={s.body}>
           {context.slots.default?.()}
         </div>
-        <div class={s.footer}>
-          <div class={s.title}>
-            {context.slots.fTitle?.()}
-          </div>
-        </div>
+        {
+          context.slots.fTitle ?
+            <div class={s.footer}>
+              <div class={s.title}>
+                {context.slots.fTitle()}
+              </div>
+            </div> :
+            null
+        }
+
       </div>
     )
   }

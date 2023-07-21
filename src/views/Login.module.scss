@@ -1,0 +1,22 @@
+.wrapper{
+  display: flex;
+  flex-direction: column;
+  .header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .svg{
+      text-align: center;
+      width: 64px;
+      height: 64px;
+    }
+    >h1{
+      margin-top: 8px;
+      color: var(--theme-font-color);
+      text-align: center;
+      letter-spacing: 1px;
+      font-size: 2rem;
+    }
+  }
+}

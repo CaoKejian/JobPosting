@@ -12,32 +12,11 @@
     padding-left: 2rem;
     background: linear-gradient(to bottom,var(--body-bg-top),var(--body-bg-bottom));
     .title{
+      font-size: 1.5rem;
     }
   }
   .body{
-    background: var(--body-bg-bottom);
-    flex-grow: 1;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    padding: 6rem 0;
-    box-sizing: border-box;
-    .svg{ 
-      box-sizing: border-box;
-      margin-bottom: 6rem;
-      width: 8rem;
-      height: 8rem;
-    }
-    .box{
-      width: 70%;
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      margin-bottom: 24px;
-      font-size: 1.2rem;
-      color: var(--theme-font-color);
-    }
+    
   }
   .footer{
     height: 6%;
