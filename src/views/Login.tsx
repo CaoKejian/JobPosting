@@ -25,7 +25,7 @@ export const Login = defineComponent({
     })
     const refValidationCode = ref<any>('')
     const { ref: refDisabled } = useBool(false)
-    const modelVisible = ref<boolean>(true)
+    const modelVisible = ref<boolean>(false)
     const onSubmit = (e: Event) => {
       e.preventDefault()
       Object.assign(errors, {
@@ -36,6 +36,7 @@ export const Login = defineComponent({
         { key: 'email', type: 'required', message: '必填' },
         { key: 'email', type: 'pattern', regex: /.+@.+/, message: '必须是邮箱地址' },
         { key: 'code', type: 'required', message: '必填' },
+        { key: 'code', type: 'pattern',regex: /^\d{6}$/, message: '六位数字验证码' }
       ]
       Object.assign(errors, validate(formData, reules))
 
@@ -43,17 +44,27 @@ export const Login = defineComponent({
         console.log('成功,发送请求')
       } else {
         console.log('信息不完整');
-
       }
     }
     const onClickSendValidationCode = async () => {
       console.log('发送校验信息');
-
       refValidationCode.value.startCount()
     }
     const gotoInfo = () => {
-      console.log('我已经免邮登录了');
-      modelVisible.value = true
+      Object.assign(errors, {
+        id: [], email: [], code: []
+      })
+      const reules: Rules<typeof formData> = [
+        { key: 'id', type: 'required', message: '必填' }
+      ]
+      Object.assign(errors, validate(formData, reules))
+      console.log(errors)
+      if (!hasError(errors)) {
+        modelVisible.value = true
+        console.log('我已经免邮登录了')
+      } else {
+        console.log('信息不完整');
+      }
     }
     return () => (
       <MainLayout>{
@@ -67,7 +78,7 @@ export const Login = defineComponent({
             <div class={s.form}>
               <Form onSubmit={onSubmit}>
                 <FormItem label='学号' type='text' v-model={formData.id}
-                  placeholder='请输入学号' error={errors.email?.[0] ?? '　'}></FormItem>
+                  placeholder='请输入学号' error={errors.id?.[0] ?? '　'}></FormItem>
                 <FormItem label='邮箱' type='text' v-model={formData.email}
                   placeholder='请输入邮箱，然后点击发送验证码' error={errors.email?.[0] ?? '　'}></FormItem>
                 <FormItem ref={refValidationCode} countForm={60} label='验证码' type='validationcode'

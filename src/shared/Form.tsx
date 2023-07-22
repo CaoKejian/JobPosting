@@ -66,7 +66,7 @@ export const FormItem = defineComponent({
     const content = computed(() => {
       switch (props.type) {
         case 'text':
-          return <input value={props.modelValue}
+          return <input value={props.modelValue}  autocomplete="off" 
             onInput={(e: any) => context.emit('update:modelValue', e.target.value)}
             placeholder={props.placeholder}
             class={[s.formItem, s.input]}
@@ -74,7 +74,7 @@ export const FormItem = defineComponent({
         case 'validationcode':
           return <>
             <input class={[s.formItem, s.input, s.validationcode]}
-              value={props.modelValue}
+              value={props.modelValue} 
               onInput={(e: any) => context.emit('update:modelValue', e.target.value)} placeholder={props.placeholder}
             />
             <Button disabled={isCounting.value || props.disabled} onClick={props.onClick} class={s.validationcodeButton}>{isCounting.value ? `${count.value}s后可重新发送` : '发送验证码'}</Button>
