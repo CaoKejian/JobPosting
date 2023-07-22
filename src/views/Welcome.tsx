@@ -11,7 +11,7 @@ export const Welcome = defineComponent({
   setup: (props, context) => {
     const router = useRouter()
     const gotoInfo = () => {
-      router.push('/login')
+      router.push('/student')
     }
     return () => (
       <div class={s.wrapper}>
