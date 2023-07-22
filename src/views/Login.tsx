@@ -6,6 +6,8 @@ import { useBool } from '../hooks/useBool';
 import { Rules, hasError, validate } from '../shared/Validate';
 import { Button } from '../shared/Button';
 import { Model } from '../shared/Model';
+import { useRoute, useRouter } from 'vue-router';
+import { BackIcon } from '../shared/BackIcon';
 export const Login = defineComponent({
   props: {
     name: {
@@ -26,6 +28,8 @@ export const Login = defineComponent({
     const refValidationCode = ref<any>('')
     const { ref: refDisabled } = useBool(false)
     const modelVisible = ref<boolean>(false)
+    const route = useRoute()
+    const router = useRouter()
     const onSubmit = (e: Event) => {
       e.preventDefault()
       Object.assign(errors, {
@@ -39,9 +43,10 @@ export const Login = defineComponent({
         { key: 'code', type: 'pattern',regex: /^\d{6}$/, message: '六位数字验证码' }
       ]
       Object.assign(errors, validate(formData, reules))
-
       if (!hasError(errors)) {
         console.log('成功,发送请求')
+        const returnTo = route.query.return_to?.toString()
+        router.push(returnTo || '/')
       } else {
         console.log('信息不完整');
       }
@@ -69,7 +74,8 @@ export const Login = defineComponent({
     return () => (
       <MainLayout>{
         {
-          title: () => '查你信息',
+          icon: () => <BackIcon />,
+          title: () => "查你信息",
           default: () => <div class={s.wrapper}>
             <div class={s.header}>
               <svg class={s.svg}><use xlinkHref='#vite'></use></svg>

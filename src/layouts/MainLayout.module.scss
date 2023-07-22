@@ -13,6 +13,12 @@
     background: linear-gradient(to bottom,var(--body-bg-top),var(--body-bg-bottom));
     .title{
       font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      .icon{
+        width: 1.5rem;
+        height: 1.5rem;
+      }
     }
   }
   .body{

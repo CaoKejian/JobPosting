@@ -14,6 +14,16 @@ const router = createRouter({
   history,
   routes,
 })
+
+router.beforeEach((to, from) => {
+  if (to.path === '/' || to.path === '/items' || to.path.startsWith('/welcome') || to.path.startsWith('/login')) {
+    return true
+  } else {
+    return '/login?return_to=' + from.path
+  }
+
+})
+
 app.use(router)
 app.mount('#app')
 

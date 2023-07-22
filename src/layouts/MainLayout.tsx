@@ -11,6 +11,9 @@ export const MainLayout = defineComponent({
       <div class={s.wrapper}>
         <div class={s.main}>
           <div class={s.title}>
+            <span class={s.icon}>
+              {context.slots.icon?.()}
+            </span>
             {context.slots.title?.()}
           </div>
         </div>

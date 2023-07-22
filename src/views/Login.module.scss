@@ -23,7 +23,6 @@
 
 .submit{
   display: flex;
-  // flex-direction: column;
   justify-content: space-between;
   >button{
     &:nth-child(2){
@@ -31,4 +30,8 @@
       flex: 1;
     }
   }
+}
+.icon{
+  width: 1.5rem;
+  height: 1.5rem;
 }
