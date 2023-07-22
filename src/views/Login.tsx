@@ -67,6 +67,7 @@ export const Login = defineComponent({
       if (!hasError(errors)) {
         modelVisible.value = true
         console.log('我已经免邮登录了')
+        localStorage.setItem('skip', '1')
       } else {
         console.log('信息不完整');
       }

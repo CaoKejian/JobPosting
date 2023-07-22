@@ -16,10 +16,15 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from) => {
-  if (to.path === '/' || to.path === '/items' || to.path.startsWith('/welcome') || to.path.startsWith('/login')) {
+  if (to.path === '/' || to.path === '/student' || to.path.startsWith('/welcome') || to.path.startsWith('/login')) {
     return true
-  } else {
-    return '/login?return_to=' + from.path
+  }else {
+    const isGo = localStorage.getItem('skip')
+    if(isGo==='1'){
+      return true
+    }else{
+      return '/login?return_to=' + from.path
+    }
   }
 
 })

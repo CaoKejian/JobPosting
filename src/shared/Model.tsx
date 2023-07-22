@@ -18,7 +18,7 @@ export const Model = defineComponent({
       if(num===1){
         context.emit('update:modelVisible', false)
       }else{
-        context.emit('update:modelVisible', false)
+        context.emit('update:modelVisible', false,1)
       }
     }
     return () => (<>
