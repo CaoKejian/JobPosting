@@ -8,6 +8,7 @@ import { Button } from '../shared/Button';
 import { Model } from '../shared/Model';
 import { useRoute, useRouter } from 'vue-router';
 import { BackIcon } from '../shared/BackIcon';
+import { throttle } from '../shared/Throttle';
 export const Login = defineComponent({
   props: {
     name: {
@@ -30,7 +31,7 @@ export const Login = defineComponent({
     const modelVisible = ref<boolean>(false)
     const route = useRoute()
     const router = useRouter()
-    const onSubmit = (e: Event) => {
+    const onSubmit = throttle((e: Event) => {
       e.preventDefault()
       Object.assign(errors, {
         id: [], email: [], code: []
@@ -50,7 +51,7 @@ export const Login = defineComponent({
       } else {
         console.log('信息不完整');
       }
-    }
+    },1000)
     const onClickSendValidationCode = async () => {
       console.log('发送校验信息');
       refValidationCode.value.startCount()
@@ -63,7 +64,6 @@ export const Login = defineComponent({
         { key: 'id', type: 'required', message: '必填' }
       ]
       Object.assign(errors, validate(formData, reules))
-      console.log(errors)
       if (!hasError(errors)) {
         modelVisible.value = true
         console.log('我已经免邮登录了')
