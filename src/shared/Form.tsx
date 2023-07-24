@@ -29,7 +29,7 @@ export const FormItem = defineComponent({
       type: [String, Number, Date]
     },
     type: {
-      type: String as PropType<'text' | 'emojiSelect' | 'date' | 'validationcode' | 'select'>
+      type: String as PropType<'text' | 'emojiSelect' | 'date' | 'validationcode' | 'select' | 'search'>
     },
     error: {
       type: String
@@ -79,6 +79,14 @@ export const FormItem = defineComponent({
             />
             <Button disabled={isCounting.value || props.disabled} onClick={props.onClick} class={s.validationcodeButton}>{isCounting.value ? `${count.value}s后可重新发送` : '发送验证码'}</Button>
           </>
+        case 'search':
+          return <div class={s.search}>
+            <input class={[s.formItem, s.input,s.searchInput]}
+              value = {props.modelValue}
+              onInput={(e: any) => context.emit('update:modelValue', e.target.value)} placeholder={props.placeholder}
+            />
+            <Button onClick={props.onClick} class={s.searchButton}>搜索</Button>
+          </div>
         case 'select':
           return <select class={[s.formItem, s.select]}
             onChange={((e: any) => { context.emit('update:modelValue', (e.target.value)) })}

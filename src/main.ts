@@ -8,6 +8,7 @@ import './assets/css/vari.scss'
 import "@svgstore"
 import './assets/fonts/fonts.css'
 import 'vant/lib/index.css';
+import { Search } from 'vant';
 
 const app = createApp(App)
 const router = createRouter({
@@ -28,7 +29,7 @@ router.beforeEach((to, from) => {
   }
 
 })
-
+app.use(Search)
 app.use(router)
 app.mount('#app')
 

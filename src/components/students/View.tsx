@@ -1,6 +1,6 @@
 import { PropType, defineComponent, ref } from 'vue';
-import s from './HandWork.module.scss';
-export const HandWork = defineComponent({
+import s from './View.module.scss';
+export const View = defineComponent({
   props: {
     name: {
       type: String as PropType<string>
@@ -8,9 +8,9 @@ export const HandWork = defineComponent({
   },
   setup: (props, context) => {
     return () => (
-      <div>handwork</div>
+      <div>View</div>
     )
   }
 })
 
-export default HandWork
+export default View

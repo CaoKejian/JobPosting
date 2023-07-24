@@ -1,8 +1,9 @@
 import { RouteRecordRaw } from 'vue-router';
-import { HandWork } from '../components/students/HandWork';
-import Detail from '../components/students/Detail';
 import Statistics from '../components/students/Statistics';
 import DownLoads from '../components/students/Downloads';
+import { Detail } from '../components/students/Detail';
+import HandWork from '../components/students/HandWork';
+import View from '../components/students/View';
 
 export const routes:RouteRecordRaw[] = [
   {path:'/',redirect:'/welcome'},
@@ -17,6 +18,7 @@ export const routes:RouteRecordRaw[] = [
     children:[
       {path:'', redirect:'/student/detail'},
       {path:'detail',component: Detail},
+      {path:':id/view',component: View},
       {path:'handWork',component: HandWork},
       {path:'statistics',component: Statistics},
       {path:'downloads',component: DownLoads}
