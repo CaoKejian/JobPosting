@@ -28,8 +28,14 @@ export const Detail = defineComponent({
     }
     onMounted(() => {
       const classID= localStorage.getItem('classID')
-      isShowVisible.value = classID ? false : true
-      isHaveClass.value = classID ? true : false
+      console.log(classID);
+      if(classID&&classID!==null&&classID!==undefined){
+        isHaveClass.value = true
+        isShowVisible.value = false
+      }else{
+        isHaveClass.value = false
+        isShowVisible.value = true
+      }
     })
     const go = (num:number) => {
 

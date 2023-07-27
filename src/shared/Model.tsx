@@ -9,15 +9,20 @@ export const Model = defineComponent({
     modelVisible: {
       type: Boolean,
       default: false
+    },
+    modelValue:{
+      type: Number,
+      default: 0
     }
   },
-  emits:['update:modelVisible'],
+  emits:['update:modelVisible','update:modelValue'],
   setup: (props, context) => {
     const { modelVisible } = props
     const onclick =(num:number) => {
       if(num===1){
         context.emit('update:modelVisible', false)
       }else{
+        context.emit('update:modelValue',1)
         context.emit('update:modelVisible', false,1)
       }
     }

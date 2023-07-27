@@ -29,6 +29,7 @@ export const Login = defineComponent({
     const refValidationCode = ref<any>('')
     const { ref: refDisabled } = useBool(false)
     const modelVisible = ref<boolean>(false)
+    const modelValue = ref<number>(0)
     const route = useRoute()
     const router = useRouter()
     const onSubmit = throttle((e: Event) => {
@@ -67,10 +68,16 @@ export const Login = defineComponent({
       if (!hasError(errors)) {
         modelVisible.value = true
         console.log('我已经免邮登录了')
+        localStorage.setItem('stuId', formData.id)
         localStorage.setItem('skip', '1')
-        router.push('/student/detail')
       } else {
         console.log('信息不完整');
+      }
+    }
+    const changeModelValue =(value: number) => {
+      modelValue.value = value
+      if(modelValue.value!==0){
+        router.push('/student/detail')
       }
     }
     return () => (
@@ -104,7 +111,7 @@ export const Login = defineComponent({
               </Form>
             </div>
             {modelVisible.value ?
-              <Model v-model:modelVisible={modelVisible.value}>{
+              <Model v-model:modelVisible={modelVisible.value} v-model:modelValue={modelValue.value} onUpdate:modelValue={(e) => changeModelValue(e)}>{
                 {
                   title: () => '弹框',
                   content:() => '确认免邮登录吗？（不安全）',

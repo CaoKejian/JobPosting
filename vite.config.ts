@@ -10,11 +10,11 @@ export default defineConfig({
     mergeProps: true
   }),
   ],
-  server: {
-    host: '172.16.227.98',
-    // host: '192.168.3.121',
-    port: 5173
-  },
+  // server: {
+  //   // host: '172.16.227.98',
+  //   host: '192.168.3.121',
+  //   port: 5173
+  // },
   // css: {
   //   postcss: {
   //     plugins: [
