@@ -11,3 +11,4 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
   }
 }
+

@@ -1,4 +1,4 @@
-import { PropType, defineComponent, reactive, ref } from 'vue';
+import { PropType, defineComponent, onMounted, reactive, ref } from 'vue';
 import s from './Login.module.scss';
 import { MainLayout } from '../layouts/MainLayout';
 import { Form, FormItem } from '../shared/Form';
@@ -9,6 +9,8 @@ import { Model } from '../shared/Model';
 import { useRoute, useRouter } from 'vue-router';
 import { BackIcon } from '../shared/BackIcon';
 import { throttle } from '../shared/Throttle';
+import { http } from '../shared/Http';
+import { Toast } from 'vant';
 export const Login = defineComponent({
   props: {
     name: {
@@ -17,12 +19,12 @@ export const Login = defineComponent({
   },
   setup: () => {
     const formData = reactive({
-      id: '',
-      email: '',
-      code: ''
+      stuId: '2001063037',
+      email: '1849201815@qq.com',
+      code: '123123'
     })
     const errors = reactive({
-      id: [],
+      stuId: [],
       email: [],
       code: []
     })
@@ -32,13 +34,13 @@ export const Login = defineComponent({
     const modelValue = ref<number>(0)
     const route = useRoute()
     const router = useRouter()
-    const onSubmit = throttle((e: Event) => {
+    const onSubmit = throttle(async (e: Event) => {
       e.preventDefault()
       Object.assign(errors, {
         id: [], email: [], code: []
       })
       const reules: Rules<typeof formData> = [
-        { key: 'id', type: 'required', message: '必填' },
+        { key: 'stuId', type: 'required', message: '必填' },
         { key: 'email', type: 'required', message: '必填' },
         { key: 'email', type: 'pattern', regex: /.+@.+/, message: '必须是邮箱地址' },
         { key: 'code', type: 'required', message: '必填' },
@@ -47,14 +49,29 @@ export const Login = defineComponent({
       Object.assign(errors, validate(formData, reules))
       if (!hasError(errors)) {
         console.log('成功,发送请求')
-        const returnTo = route.query.return_to?.toString()
-        router.push(returnTo || '/')
+        try {
+          const res = await http.post('/user/veifycode', {code: formData.code}, { _autoLoading: true })
+          if(res.status===200){
+            const returnTo = route.query.return_to?.toString()
+            router.push(returnTo || '/')
+          }
+          return res
+        }catch(error:any){
+          console.log(error);
+          if(error.response.data.code===401){
+            Toast({
+              message: '验证码错误',
+            });
+          }
+        }
       } else {
-        console.log('信息不完整');
+        console.log('信息不完整', errors);
       }
     },1000)
     const onClickSendValidationCode = async () => {
       console.log('发送校验信息');
+      await http.post('/user', formData, { _autoLoading: true })
+      await http.post('/user/email', formData ,{_autoLoading: true})
       refValidationCode.value.startCount()
     }
     const gotoInfo = () => {
@@ -62,13 +79,13 @@ export const Login = defineComponent({
         id: [], email: [], code: []
       })
       const reules: Rules<typeof formData> = [
-        { key: 'id', type: 'required', message: '必填' }
+        { key: 'stuId', type: 'required', message: '必填' }
       ]
       Object.assign(errors, validate(formData, reules))
       if (!hasError(errors)) {
         modelVisible.value = true
         console.log('我已经免邮登录了')
-        localStorage.setItem('stuId', formData.id)
+        localStorage.setItem('stuId', formData.stuId)
         localStorage.setItem('skip', '1')
       } else {
         console.log('信息不完整');
@@ -92,8 +109,8 @@ export const Login = defineComponent({
             </div>
             <div class={s.form}>
               <Form onSubmit={onSubmit}>
-                <FormItem label='学号' type='text' v-model={formData.id}
-                  placeholder='请输入学号' error={errors.id?.[0] ?? '　'}></FormItem>
+                <FormItem label='学号' type='text' v-model={formData.stuId}
+                  placeholder='请输入学号' error={errors.stuId?.[0] ?? '　'}></FormItem>
                 <FormItem label='邮箱' type='text' v-model={formData.email}
                   placeholder='请输入邮箱，然后点击发送验证码' error={errors.email?.[0] ?? '　'}></FormItem>
                 <FormItem ref={refValidationCode} countForm={60} label='验证码' type='validationcode'

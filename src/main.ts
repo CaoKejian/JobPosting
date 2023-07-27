@@ -9,6 +9,7 @@ import "@svgstore"
 import './assets/fonts/fonts.css'
 import 'vant/lib/index.css';
 import { Search } from 'vant';
+import { Toast } from 'vant';
 
 const app = createApp(App)
 const router = createRouter({
@@ -30,6 +31,7 @@ router.beforeEach((to, from) => {
 
 })
 app.use(Search)
+app.use(Toast)
 app.use(router)
 app.mount('#app')
 
