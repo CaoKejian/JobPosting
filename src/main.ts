@@ -8,7 +8,7 @@ import './assets/css/vari.scss'
 import "@svgstore"
 import './assets/fonts/fonts.css'
 import 'vant/lib/index.css';
-import { Loading, Search,Icon } from 'vant';
+import { Loading, Search,Icon,Dialog } from 'vant';
 import { Toast } from 'vant';
 import { http } from './shared/Http'
 
@@ -19,7 +19,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from) => {
-  if (to.path === '/' || to.path === '/student' || to.path.startsWith('/welcome') || to.path.startsWith('/login')) {
+  if (to.path === '/' || to.path === '/student/detail' || to.path.startsWith('/welcome') || to.path.startsWith('/login')) {
     return true
   }else {
     try{
@@ -33,6 +33,7 @@ router.beforeEach(async (to, from) => {
 app.use(Search)
 app.use(Toast)
 app.use(Icon);
+app.use(Dialog);
 app.use(router)
 app.mount('#app')
 

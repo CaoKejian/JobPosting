@@ -10,7 +10,7 @@ export const HandWork = defineComponent({
     }
   },
   setup: (props, context) => {
-    const isShowVisible = ref<boolean>(false)
+    const isShowVisible = ref<boolean>(true)
     return () => (
       <MainLayout>{
         {

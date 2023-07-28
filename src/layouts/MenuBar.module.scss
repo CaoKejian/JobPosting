@@ -27,6 +27,16 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  .title{
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    >span{
+      &:nth-child(2){
+        margin-top: 0.5rem;
+      }
+    }
+  }
   .header{
     height: 24%;
   }
@@ -41,5 +51,27 @@
   }
   100%{
     width: 70%;
+  }
+}
+
+.icon{
+  width: 2rem;
+  height: 2rem;
+  margin-right: 0.5rem;
+}
+
+.list{
+  padding: 3rem 0;
+  >ul{
+    >li{
+      margin: 8px 0;
+      font-size: 1.5rem;
+      padding: 0 0.8rem;
+      >a{
+        color: var(--theme-font-color);
+        display: flex;
+        align-items: center;
+      }
+    }
   }
 }

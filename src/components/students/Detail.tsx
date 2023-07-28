@@ -7,6 +7,7 @@ import { FormItem } from '../../shared/Form';
 import { Button } from '../../shared/Button';
 import { useRouter } from 'vue-router';
 import { FloatButton } from '../../shared/FloatButton';
+import { MenuBar } from '../../layouts/MenuBar';
 export const Detail = defineComponent({
   props: {
     name: {
@@ -19,6 +20,7 @@ export const Detail = defineComponent({
     const isHaveClass = ref<boolean>(false)
     const searchValue = ref<string>('')
     const otherArr = ref([1,2,3])
+    const isShowMenu = ref<boolean>(false)
     const router = useRouter()
     const onChangeModel = (value1:string,value2:number) => {
       if(value2===1){
@@ -39,14 +41,13 @@ export const Detail = defineComponent({
       }
     })
     const go = (num:number) => {
-
       router.push(`/student/${num}/view`)
     }
     return () => (
       <MainLayout>{
         {
-          icon: () => <BackIcon />,
-          title: () => '学生作业详情',
+          icon: () => <BackIcon svg='menu' onClick={() => isShowMenu.value = true}/>,
+          title: () => '作业详情',
           default: () => <div class={s.container}>
             {isHaveClass.value ?
             <div class={s.wrapper}>
@@ -117,6 +118,11 @@ export const Detail = defineComponent({
               }</Model> : null
             }
             <FloatButton />
+            {
+              isShowMenu.value ?
+              <MenuBar onClose={() => isShowMenu.value = false} />
+              : null
+            }
           </div>
         }
       }</MainLayout>

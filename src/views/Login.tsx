@@ -54,6 +54,7 @@ export const Login = defineComponent({
           if(res.status===200){
             const jwt = res.headers.authorization.split(' ')[1]
             localStorage.setItem('jwt',jwt)
+            localStorage.setItem('info',JSON.stringify(formData))
             const returnTo = route.query.return_to?.toString()
             router.push(returnTo || '/')
           }
