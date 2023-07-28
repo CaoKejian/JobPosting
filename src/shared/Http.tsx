@@ -44,10 +44,10 @@ export class Http {
 export const http = new Http('/api')
 
 http.instance.interceptors.request.use(config => {
-  // const jwt = localStorage.getItem('jwt')
-  // if (jwt) {
-  //   config.headers!.Authorization = `Bearer ${jwt}`
-  // }
+  const jwt = localStorage.getItem('jwt')
+  if (jwt) {
+    config.headers!.Authorization = `Bearer ${jwt}`
+  }
   if (config._autoLoading === true) {
     Toast.loading({
       message: '加载中...',

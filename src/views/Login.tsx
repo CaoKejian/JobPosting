@@ -52,7 +52,10 @@ export const Login = defineComponent({
         try {
           const res = await http.post('/user/veifycode', {code: formData.code}, { _autoLoading: true })
           if(res.status===200){
+            const jwt = res.headers.authorization.split(' ')[1]
+            localStorage.setItem('jwt',jwt)
             const returnTo = route.query.return_to?.toString()
+            return
             router.push(returnTo || '/')
           }
           return res

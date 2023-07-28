@@ -8,8 +8,9 @@ import './assets/css/vari.scss'
 import "@svgstore"
 import './assets/fonts/fonts.css'
 import 'vant/lib/index.css';
-import { Search } from 'vant';
+import { Loading, Search } from 'vant';
 import { Toast } from 'vant';
+import { http } from './shared/Http'
 
 const app = createApp(App)
 const router = createRouter({
@@ -17,18 +18,17 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach((to, from) => {
+router.beforeEach(async (to, from) => {
   if (to.path === '/' || to.path === '/student' || to.path.startsWith('/welcome') || to.path.startsWith('/login')) {
     return true
   }else {
-    const isGo = localStorage.getItem('skip')
-    if(isGo==='1'){
+    try{
+      await http.get('/user/verify/jwt')
       return true
-    }else{
+    }catch(error){
       return '/login?return_to=' + from.path
     }
   }
-
 })
 app.use(Search)
 app.use(Toast)
