@@ -15,10 +15,11 @@
     .title{
       font-size: 1.5rem;
       display: flex;
+      justify-content: space-around;
       align-items: center;
       .icon{
-        width: 1.5rem;
-        height: 1.5rem;
+        width: 2rem;
+        height: 2rem;
         margin-right: 8px;
       }
     }
@@ -46,7 +47,9 @@
 }
 
 .title{
-  font-size: 2rem;
+  font-size: 3rem;
+  display: flex;
+  align-items: center;
   color: var(--theme-font-color);
 }
 

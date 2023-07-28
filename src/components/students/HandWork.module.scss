@@ -1,0 +1,16 @@
+.overlay{
+  width: 0;
+  animation-name: action;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+}
+
+@keyframes action {
+  0%{
+    width: 0;
+  }
+  100%{
+    width: 100%;
+  }
+}
