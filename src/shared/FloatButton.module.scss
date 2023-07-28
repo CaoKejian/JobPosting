@@ -1,0 +1,18 @@
+.wrapper{
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  background: var(--button-light);
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.2rem;
+  box-shadow: 0 0 4px var(--button-left);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .svg{
+    width: 36px;
+    height: 36px;
+    transform: translateY(-3px);
+  }
+}

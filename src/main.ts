@@ -8,7 +8,7 @@ import './assets/css/vari.scss'
 import "@svgstore"
 import './assets/fonts/fonts.css'
 import 'vant/lib/index.css';
-import { Loading, Search } from 'vant';
+import { Loading, Search,Icon } from 'vant';
 import { Toast } from 'vant';
 import { http } from './shared/Http'
 
@@ -32,6 +32,7 @@ router.beforeEach(async (to, from) => {
 })
 app.use(Search)
 app.use(Toast)
+app.use(Icon);
 app.use(router)
 app.mount('#app')
 

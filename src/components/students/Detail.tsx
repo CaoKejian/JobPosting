@@ -6,6 +6,7 @@ import { Model } from '../../shared/Model';
 import { FormItem } from '../../shared/Form';
 import { Button } from '../../shared/Button';
 import { useRouter } from 'vue-router';
+import { FloatButton } from '../../shared/FloatButton';
 export const Detail = defineComponent({
   props: {
     name: {
@@ -115,6 +116,7 @@ export const Detail = defineComponent({
                 }
               }</Model> : null
             }
+            <FloatButton />
           </div>
         }
       }</MainLayout>

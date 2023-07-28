@@ -55,7 +55,6 @@ export const Login = defineComponent({
             const jwt = res.headers.authorization.split(' ')[1]
             localStorage.setItem('jwt',jwt)
             const returnTo = route.query.return_to?.toString()
-            return
             router.push(returnTo || '/')
           }
           return res
