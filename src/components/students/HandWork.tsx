@@ -9,6 +9,10 @@ import { http } from '../../shared/Http';
 
 export const HandWork = defineComponent({
   setup: (props, context) => {
+    // 班级map
+    const classMap: Record<string, string>  = {
+      '123123': '大数据B201'
+    }
     const isShowVisible = ref<boolean>(false)
     const formData = reactive({
       classId: '',
@@ -26,7 +30,7 @@ export const HandWork = defineComponent({
     onMounted(() => {
       const info = JSON.parse(localStorage.getItem('info') as string)
       const classId = localStorage.getItem('classID') as string
-      formData.classId = classId
+      formData.classId = classMap[classId] ? classMap[classId] : classId
     })
     watch(() => formData.subject, () => {
       console.log(formData.subject);
@@ -72,7 +76,7 @@ export const HandWork = defineComponent({
               </FormItem>
             </Form>
             <div class={s.upload}>
-              <span>上传作业</span>
+              <span class={s.title}>上传作业</span>
               <van-uploader
                 after-read={afterRead}
                 v-model={fileList.value}
