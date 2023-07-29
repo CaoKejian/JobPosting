@@ -102,7 +102,7 @@ export const FormItem = defineComponent({
             value={props.modelValue}
           >
             {props.options?.map(options =>
-              <option value={options.value} >{options.text}</option>)}
+              <option value={options.text} >{options.text}</option>)}
           </select>
         case undefined:
           return context.slots.default?.()

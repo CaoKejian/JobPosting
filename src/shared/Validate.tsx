@@ -1,3 +1,5 @@
+import { JSONValue } from "../vite-env"
+
 interface FData {
   [k: string]: JSONValue
 }

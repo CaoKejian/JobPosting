@@ -76,9 +76,6 @@ export const Login = defineComponent({
       }
     },1000)
     const onClickSendValidationCode = async () => {
-      console.log(1);
-      // return
-      
       console.log('发送校验信息');
       await http.post('/user', formData, { _autoLoading: true })
       await http.post('/user/email', formData ,{_autoLoading: true})
@@ -115,7 +112,7 @@ export const Login = defineComponent({
           default: () => <div class={s.wrapper}>
             <div class={s.header}>
               <svg class={s.svg}><use xlinkHref='#vite'></use></svg>
-              <h1>来交作业啦</h1>
+              <h1>交作业啦</h1>
             </div>
             <div class={s.form}>
               <Form onSubmit={onSubmit}>
