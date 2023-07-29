@@ -31,6 +31,10 @@ export const FormItem = defineComponent({
     type: {
       type: String as PropType<'text' | 'emojiSelect' | 'date' | 'validationcode' | 'select' | 'search'>
     },
+    InputDisabled: {
+      type: Boolean,
+      default: false
+    },
     error: {
       type: String
     },
@@ -42,7 +46,7 @@ export const FormItem = defineComponent({
       type: Number,
       default: 60
     },
-    disabled: Boolean
+    disabled: Boolean,
   },
   emits: ['update:modelValue'],
   setup: (props, context) => {
@@ -60,6 +64,9 @@ export const FormItem = defineComponent({
         }
       }, 1000)
     }
+    const onClick = () => {
+      props.onClick?.()
+    }
     context.expose({
       startCount
     })
@@ -69,6 +76,7 @@ export const FormItem = defineComponent({
           return <input value={props.modelValue}  autocomplete="off" 
             onInput={(e: any) => context.emit('update:modelValue', e.target.value)}
             placeholder={props.placeholder}
+            disabled={props.InputDisabled}
             class={[s.formItem, s.input]}
           ></input>
         case 'validationcode':
@@ -100,7 +108,7 @@ export const FormItem = defineComponent({
       }
     })
     return () => (
-      <div class={s.formRow}>
+      <div class={s.formRow} onClick={onClick}>
         <label class={props.px === 'level' ? s.selected : s.formLabel}>
           {props.label &&
             <span class={s.formItem_name}>{props.label}</span>

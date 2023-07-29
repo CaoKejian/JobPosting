@@ -8,7 +8,7 @@ import './assets/css/vari.scss'
 import "@svgstore"
 import './assets/fonts/fonts.css'
 import 'vant/lib/index.css';
-import { Loading, Search,Icon,Dialog } from 'vant';
+import { Loading, Search,Icon,Dialog,Uploader } from 'vant';
 import { Toast } from 'vant';
 import { http } from './shared/Http'
 
@@ -34,6 +34,8 @@ app.use(Search)
 app.use(Toast)
 app.use(Icon);
 app.use(Dialog);
+app.use(Uploader);
+
 app.use(router)
 app.mount('#app')
 

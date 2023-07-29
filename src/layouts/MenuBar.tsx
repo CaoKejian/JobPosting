@@ -35,11 +35,9 @@ export const MenuBar = defineComponent({
     onMounted(async () => {
       try{
         const res = await http.get('/user/verify/jwt')
-        console.log(res);
         const infoObj = JSON.parse(localStorage.getItem('info')as string)
         info.value = `学号：${infoObj.stuId}`
       }catch(error:any){
-        console.log(error);
         if(error.response.status===401){
           info.value = '未登录'
         }
