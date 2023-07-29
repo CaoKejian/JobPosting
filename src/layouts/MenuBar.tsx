@@ -2,7 +2,7 @@ import { PropType, defineComponent, onMounted, ref } from 'vue';
 import s from './MenuBar.module.scss';
 import { MainLayout } from './MainLayout';
 import { BackIcon } from '../shared/BackIcon';
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 import { http } from '../shared/Http';
 import { Dialog } from 'vant';
 export const MenuBar = defineComponent({
@@ -13,6 +13,7 @@ export const MenuBar = defineComponent({
   },
   setup: (props, context) => {
     const info = ref<string>('未登录')
+    const router = useRouter()
     const close = () => {
       props.onClose?.()
     }
@@ -27,6 +28,9 @@ export const MenuBar = defineComponent({
       })
       localStorage.removeItem('jwt')
       window.location.reload()
+    }
+    const goToLogin = () => {
+      router.push('/login')
     }
     onMounted(async () => {
       try{
@@ -49,7 +53,7 @@ export const MenuBar = defineComponent({
             {
               icon: () => <BackIcon svg='user' class={s.svg} />,
               title: () => <div class={s.title}>
-                <span>{info.value}</span>
+                <span onClick={goToLogin}>{info.value}</span>
                 {
                   info.value !== '未登录' ?
                   <span onClick={onEdit}>退出登录</span> : null

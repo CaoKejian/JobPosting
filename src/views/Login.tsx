@@ -56,7 +56,11 @@ export const Login = defineComponent({
             localStorage.setItem('jwt',jwt)
             localStorage.setItem('info',JSON.stringify(formData))
             const returnTo = route.query.return_to?.toString()
-            router.push(returnTo || '/')
+            if(returnTo){
+              router.push(returnTo)
+            }else{
+              router.back()
+            }
           }
           return res
         }catch(error:any){

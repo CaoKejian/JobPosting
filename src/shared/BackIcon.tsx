@@ -21,6 +21,8 @@ export const BackIcon = defineComponent({
         router.push(return_to.toString())
       }else if(props.svg === 'menu'){
         return
+      }else if(props.svg === 'user'){
+        return 
       } else {
         router.back()
       }
