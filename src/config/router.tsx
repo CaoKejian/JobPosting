@@ -4,6 +4,7 @@ import DownLoads from '../components/students/Downloads';
 import { Detail } from '../components/students/Detail';
 import HandWork from '../components/students/HandWork';
 import View from '../components/students/View';
+import { FeedBack } from '../components/students/FeedBack';
 
 export const routes:RouteRecordRaw[] = [
   {path:'/',redirect:'/welcome'},
@@ -21,7 +22,8 @@ export const routes:RouteRecordRaw[] = [
       {path:':id/view',component: View},
       {path:'handWork',component: HandWork},
       {path:'statistics',component: Statistics},
-      {path:'downloads',component: DownLoads}
+      {path:'downloads',component: DownLoads},
+      {path:'feedBack',component: FeedBack},
     ]
   }
 ]

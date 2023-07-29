@@ -83,6 +83,18 @@ export const MenuBar = defineComponent({
                       <span onClick={() => onClick(4)}>作业下载</span>
                     </RouterLink>
                   </li>
+                  <li>
+                    <RouterLink to="/student/feedback">
+                      <svg class={s.icon}><use xlinkHref='#homefeedback'></use></svg>
+                      <span onClick={() => onClick(5)}>用户反馈</span>
+                    </RouterLink>
+                  </li>
+                  <li>
+                    <RouterLink to="/welcome">
+                      <svg class={s.icon}><use xlinkHref='#home'></use></svg>
+                      <span onClick={() => onClick(6)}>回到首页</span>
+                    </RouterLink>
+                  </li>
                 </ul>
               </div>
             }

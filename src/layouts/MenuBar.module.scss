@@ -64,13 +64,17 @@
   padding: 3rem 0;
   >ul{
     >li{
-      margin: 8px 0;
+      margin: 12px 0;
       font-size: 1.5rem;
-      padding: 0 0.8rem;
+      padding: 0 1rem;
       >a{
         color: var(--theme-font-color);
         display: flex;
         align-items: center;
+        >span{
+          font-size: 1.1rem;
+          margin-left: 0.8rem;
+        }
       }
     }
   }
