@@ -72,6 +72,7 @@ export const HandWork = defineComponent({
               </FormItem>
             </Form>
             <div class={s.upload}>
+              <span>上传作业</span>
               <van-uploader
                 after-read={afterRead}
                 v-model={fileList.value}

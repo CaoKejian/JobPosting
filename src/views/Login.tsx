@@ -76,6 +76,9 @@ export const Login = defineComponent({
       }
     },1000)
     const onClickSendValidationCode = async () => {
+      console.log(1);
+      // return
+      
       console.log('发送校验信息');
       await http.post('/user', formData, { _autoLoading: true })
       await http.post('/user/email', formData ,{_autoLoading: true})

@@ -65,6 +65,7 @@ export const FormItem = defineComponent({
       }, 1000)
     }
     const onClick = () => {
+      console.log(111);
       props.onClick?.()
     }
     context.expose({
@@ -108,7 +109,7 @@ export const FormItem = defineComponent({
       }
     })
     return () => (
-      <div class={s.formRow} onClick={onClick}>
+      <div class={s.formRow}>
         <label class={props.px === 'level' ? s.selected : s.formLabel}>
           {props.label &&
             <span class={s.formItem_name}>{props.label}</span>
