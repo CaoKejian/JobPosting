@@ -16,6 +16,7 @@ export const HandWork = defineComponent({
     const classMap: Record<string, string> = {
       '123123': '大数据B201'
     }
+    const className = ref<string>('')
     const subjectArr = ref([
       { value: 'a', text: '数据挖掘' },
       { value: 'b', text: 'React' },
@@ -29,10 +30,13 @@ export const HandWork = defineComponent({
     const isShowVisible = ref<boolean>(false)
     const formData = reactive({
       classId: '',
+      stuId: '',
       subject: subjectArr.value[0].text,
       branch: '',
-      fileName: '',
-      fileUrl: ''
+      file: {
+        fileName: '',
+        fileUrl: ''
+      }
     })
     const errors = reactive({
       classId: [],
@@ -47,8 +51,10 @@ export const HandWork = defineComponent({
     }
     onMounted(() => {
       const info = JSON.parse(localStorage.getItem('info') as string)
+      formData.stuId = info.stuId
       const classId = localStorage.getItem('classID') as string
-      formData.classId = classMap[classId] ? classMap[classId] : classId
+      formData.classId = classId
+      className.value = classMap[classId] ? classMap[classId] : classId
     })
     watch(() => formData.subject, (newValue, oldValue) => {
       console.log(newValue);
@@ -66,8 +72,10 @@ export const HandWork = defineComponent({
           message: `上传成功！`,
         });
         Object.assign(formData, {
-          fileName: response.data.fileName,
-          fileUrl: response.data.url
+          file: {
+            fileName: response.data.fileName,
+            fileUrl: response.data.url
+          }
         });
       }).catch(error => {
         Toast({
@@ -87,16 +95,27 @@ export const HandWork = defineComponent({
         { key: 'branch', type: 'required', message: '必须选择作业分支' },
       ]
       Object.assign(errors, validate(formData, rules))
-      if (!formData.fileUrl) {
-         Toast({
+      if (!formData.file.fileUrl) {
+        Toast({
           message: '请上传文件'
         })
         return
       }
       if (!hasError(errors)) {
-        console.log('没错误');
-      } else {
-        console.log(errors);
+        Object.assign(formData, {
+          classId: '123123'
+        })
+        try {
+          await http.post('/work/submit', formData, {
+            _autoLoading: true
+          })
+        } catch (error:any) {
+          if(error.response.status===402){
+            Toast({
+              message: error.response.data.message
+            })
+          }
+        }
       }
     }, 1000)
     return () => (
@@ -106,7 +125,7 @@ export const HandWork = defineComponent({
           title: () => '提交作业',
           default: () => <div>
             <Form onSubmit={onSubmit}>
-              <FormItem label='班级' type='text' v-model={formData.classId}
+              <FormItem label='班级' type='text' v-model={className.value}
                 onClick={toast}
                 InputDisabled={true}
                 error={errors.classId?.[0] ?? '　'}
