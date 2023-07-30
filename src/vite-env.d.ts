@@ -14,14 +14,34 @@ type FormErrors<T> = { [k in keyof typeof T]: string[] }
 
 type Resources<T = any> = {
   resources: T[]
-  pager: {
-    page: number,
-    per_page: number,
-    count: number
-  }
+  classID: string
+  page: number
 }
 
 
 type Resource<T> = {
   resource: T
+}
+
+interface Resource<T> {
+  data: T[];
+  // 可以在这里添加其他可能的属性
+}
+
+
+export type Root = Work[]
+
+type Work ={
+  _id: string
+  stuId: number
+  classId: number
+  subject: string
+  time: number
+  branch: string
+  file: File
+  __v: number
+}
+export interface File {
+  fileName: string
+  fileUrl: string
 }

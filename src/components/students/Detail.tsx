@@ -1,4 +1,4 @@
-import { PropType, defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import s from './Detail.module.scss';
 import { MainLayout } from '../../layouts/MainLayout';
 import { BackIcon } from '../../shared/BackIcon';
@@ -8,19 +8,20 @@ import { Button } from '../../shared/Button';
 import { useRouter } from 'vue-router';
 import { FloatButton } from '../../shared/FloatButton';
 import { MenuBar } from '../../layouts/MenuBar';
+import { http } from '../../shared/Http';
+import { Work } from '../../vite-env';
+import { Toast } from 'vant';
+import { Time } from '../../shared/Time';
+
 export const Detail = defineComponent({
-  props: {
-    name: {
-      type: String as PropType<string>
-    }
-  },
   setup: (props, context) => {
     const isShowVisible = ref<boolean>(true)
     const classId = ref<string>('')
     const isHaveClass = ref<boolean>(false)
     const searchValue = ref<string>('')
-    const otherArr = ref([1,2,3])
+    const otherArr = ref<Work[]>([])
     const isShowMenu = ref<boolean>(false)
+    const page = ref<number>(0)
     const router = useRouter()
     const onChangeModel = (value1:string,value2:number) => {
       if(value2===1){
@@ -29,9 +30,28 @@ export const Detail = defineComponent({
         localStorage.setItem('classID', classId.value)
       }
     }
-    onMounted(() => {
+    const fetchData = async (classID:string, page: number) => {
+      try{
+        const data = await http.get<Work[]>('/work', {
+          classID:classID,
+          page: page + 1
+        },{
+          _autoLoading:true
+        })
+        console.log(data);
+        const obj = data.data
+        otherArr.value = obj
+        console.log(obj);
+        
+      }catch(error){
+        Toast({
+          message: '获取错误'
+        })
+      }
+    }
+    onMounted(async () => {
       const classID= localStorage.getItem('classID')
-      console.log(classID);
+      classID && fetchData(classID,page.value)
       if(classID&&classID!==null&&classID!==undefined){
         isHaveClass.value = true
         isShowVisible.value = false
@@ -81,18 +101,18 @@ export const Detail = defineComponent({
                   <svg onClick={() => go(0)} class={s.svg}><use xlinkHref='#go'></use></svg>
                 </div>
                 {
-                  otherArr.value.map(item => {
+                  otherArr.value.map((item,index) => {
                     return <div class={[s.box,s.box1]}>
                     <div class={s.infoF}>
-                      {item}. 
+                      {index + 1}. 
                       <img src="/src/assets/img/a.jpg" alt="我" />
-                      <span class={s.name}>colin</span> <span class={s.time}>1分钟前</span>
+                      <span class={s.name}>colin</span> <span class={s.time}>{Time(item.time)}</span>
                       <Button>查看</Button> 
                       {/* <Button>修改</Button> */}
                     </div>
                     <div class={s.info}><div class={s.type}>姓名</div><span>曹珂俭</span></div>
-                    <div class={s.info}><div class={s.type}>上传文件</div><span>hahahah.doc</span></div>
-                    <div class={s.info}><div class={s.type}>学科</div><span>高数1</span></div>
+                    <div class={s.info}><div class={s.type}>上传文件</div><span>{item.file.fileName}</span></div>
+                    <div class={s.info}><div class={s.type}>学科</div><span>{item.subject}</span></div>
                   </div>
                   })
                 }
