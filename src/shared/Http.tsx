@@ -58,7 +58,6 @@ http.instance.interceptors.request.use(config => {
   return config
 })
 http.instance.interceptors.response.use((response) => {
-  console.log(response);
   const jwt = (response.config.headers.Authorization as string)?.split(' ')[1]
   localStorage.setItem('jwt',jwt)
   if (response.config._autoLoading === true) {

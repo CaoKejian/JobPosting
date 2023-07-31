@@ -19,8 +19,8 @@ export const routes:RouteRecordRaw[] = [
     children:[
       {path:'', redirect:'/student/detail'},
       {path:'detail',component: Detail},
-      {path:':id/view',component: View},
-      {path:'handWork',component: HandWork},
+      {path:'view/:id',component: View},
+      {path:':id/handWork',component: HandWork},
       {path:'statistics',component: Statistics},
       {path:'downloads',component: DownLoads},
       {path:'feedBack',component: FeedBack},

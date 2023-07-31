@@ -75,8 +75,12 @@ export const Detail = defineComponent({
         isShowVisible.value = true
       }
     })
-    const go = (num:number) => {
-      router.push(`/student/${num}/view`)
+    const gotoView = (id:number|string, params?: number) => {
+      if(params === 1){
+        router.push(`/student/${id}/handWork`)
+        return
+      }
+      router.push(`/student/view/${id}`)
     }
     return () => (
       <MainLayout>{
@@ -93,8 +97,8 @@ export const Detail = defineComponent({
               <div class={s.my}>
                 <div class={s.content}>
                   <span>我参与的</span>
-                  <span onClick={() => go(1)}>全部</span>
-                  <svg onClick={() => go(1)} class={s.svg}><use xlinkHref='#go'></use></svg>
+                  <span onClick={() => gotoView(1)}>全部</span>
+                  <svg onClick={() => gotoView(1)} class={s.svg}><use xlinkHref='#go'></use></svg>
                 </div>
                   {
                     myArr.value.length===0 ? (
@@ -112,7 +116,7 @@ export const Detail = defineComponent({
                                   <img src="/src/assets/img/author.png" alt="" />
                                   <span class={s.name}>colin</span> 
                                   <Button>取消提交</Button> 
-                                  <Button>修改</Button>
+                                  <Button onClick={() => gotoView(item._id,1)}>修改</Button>
                                 </div>
                                 <div class={s.infoB}>
                                   <div class={s.left}>
@@ -135,8 +139,8 @@ export const Detail = defineComponent({
               <div class={[s.my,s.other]}>
                 <div class={s.content}>
                   <span>班级成员</span>
-                  <span onClick={() => go(0)}>全部</span>
-                  <svg onClick={() => go(0)} class={s.svg}><use xlinkHref='#go'></use></svg>
+                  <span onClick={() => gotoView(0)}>全部</span>
+                  <svg onClick={() => gotoView(0)} class={s.svg}><use xlinkHref='#go'></use></svg>
                 </div>
                 {
                 otherArr.value.length ===0 ? (
@@ -150,7 +154,7 @@ export const Detail = defineComponent({
                             {index + 1}. 
                             <img src="/src/assets/img/author.png" alt="我" />
                             <span class={s.name}>colin</span> <span class={s.time}>{Time(item.time)}</span>
-                            <Button>查看</Button> 
+                            <Button onClick={() => gotoView(item._id)}>查看</Button> 
                           </div>
                           <div class={s.infoB}>
                             <div class={s.left}>
