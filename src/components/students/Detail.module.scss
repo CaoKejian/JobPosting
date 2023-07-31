@@ -63,28 +63,51 @@
       margin: 10px auto;
       box-sizing: border-box;
       padding: 12px;
+      display: flex;
+      flex-direction: column;
       .infoF{
         display: flex;
         align-items: center;
         font-size: 1rem;
+        .name{
+          margin: 0 4px;
+          flex: 1;
+        }
         >img{
           width: 2rem;
           height: 2rem;
           border-radius: 50%;
           margin: 0 4px;
         }
-        .name{
-          margin: 0 4px;
-        }
-        .time{
-          margin: 0 4px;
-          flex: 1;
-        }
         >button{
           padding:2px 8px;
           line-height: 1.5rem;
           font-size: 1rem;
           margin-left: 8px;
+        }
+      }
+      .infoB{
+        display: flex;
+        margin-top: 18px;
+        .left{
+          flex: 1;
+        }
+        .right{
+          font-size: 1rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          >img{
+            width: 128px;
+            height: 128px;
+          }
+          .award{
+            margin-top: 0.6rem;
+          }
+          .time{
+            margin: 0 4px;
+            flex: 1;
+          }
         }
       }
       .info{
