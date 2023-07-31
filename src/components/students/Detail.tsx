@@ -96,34 +96,41 @@ export const Detail = defineComponent({
                   <span onClick={() => go(1)}>全部</span>
                   <svg onClick={() => go(1)} class={s.svg}><use xlinkHref='#go'></use></svg>
                 </div>
-                <van-swipe class="my-swipe" autoplay={3000} indicator-color="white">
                   {
-                    myArr.value.map(item => {
-                      return (
-                        <van-swipe-item>
-                          <div class={s.box}>
-                            <div class={s.infoF}>
-                              <img src="/src/assets/img/author.png" alt="" />
-                              <span class={s.name}>colin</span> 
-                              <Button>取消提交</Button> 
-                              <Button>修改</Button>
+                    myArr.value.length===0 ? (
+                      <div class={s.emptyBox}>
+                        <img class={s.empty} src="/src/assets/img/empty.png" alt="" />
+                        <span>空空哒~</span>
+                      </div>):
+                      <van-swipe class="my-swipe" autoplay={3000} indicator-color="white">
+                        {
+                      myArr.value.map(item => {
+                        return (
+                            <van-swipe-item>
+                              <div class={s.box}>
+                                <div class={s.infoF}>
+                                  <img src="/src/assets/img/author.png" alt="" />
+                                  <span class={s.name}>colin</span> 
+                                  <Button>取消提交</Button> 
+                                  <Button>修改</Button>
+                                </div>
+                                <div class={s.infoB}>
+                                  <div class={s.left}>
+                                    <div class={s.info}><div class={s.type}>姓名</div><span>曹珂俭</span></div>
+                                    <div class={s.info}><div class={s.type}>上传文件</div><span>{item.file.fileName}</span></div>
+                                    <div class={s.info}><div class={s.type}>学科</div><span>{item.subject}</span></div>
+                                  </div>
+                                  <div class={s.right}>
+                                    <div class={s.info}><div class={s.type}>时间</div><span>{Time(item.time)}</span></div>
+                                  </div>
+                                </div>
                             </div>
-                            <div class={s.infoB}>
-                              <div class={s.left}>
-                                <div class={s.info}><div class={s.type}>姓名</div><span>曹珂俭</span></div>
-                                <div class={s.info}><div class={s.type}>上传文件</div><span>{item.file.fileName}</span></div>
-                                <div class={s.info}><div class={s.type}>学科</div><span>{item.subject}</span></div>
-                              </div>
-                              <div class={s.right}>
-                                <div class={s.info}><div class={s.type}>时间</div><span>{Time(item.time)}</span></div>
-                              </div>
-                            </div>
-                        </div>
-                      </van-swipe-item>
-                      )
-                    })
+                            </van-swipe-item>
+                        )
+                      })
+                    }
+                    </van-swipe>
                   }
-                </van-swipe>
               </div>
               <div class={[s.my,s.other]}>
                 <div class={s.content}>
@@ -132,28 +139,33 @@ export const Detail = defineComponent({
                   <svg onClick={() => go(0)} class={s.svg}><use xlinkHref='#go'></use></svg>
                 </div>
                 {
-                  otherArr.value.map((item,index) => {
-                    return <div class={[s.box,s.box1]}>
-                    <div class={s.infoF}>
-                      {index + 1}. 
-                      <img src="/src/assets/img/author.png" alt="我" />
-                      <span class={s.name}>colin</span> <span class={s.time}>{Time(item.time)}</span>
-                      <Button>查看</Button> 
-                      {/* <Button>修改</Button> */}
-                    </div>
-                    <div class={s.infoB}>
-                      <div class={s.left}>
-                        <div class={s.info}><div class={s.type}>姓名</div><span>曹珂俭</span></div>
-                        <div class={s.info}><div class={s.type}>上传文件</div><span>{item.file.fileName}</span></div>
-                        <div class={s.info}><div class={s.type}>学科</div><span>{item.subject}</span></div>
-                      </div>
-                      <div class={s.right}>
-                          <img src="/src/assets/img/award.png" alt="" />
-                          <span class={s.award}>优秀奖</span>
-                      </div>
-                    </div>
-                  </div>
-                  })
+                otherArr.value.length ===0 ? (
+                      <div class={s.emptyBox}>
+                        <img class={s.empty} src="/src/assets/img/empty.png" alt="" />
+                        <span>空空哒~</span>
+                      </div>):(
+                        otherArr.value.map((item,index) => {
+                          return <div class={[s.box,s.box1]}>
+                          <div class={s.infoF}>
+                            {index + 1}. 
+                            <img src="/src/assets/img/author.png" alt="我" />
+                            <span class={s.name}>colin</span> <span class={s.time}>{Time(item.time)}</span>
+                            <Button>查看</Button> 
+                          </div>
+                          <div class={s.infoB}>
+                            <div class={s.left}>
+                              <div class={s.info}><div class={s.type}>姓名</div><span>曹珂俭</span></div>
+                              <div class={s.info}><div class={s.type}>上传文件</div><span>{item.file.fileName}</span></div>
+                              <div class={s.info}><div class={s.type}>学科</div><span>{item.subject}</span></div>
+                            </div>
+                            <div class={s.right}>
+                                <img src="/src/assets/img/award.png" alt="" />
+                                <span class={s.award}>优秀奖</span>
+                            </div>
+                          </div>
+                        </div>
+                        })
+                      )
                 }
               </div>
             </div>
