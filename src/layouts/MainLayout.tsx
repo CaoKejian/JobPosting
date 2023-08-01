@@ -1,4 +1,4 @@
-import { PropType, defineComponent, ref } from 'vue';
+import { PropType, defineComponent, onMounted, ref, watch } from 'vue';
 import s from './MainLayout.module.scss';
 export const MainLayout = defineComponent({
   props: {
@@ -6,7 +6,27 @@ export const MainLayout = defineComponent({
       type: String as PropType<string>
     }
   },
+  emits:['update:value'],
   setup: (props, context) => {
+    const body = ref()
+    const handleBodyScroll = () => {
+      const bodyElement = body.value;
+      if (bodyElement) {
+        const scrollTop = bodyElement.scrollTop;
+        const scrollHeight = bodyElement.scrollHeight;
+        const clientHeight = bodyElement.clientHeight;
+        if (scrollTop + clientHeight >= scrollHeight) {
+          console.log('已经滚动到底部！');
+          context.emit('update:value',1)
+        }
+      }
+    };
+    onMounted(() => {
+        if (body.value) {
+          // 添加滚动事件监听
+          body.value.addEventListener('scroll', handleBodyScroll);
+        }
+    })
     return () => (
       <div class={s.wrapper}>
         <div class={s.main}>
@@ -19,7 +39,7 @@ export const MainLayout = defineComponent({
             </span>
           </div>
         </div>
-        <div class={s.body}>
+        <div class={s.body} ref={body}>
           {context.slots.default?.()}
         </div>
         {

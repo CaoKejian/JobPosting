@@ -25,7 +25,8 @@
     }
   }
   .body{
-    
+    max-height: calc(100vh - 5rem);
+    overflow: scroll;
   }
   .footer{
     height: 6%;

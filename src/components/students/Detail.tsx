@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, onMounted, ref, watchEffect } from 'vue';
 import s from './Detail.module.scss';
 import { MainLayout } from '../../layouts/MainLayout';
 import { BackIcon } from '../../shared/BackIcon';
@@ -62,6 +62,10 @@ export const Detail = defineComponent({
           })
       }
     } 
+    const handleValue = (e:number) => {
+      console.log(e);
+      // 到底
+    }
     onMounted(async () => {
       const classID= localStorage.getItem('classID')
       const stuId = JSON.parse(localStorage.getItem('info') as string).stuId
@@ -83,13 +87,13 @@ export const Detail = defineComponent({
       router.push(`/student/view/${id}`)
     }
     return () => (
-      <MainLayout>{
+      <MainLayout onUpdate:value={handleValue}>{
         {
           icon: () => <BackIcon svg='menu' onClick={() => isShowMenu.value = true}/>,
           title: () => '作业详情',
           default: () => <div class={s.container}>
             {isHaveClass.value ?
-            <div class={s.wrapper}>
+            <div class={s.wrapper} >
               <div class={s.search}>
                 <van-search  shape="round" background='none' v-model:searchValue={searchValue.value} placeholder="请输入搜索关键词" />
                 <div class={s.title}>搜索</div>
