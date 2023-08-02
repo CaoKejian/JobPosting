@@ -21,7 +21,7 @@ export const Login = defineComponent({
     const formData = reactive({
       stuId: '2001063037',
       email: '1849201815@qq.com',
-      code: '123123'
+      code: ''
     })
     const errors = reactive({
       stuId: [],

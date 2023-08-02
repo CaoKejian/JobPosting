@@ -33,13 +33,15 @@ export const Detail = defineComponent({
     }
     const fetchData = async (id:string, page: number) => {
       try{
-        const data = await http.get<Work[]>('/work', {
-          classID:id,
+        const data = await http.get<any>('/work', {
+          classId:id,
           page: page + 1
         },{
           _autoLoading:true
         })
-        const obj = data.data
+        const obj = data.data.data
+        console.log(obj);
+        
         otherArr.value = obj
       }catch(error){
         Toast({
@@ -67,11 +69,11 @@ export const Detail = defineComponent({
       // 到底
     }
     onMounted(async () => {
-      const classID= localStorage.getItem('classID')
+      const classId= localStorage.getItem('classID')
       const stuId = JSON.parse(localStorage.getItem('info') as string).stuId
-      classID && fetchData(classID,page.value)
+      classId && fetchData(classId,page.value)
       stuId && fetchMyData(stuId,page.value)
-      if(classID&&classID!==null&&classID!==undefined){
+      if(classId&&classId!==null&&classId!==undefined){
         isHaveClass.value = true
         isShowVisible.value = false
       }else{

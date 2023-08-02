@@ -107,9 +107,12 @@
       }
       .infoB{
         display: flex;
+        justify-content: space-between;
         margin-top: 18px;
         .left{
           flex: 1;
+          max-width: 50%;
+          overflow: hidden;
         }
         .right{
           font-size: 1rem;

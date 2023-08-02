@@ -9,6 +9,7 @@ import { http } from '../../shared/Http';
 import { Button } from '../../shared/Button';
 import { throttle } from '../../shared/Throttle';
 import { Rules, hasError, validate } from '../../shared/Validate';
+import axios from 'axios';
 
 export const HandWork = defineComponent({
   setup: (props, context) => {
@@ -63,11 +64,12 @@ export const HandWork = defineComponent({
       let formDataFile = new FormData();
       formDataFile.append('file', file.file); // 上传的文件在 file 对象的 file 属性中
       // 发送文件上传请求到后端
-      http.post('/upload/file', formDataFile, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+      console.log(formDataFile.get('file'));
+      const data:any = formDataFile.get('file')
+      axios.post('http://localhost:3000/api/upload/file', formDataFile, {
+        _autoLoading: true
       }).then((response: any) => {
+        console.log(response);
         Toast({
           message: `上传成功！`,
         });
@@ -105,9 +107,14 @@ export const HandWork = defineComponent({
         Object.assign(formData, {
           classId: '123123'
         })
+        console.log(formData);
+        return
         try {
           await http.post('/work/submit', formData, {
             _autoLoading: true
+          })
+          Toast({
+            message: '提交成功'
           })
         } catch (error:any) {
           if(error.response.status===402){

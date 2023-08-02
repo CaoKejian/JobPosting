@@ -32,6 +32,7 @@ interface Resource<T> {
 export type Root = Work[]
 
 type Work ={
+  data:[],
   _id: string
   stuId: number
   classId: number
