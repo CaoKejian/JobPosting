@@ -42,6 +42,16 @@ type Work ={
   file: File
   __v: number
 }
+type WorkObj ={
+  _id: string
+  stuId: number
+  classId: number
+  subject: string
+  time: number
+  branch: string
+  file: File
+  __v: number
+}
 export interface File {
   fileName: string
   fileUrl: string
