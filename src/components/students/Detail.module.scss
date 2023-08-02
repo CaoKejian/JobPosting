@@ -6,10 +6,24 @@
   height: 100%;
   margin-top: 10rem;  
   color: var(--error-font-color);
-  .svg{
-    width: 168px;
-    height: 168px;
-    margin-top: 3rem;
+}
+.svg{
+  width: 168px;
+  height: 168px;
+  margin-top: 3rem;
+  transform: rotateZ(0deg);
+    animation: svg-animation 2s linear infinite;
+}
+@keyframes svg-animation {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  50% {
+    /* 在50%的位置进行左右摇摆 */
+    transform: rotateZ(-15deg);
+  }
+  100% {
+    transform: rotateZ(0deg);
   }
 }
 .container{

@@ -196,6 +196,7 @@ export const Detail = defineComponent({
             !isShowVisible.value ?
               <div class={s.none}><span>未找到相关班级信息，联系一下学委呀</span>
               <svg class={s.svg}><use xlinkHref='#cry'></use></svg>
+              <span class={s.refresh} onClick={()=> isShowVisible.value = true}>点击填写班级码</span>
             </div>:null
           }
             {isShowVisible.value ?
