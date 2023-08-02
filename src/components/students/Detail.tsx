@@ -41,7 +41,11 @@ export const Detail = defineComponent({
           _autoLoading:true
         })
         const obj = data.data.data
-        otherArr.value = obj
+        for (const doc of obj) {
+          if (!otherArr.value.some(item => item._id === doc._id)) {
+            otherArr.value.push(doc);
+          }
+        }
       }catch(error){
         Toast({
           message: '获取错误'
@@ -54,7 +58,6 @@ export const Detail = defineComponent({
           stuId : id,
           page: page + 1
         },{_autoLoading:true})
-        console.log(data);
         const obj = data.data
         myArr.value = obj
         }catch(error){
@@ -64,7 +67,10 @@ export const Detail = defineComponent({
       }
     } 
     const handleValue = (e:number) => {
-      console.log(e);
+      if(e===1){
+        page.value ++ 
+        fetchData(classId.value,page.value)
+      }
       // 到底
     }
     const getStuId = () => {
@@ -79,19 +85,16 @@ export const Detail = defineComponent({
         }, 500);
       }
     }
-    const refresh = () => {
-        isShowVisible.value = true
-    }
     onMounted(async () => {
-      const classId= localStorage.getItem('classID')
-      if(classId&&classId!==null&&classId!==undefined){
+      classId.value = localStorage.getItem('classID') || ''
+      if(classId.value&&classId.value!==null&&classId.value!==undefined){
         isHaveClass.value = true
         isShowVisible.value = false
       }else{
         isHaveClass.value = false
         isShowVisible.value = true
       }
-      classId && fetchData(classId,page.value)
+      classId.value && fetchData(classId.value,page.value)
       getStuId()
     })
     const gotoView = (id:number|string, params?: number) => {

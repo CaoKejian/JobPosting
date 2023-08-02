@@ -16,7 +16,6 @@ export const MainLayout = defineComponent({
         const scrollHeight = bodyElement.scrollHeight;
         const clientHeight = bodyElement.clientHeight;
         if (scrollTop + clientHeight >= scrollHeight) {
-          console.log('已经滚动到底部！');
           context.emit('update:value',1)
         }
       }
