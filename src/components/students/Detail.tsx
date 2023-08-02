@@ -41,8 +41,6 @@ export const Detail = defineComponent({
           _autoLoading:true
         })
         const obj = data.data.data
-        console.log(obj);
-        
         otherArr.value = obj
       }catch(error){
         Toast({
@@ -69,6 +67,18 @@ export const Detail = defineComponent({
       console.log(e);
       // 到底
     }
+    const getStuId = () => {
+      try{
+        const stuId = JSON.parse(localStorage.getItem('info') as string).stuId
+        fetchMyData(stuId,page.value)
+      }catch(error){
+        setTimeout(() => {
+          Toast({
+            message:'还未登陆，没有个人信息'
+          })
+        }, 500);
+      }
+    }
     onMounted(async () => {
       const classId= localStorage.getItem('classID')
       if(classId&&classId!==null&&classId!==undefined){
@@ -78,9 +88,8 @@ export const Detail = defineComponent({
         isHaveClass.value = false
         isShowVisible.value = true
       }
-      const stuId = JSON.parse(localStorage.getItem('info') as string).stuId
       classId && fetchData(classId,page.value)
-      stuId && fetchMyData(stuId,page.value)
+      getStuId()
     })
     const gotoView = (id:number|string, params?: number) => {
       if(params === 1){

@@ -23,6 +23,10 @@ router.beforeEach(async (to, from) => {
     return true
   }else {
     try{
+      const info = localStorage.getItem('info')
+      if(!info){
+        return '/login?return_to=' + from.path
+      }
       await http.get('/user/verify/jwt')
       return true
     }catch(error){
