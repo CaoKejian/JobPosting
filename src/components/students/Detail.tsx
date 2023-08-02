@@ -79,6 +79,9 @@ export const Detail = defineComponent({
         }, 500);
       }
     }
+    const refresh = () => {
+        isShowVisible.value = true
+    }
     onMounted(async () => {
       const classId= localStorage.getItem('classID')
       if(classId&&classId!==null&&classId!==undefined){
@@ -162,7 +165,7 @@ export const Detail = defineComponent({
                 otherArr.value.length ===0 ? (
                       <div class={s.emptyBox}>
                         <img class={s.empty} src="/src/assets/img/empty.png" alt="" />
-                        <span>空空哒~</span>
+                        <span>空空哒~, <span class={s.refresh} onClick={()=> isShowVisible.value = true}>点击重新请求</span></span>
                       </div>):(
                         otherArr.value.map((item,index) => {
                           return <div class={[s.box,s.box1]}>
