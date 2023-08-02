@@ -27,6 +27,7 @@ export const Detail = defineComponent({
     const onChangeModel = (value1:string,value2:number) => {
       if(value2===1){
         console.log('你正在搜索班级群：',classId.value);
+        fetchData(classId.value ,page.value)
         isHaveClass.value = true
         localStorage.setItem('classID', classId.value)
       }
@@ -70,9 +71,6 @@ export const Detail = defineComponent({
     }
     onMounted(async () => {
       const classId= localStorage.getItem('classID')
-      const stuId = JSON.parse(localStorage.getItem('info') as string).stuId
-      classId && fetchData(classId,page.value)
-      stuId && fetchMyData(stuId,page.value)
       if(classId&&classId!==null&&classId!==undefined){
         isHaveClass.value = true
         isShowVisible.value = false
@@ -80,6 +78,9 @@ export const Detail = defineComponent({
         isHaveClass.value = false
         isShowVisible.value = true
       }
+      const stuId = JSON.parse(localStorage.getItem('info') as string).stuId
+      classId && fetchData(classId,page.value)
+      stuId && fetchMyData(stuId,page.value)
     })
     const gotoView = (id:number|string, params?: number) => {
       if(params === 1){
@@ -112,7 +113,7 @@ export const Detail = defineComponent({
                         <img class={s.empty} src="/src/assets/img/empty.png" alt="" />
                         <span>空空哒~</span>
                       </div>):
-                      <van-swipe class="my-swipe" autoplay={3000} indicator-color="white">
+                      <van-swipe class="my-swipe" autoplay={30000} indicator-color="white">
                         {
                       myArr.value.map(item => {
                         return (
@@ -127,7 +128,7 @@ export const Detail = defineComponent({
                                 <div class={s.infoB}>
                                   <div class={s.left}>
                                     <div class={s.info}><div class={s.type}>姓名</div><span>曹珂俭</span></div>
-                                    <div class={s.info}><div class={s.type}>上传文件</div><span>{item.file.fileName}</span></div>
+                                    <div class={s.info}><div class={s.type}>上传文件</div><div>{item.file.fileName}</div></div>
                                     <div class={s.info}><div class={s.type}>学科</div><span>{item.subject}</span></div>
                                   </div>
                                   <div class={s.right}>
@@ -165,7 +166,7 @@ export const Detail = defineComponent({
                           <div class={s.infoB}>
                             <div class={s.left}>
                               <div class={s.info}><div class={s.type}>姓名</div><span>曹珂俭</span></div>
-                              <div class={s.info}><div class={s.type}>上传文件</div><span>{item.file.fileName}</span></div>
+                              <div class={s.info}><div class={s.type}>上传文件</div><div>{item.file.fileName}</div></div>
                               <div class={s.info}><div class={s.type}>学科</div><span>{item.subject}</span></div>
                             </div>
                             <div class={s.right}>

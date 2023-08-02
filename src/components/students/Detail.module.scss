@@ -108,11 +108,22 @@
       .infoB{
         display: flex;
         justify-content: space-between;
-        margin-top: 18px;
+        margin-top: 1rem;
         .left{
           flex: 1;
           max-width: 50%;
           overflow: hidden;
+        }
+        .info{
+          width: 100%;
+          >div{
+            font-size: 0.7rem;
+            margin-top: 1rem;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
         }
         .right{
           font-size: 1rem;
@@ -133,13 +144,13 @@
         }
       }
       .info{
-        margin-top: 18px;
         .type{
           font-size: 1rem;
           color: var(--info-g-color);
         }
         >span{
-          font-size: 1.1rem;
+          font-size: 1rem;
+          margin-top: 1rem;
         }
       }
      
