@@ -161,8 +161,8 @@ export const Detail = defineComponent({
               <div class={[s.my,s.other]}>
                 <div class={s.content}>
                   <span>班级成员</span>
-                  <span onClick={() => gotoView(0)}>全部</span>
-                  <svg onClick={() => gotoView(0)} class={s.svg}><use xlinkHref='#go'></use></svg>
+                  {/* <span onClick={() => gotoView(0)}>全部</span>
+                  <svg onClick={() => gotoView(0)} class={s.svg}><use xlinkHref='#go'></use></svg> */}
                 </div>
                 {
                 otherArr.value.length ===0 ? (
