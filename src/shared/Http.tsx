@@ -44,7 +44,6 @@ export class Http {
 export const http = new Http('/api')
 
 http.instance.interceptors.request.use(config => {
-  
   const jwt = localStorage.getItem('jwt')
   if (jwt) {
     config.headers!.Authorization = `Bearer ${jwt}`
@@ -58,8 +57,8 @@ http.instance.interceptors.request.use(config => {
   return config
 })
 http.instance.interceptors.response.use((response) => {
-  const jwt = (response.config.headers.Authorization as string)?.split(' ')[1]
-  localStorage.setItem('jwt',jwt)
+  const jwt = (response.headers.authorization as string)?.split(' ')[1]
+  jwt && localStorage.setItem('jwt',jwt)
   if (response.config._autoLoading === true) {
     Toast.clear();
   }
