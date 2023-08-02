@@ -10,7 +10,7 @@ import { Button } from '../../shared/Button';
 import { throttle } from '../../shared/Throttle';
 import { Rules, hasError, validate } from '../../shared/Validate';
 import axios from 'axios';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 export const HandWork = defineComponent({
   setup: (props, context) => {
@@ -30,6 +30,7 @@ export const HandWork = defineComponent({
       { value: 'React', text: '类组件定义' },
     ])
     const router = useRouter()
+    const route = useRoute()
     const isShowVisible = ref<boolean>(false)
     const formData = reactive({
       classId: '',
@@ -53,6 +54,7 @@ export const HandWork = defineComponent({
       });
     }
     onMounted(() => {
+      console.log(route.params);
       const info = JSON.parse(localStorage.getItem('info') as string)
       formData.stuId = info.stuId
       const classId = localStorage.getItem('classID') as string

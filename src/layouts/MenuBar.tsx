@@ -26,19 +26,22 @@ export const MenuBar = defineComponent({
         title: "提示",
         message: "你真的要退出登录吗？"
       })
-      localStorage.removeItem('jwt')
+      const removeArr = ['jwt', 'classID', 'info']
+      for (const item of removeArr) {
+        localStorage.removeItem(item)
+      }
       window.location.reload()
     }
     const goToLogin = () => {
       router.push('/login')
     }
     onMounted(async () => {
-      try{
+      try {
         const res = await http.get('/user/verify/jwt')
-        const infoObj = JSON.parse(localStorage.getItem('info')as string)
+        const infoObj = JSON.parse(localStorage.getItem('info') as string)
         info.value = `学号：${infoObj.stuId}`
-      }catch(error:any){
-        if(error.response.status===401){
+      } catch (error: any) {
+        if (error.response.status === 401) {
           info.value = '未登录'
         }
       }
@@ -54,9 +57,9 @@ export const MenuBar = defineComponent({
                 <span onClick={goToLogin}>{info.value}</span>
                 {
                   info.value !== '未登录' ?
-                  <span onClick={onEdit}>退出登录</span> : null
+                    <span onClick={onEdit}>退出登录</span> : null
                 }
-                </div>,
+              </div>,
               default: () => <div class={s.list}>
                 <ul>
                   <li>
