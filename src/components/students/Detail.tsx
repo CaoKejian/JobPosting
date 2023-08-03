@@ -22,7 +22,8 @@ export const Detail = defineComponent({
     const myArr = ref<Work[]>([])
     const otherArr = ref<Work[]>([])
     const isShowMenu = ref<boolean>(false)
-    const page = ref<number>(0)
+    const page = ref<number>(1)
+    const isHavePage = ref<boolean>(true)
     const router = useRouter()
     const onChangeModel = (value1:string,value2:number) => {
       if(value2===1){
@@ -36,7 +37,7 @@ export const Detail = defineComponent({
       try{
         const data = await http.get<any>('/work', {
           classId:id,
-          page: page + 1
+          page: page
         },{
           _autoLoading:true
         })
@@ -45,6 +46,9 @@ export const Detail = defineComponent({
           if (!otherArr.value.some(item => item._id === doc._id)) {
             otherArr.value.push(doc);
           }
+        }
+        if(data.data.pagination.totalPages === page){
+          isHavePage.value = false
         }
       }catch(error){
         Toast({
@@ -67,9 +71,13 @@ export const Detail = defineComponent({
       }
     } 
     const handleValue = (e:number) => {
-      if(e===1){
+      if(e===1 && isHavePage.value){
         page.value ++ 
         fetchData(classId.value,page.value)
+      }else{
+        Toast({
+          message:'没更多啦'
+        })
       }
       // 到底
     }
@@ -161,8 +169,6 @@ export const Detail = defineComponent({
               <div class={[s.my,s.other]}>
                 <div class={s.content}>
                   <span>班级成员</span>
-                  {/* <span onClick={() => gotoView(0)}>全部</span>
-                  <svg onClick={() => gotoView(0)} class={s.svg}><use xlinkHref='#go'></use></svg> */}
                 </div>
                 {
                 otherArr.value.length ===0 ? (
