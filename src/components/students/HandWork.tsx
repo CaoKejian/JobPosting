@@ -37,6 +37,11 @@ export const HandWork = defineComponent({
       stuId: '',
       subject: subjectArr.value[0].text,
       branch: '',
+      favor:false, //优秀作品
+      content:'',// 作业描述，用于详细说明作业要求和内容。
+      score:100,// 得分
+      tComments:'', // 教师评语
+      isPass:false,// 已评
       file: {
         fileName: '',
         fileUrl: ''
