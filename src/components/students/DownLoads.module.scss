@@ -1,0 +1,40 @@
+.wrapper{
+  .homework{
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    .number{
+      font-size: 1.1rem;
+       margin: 0 0.2rem;
+      color: var(--theme-font-color);
+    }
+  }
+  .button{
+    width: 100%;
+    font-size: 1.2rem;
+    >button{
+      width: 100%;
+    }
+  }
+  .unsubmit{
+    font-size: 1rem;
+  }
+  .fake{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 2rem;
+    .item{
+      width: 3rem;
+      max-height: 3rem;
+      border-radius: 8px;
+      background: var(--button-light);
+      color: var(--theme-font-color);
+      margin: 6px 10px;
+      line-height: 3rem;
+      overflow: hidden;
+      text-align: center;
+      font-size: 0.8rem;
+    }
+  }
+}

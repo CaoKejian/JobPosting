@@ -11,13 +11,10 @@ import { throttle } from '../../shared/Throttle';
 import { Rules, hasError, validate } from '../../shared/Validate';
 import axios from 'axios';
 import { useRoute, useRouter } from 'vue-router';
+import { classMap } from '../../config/NameMap';
 
 export const HandWork = defineComponent({
   setup: (props, context) => {
-    // 班级map
-    const classMap: Record<string, string> = {
-      '123123': '大数据B201'
-    }
     const className = ref<string>('')
     const subjectArr = ref([
       { value: 'a', text: '数据挖掘' },
@@ -39,7 +36,7 @@ export const HandWork = defineComponent({
       branch: '',
       favor:false, //优秀作品
       content:'',// 作业描述，用于详细说明作业要求和内容。
-      score:100,// 得分
+      score:0,// 得分
       tComments:'', // 教师评语
       isPass:false,// 已评
       file: {
