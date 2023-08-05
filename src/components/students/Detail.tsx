@@ -25,6 +25,8 @@ export const Detail = defineComponent({
     const isShowMenu = ref<boolean>(false)
     const page = ref<number>(1)
     const isHavePage = ref<boolean>(true)
+    const isCancel = ref<boolean>(false)
+    const isCancelId =ref<string>('')
     const router = useRouter()
     const onChangeModel = async(value1:string,value2:number) => {
       if(value2===1){
@@ -32,7 +34,6 @@ export const Detail = defineComponent({
         fetchData(classId.value ,page.value)
         isHaveClass.value = true
         localStorage.setItem('classID', classId.value)
-        
       }
     }
     const fetchData = async (id:string, page: number) => {
@@ -63,10 +64,9 @@ export const Detail = defineComponent({
       try{
         const data = await http.get<Work[]>('/work/mywork',{
           stuId : id,
-          page: page + 1
+          page: page
         },{_autoLoading:true})
-        const obj = data.data
-        myArr.value = obj
+        myArr.value = data.data.sort((a,b) => b.time - a.time)
         }catch(error){
           Toast({
             message: '获取错误'
@@ -100,16 +100,23 @@ export const Detail = defineComponent({
         }, 500);
       }
     }
-    const cancel = (_id: string) => {
-      try{
-        const data = http.post('/work/delete', {
-          _id
-        }, { _autoLoading: true})
-        console.log(data);
-      }catch(error){
-        console.log(error);
+    const onChangeModel2 = async(value1:string,value2:number) => {
+      console.log(value1,value2);
+      if(value2 === 1){
+        try{
+          const data = http.post('/work/delete', {
+            _id: isCancelId.value
+          }, { _autoLoading: true})
+          const stuId = JSON.parse(localStorage.getItem('info') as string).stuId
+          fetchMyData(stuId,page.value)
+        }catch(error){
+          console.log(error);
+        }
       }
-     
+    }
+    const cancel = (_id: string) => {
+      isCancelId.value = _id
+      isCancel.value = true
     }
     onMounted(async () => {
       classId.value = localStorage.getItem('classID') || ''
@@ -236,6 +243,18 @@ export const Detail = defineComponent({
                   content:() => <div>
                     <FormItem label='进班码' type='text' v-model={classId.value}
                   placeholder='六位数字' ></FormItem>
+                  </div>,
+                }
+              }</Model> : null
+            }
+            {isCancel.value ?
+              <Model v-model:modelVisible={isCancel.value}
+                onUpdate:modelVisible={onChangeModel2}
+              >{
+                {
+                  title:() => '确认删除吗？',
+                  content:() => <div>
+                   此操作不可逆
                   </div>,
                 }
               }</Model> : null
