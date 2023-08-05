@@ -30,15 +30,16 @@ export const HandWork = defineComponent({
     const route = useRoute()
     const isShowVisible = ref<boolean>(false)
     const formData = reactive({
+      id: '',
       classId: 0,
       stuId: '',
       subject: subjectArr.value[0].text,
       branch: '',
-      favor:false, //优秀作品
-      content:'',// 作业描述，用于详细说明作业要求和内容。
-      score:0,// 得分
-      tComments:'', // 教师评语
-      isPass:false,// 已评
+      favor: false, //优秀作品
+      content: '',// 作业描述，用于详细说明作业要求和内容。
+      score: 0,// 得分
+      tComments: '', // 教师评语
+      isPass: false,// 已评
       file: {
         fileName: '',
         fileUrl: ''
@@ -56,7 +57,7 @@ export const HandWork = defineComponent({
       });
     }
     onMounted(() => {
-      console.log(route.params);
+      formData.id = Array.isArray(route.params.id) ? route.params.id.join('') : route.params.id
       const info = JSON.parse(localStorage.getItem('info') as string)
       formData.stuId = info.stuId
       const classId = Number(localStorage.getItem('classID'))
@@ -110,15 +111,19 @@ export const HandWork = defineComponent({
           classId: '123123'
         })
         try {
-          await http.post('/work/submit', formData, {
-            _autoLoading: true
-          })
+          if (formData.id !== '') {
+            await http.post('/work/upload', formData, { _autoLoading: true })
+          } else {
+            await http.post('/work/submit', { formData }, {
+              _autoLoading: true
+            })
+          }
           Toast({
             message: '提交成功'
           })
           router.push('/student/detail')
-        } catch (error:any) {
-          if(error.response.status===402){
+        } catch (error: any) {
+          if (error.response.status === 402) {
             Toast({
               message: error.response.data.message
             })
