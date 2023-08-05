@@ -100,6 +100,17 @@ export const Detail = defineComponent({
         }, 500);
       }
     }
+    const cancel = (_id: string) => {
+      try{
+        const data = http.post('/work/delete', {
+          _id
+        }, { _autoLoading: true})
+        console.log(data);
+      }catch(error){
+        console.log(error);
+      }
+     
+    }
     onMounted(async () => {
       classId.value = localStorage.getItem('classID') || ''
       if(classId.value&&classId.value!==null&&classId.value!==undefined){
@@ -153,7 +164,7 @@ export const Detail = defineComponent({
                                   <img src="/src/assets/img/author.png" alt="" />
                                   <span class={s.name}>{item.stuId}</span> 
                                   <span class={s.time}></span>
-                                  <Button>取消提交</Button> 
+                                  <Button onClick={() => cancel(item._id)}>取消提交</Button> 
                                   <Button onClick={() => gotoView(item._id,1)}>修改</Button>
                                 </div>
                                 <div class={s.infoB}>
