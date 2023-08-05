@@ -25,12 +25,13 @@ export const Detail = defineComponent({
     const page = ref<number>(1)
     const isHavePage = ref<boolean>(true)
     const router = useRouter()
-    const onChangeModel = (value1:string,value2:number) => {
+    const onChangeModel = async(value1:string,value2:number) => {
       if(value2===1){
         console.log('你正在搜索班级群：',classId.value);
         fetchData(classId.value ,page.value)
         isHaveClass.value = true
         localStorage.setItem('classID', classId.value)
+        
       }
     }
     const fetchData = async (id:string, page: number) => {
@@ -81,10 +82,14 @@ export const Detail = defineComponent({
       }
       // 到底
     }
-    const getStuId = () => {
+    const getStuId = async () => {
       try{
         const stuId = JSON.parse(localStorage.getItem('info') as string).stuId
         fetchMyData(stuId,page.value)
+        const data = await http.get('/user/addclassId',{
+          stuId,
+          classId:classId.value
+        })
       }catch(error){
         setTimeout(() => {
           Toast({
