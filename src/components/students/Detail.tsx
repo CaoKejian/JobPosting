@@ -12,6 +12,7 @@ import { http } from '../../shared/Http';
 import { Work } from '../../vite-env';
 import { Toast } from 'vant';
 import { Time } from '../../shared/Time';
+import { stuIdMapFunction } from '../../config/NameMap';
 
 export const Detail = defineComponent({
   setup: (props, context) => {
@@ -149,13 +150,14 @@ export const Detail = defineComponent({
                               <div class={s.box}>
                                 <div class={s.infoF}>
                                   <img src="/src/assets/img/author.png" alt="" />
-                                  <span class={s.name}>colin</span> 
+                                  <span class={s.name}>{item.stuId}</span> 
+                                  <span class={s.time}></span>
                                   <Button>取消提交</Button> 
                                   <Button onClick={() => gotoView(item._id,1)}>修改</Button>
                                 </div>
                                 <div class={s.infoB}>
                                   <div class={s.left}>
-                                    <div class={s.info}><div class={s.type}>姓名</div><span>曹珂俭</span></div>
+                                    <div class={s.info}><div class={s.type}>姓名</div><span>{stuIdMapFunction(item.stuId)}</span></div>
                                     <div class={s.info}><div class={s.type}>上传文件</div><div>{item.file.fileName}</div></div>
                                     <div class={s.info}><div class={s.type}>学科</div><span>{item.subject}</span></div>
                                   </div>
@@ -186,12 +188,12 @@ export const Detail = defineComponent({
                           <div class={s.infoF}>
                             {index + 1}. 
                             <img src="/src/assets/img/author.png" alt="我" />
-                            <span class={s.name}>colin</span> <span class={s.time}>{Time(item.time)}</span>
+                            <span class={s.name}>{stuIdMapFunction(item.stuId)}</span> <span class={s.time}>{Time(item.time)}</span>
                             <Button onClick={() => gotoView(item._id)}>查看</Button> 
                           </div>
                           <div class={s.infoB}>
                             <div class={s.left}>
-                              <div class={s.info}><div class={s.type}>姓名</div><span>曹珂俭</span></div>
+                              <div class={s.info}><div class={s.type}>学号</div><span>{item.stuId}</span></div>
                               <div class={s.info}><div class={s.type}>上传文件</div><div>{item.file.fileName}</div></div>
                               <div class={s.info}><div class={s.type}>学科</div><span>{item.subject}</span></div>
                             </div>

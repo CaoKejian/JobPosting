@@ -106,7 +106,10 @@
         font-size: 1rem;
         .name{
           margin: 0 4px;
+        }
+        .time{
           flex: 1;
+          text-align: right;
         }
         >img{
           width: 2rem;
