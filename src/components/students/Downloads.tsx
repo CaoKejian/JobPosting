@@ -41,7 +41,6 @@ export const DownLoads = defineComponent({
     const downloadsInfo = ref<Work[]>([]) // 需要下载的文件
     const isNoSubmit = ref<{ stuId: number, classId: number }[]>([])
     watch(() => [formData.branch, formData.subject], async (newValue) => {
-      console.log([...newValue]);
       const [branch, subject] = newValue
       //  发送请求 传入 newValue和classId
       try {

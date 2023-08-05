@@ -64,13 +64,11 @@ export const HandWork = defineComponent({
       className.value = classMap[classId] ? classMap[classId] : String(classId)
     })
     watch(() => formData.subject, (newValue, oldValue) => {
-      console.log(newValue);
     })
     const afterRead = (file: any) => {
       let formDataFile = new FormData();
       formDataFile.append('file', file.file); // 上传的文件在 file 对象的 file 属性中
       // 发送文件上传请求到后端
-      console.log(formDataFile.get('file'));
       axios.post('http://localhost:3000/api/upload/file', formDataFile, {
         _autoLoading: true
       }).then((response: any) => {
