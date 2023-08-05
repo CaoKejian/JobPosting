@@ -6,7 +6,7 @@ import { Toast } from 'vant';
 import { MenuBar } from '../../layouts/MenuBar';
 import { Form, FormItem } from '../../shared/Form';
 import { Button } from '../../shared/Button';
-import { classMap } from '../../config/NameMap';
+import { classMap, stuIdMapFunction } from '../../config/NameMap';
 import { http } from '../../shared/Http';
 import { User, Work } from '../../vite-env';
 
@@ -38,7 +38,7 @@ export const DownLoads = defineComponent({
     })
     const isSubmit = ref<[]>([])
     const peopleTotal = ref<User[]>([])
-    const isNoSubmit = ref<{stuId:number,classId:number}[]>([])
+    const isNoSubmit = ref<{ stuId: number, classId: number }[]>([])
     watch(() => [formData.branch, formData.subject], async (newValue) => {
       console.log([...newValue]);
       const [branch, subject] = newValue
@@ -50,18 +50,24 @@ export const DownLoads = defineComponent({
           classId: classId.value
         }, { _autoLoading: true }) // 1 份 返回交的学号
         isSubmit.value = data.data.stuIds
-        const unSubmit = await http.get<{stuId:number,classId:number}[]>('/user/total',{
-          classId: classId.value,
-          stuIds: isSubmit.value
-        })
-        isNoSubmit.value = unSubmit.data
         console.log(isSubmit.value);
-        console.log(isNoSubmit.value);
+        if (isSubmit.value.length !== 0) {
+          const unSubmit = await http.get<{ stuId: number, classId: number }[]>('/user/total', {
+            classId: classId.value,
+            stuIds: isSubmit.value
+          })
+          isNoSubmit.value = unSubmit.data
+        } else {
+          Toast({
+            message: '没有相关作业提交'
+          })
+          isNoSubmit.value = []
+        }
       } catch (e) {
         console.log(e);
       }
     })
-    const onSubmit = (e:Event) => {
+    const onSubmit = (e: Event) => {
       e.preventDefault()
     }
     const toast = () => {
@@ -103,12 +109,12 @@ export const DownLoads = defineComponent({
                 <span>还　差：<span class={s.number}>{isNoSubmit.value.length} 份</span></span>
               </div>
               {
-                isSubmit.value.length !== 0 ?<>
+                isSubmit.value.length !== 0 ? <>
                   <span class={s.unsubmit}>未交名单:</span>
                   <div class={s.fake}>
                     {isNoSubmit.value.map(item => {
                       return <span class={s.item} key={item.stuId}>
-                        {item.stuId}
+                        {stuIdMapFunction(item.stuId)}
                       </span>
                     })}
                   </div> </> :
