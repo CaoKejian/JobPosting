@@ -30,7 +30,7 @@ export const HandWork = defineComponent({
     const route = useRoute()
     const isShowVisible = ref<boolean>(false)
     const formData = reactive({
-      classId: '',
+      classId: 0,
       stuId: '',
       subject: subjectArr.value[0].text,
       branch: '',
@@ -59,9 +59,9 @@ export const HandWork = defineComponent({
       console.log(route.params);
       const info = JSON.parse(localStorage.getItem('info') as string)
       formData.stuId = info.stuId
-      const classId = localStorage.getItem('classID') as string
+      const classId = Number(localStorage.getItem('classID'))
       formData.classId = classId
-      className.value = classMap[classId] ? classMap[classId] : classId
+      className.value = classMap[classId] ? classMap[classId] : String(classId)
     })
     watch(() => formData.subject, (newValue, oldValue) => {
       console.log(newValue);

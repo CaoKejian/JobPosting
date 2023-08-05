@@ -1,4 +1,4 @@
-import { PropType, defineComponent, onMounted, reactive, ref } from 'vue';
+import { PropType, defineComponent, onMounted, reactive, ref, watch } from 'vue';
 import s from './DownLoads.module.scss';
 import { MainLayout } from '../../layouts/MainLayout';
 import { BackIcon } from '../../shared/BackIcon';
@@ -7,11 +7,14 @@ import { MenuBar } from '../../layouts/MenuBar';
 import { Form, FormItem } from '../../shared/Form';
 import { Button } from '../../shared/Button';
 import { classMap } from '../../config/NameMap';
+import { http } from '../../shared/Http';
+import { User, Work } from '../../vite-env';
 
 export const DownLoads = defineComponent({
   setup: (props, context) => {
     const isShowVisible = ref<boolean>(false)
     const className = ref<string>('')
+    const classId = ref<number>(0)
     const subjectArr = ref([
       { value: 'a', text: '数据挖掘' },
       { value: 'b', text: 'React' },
@@ -33,9 +36,33 @@ export const DownLoads = defineComponent({
       subject: [],
       branch: []
     })
-    const isNoSubmit = ref(['曹珂俭', '曹珂俭俭', '曹珂俭', '曹珂俭', '曹珂俭', '曹珂俭', '曹珂俭'])
-    const onSubmit = () => {
-
+    const isSubmit = ref<[]>([])
+    const peopleTotal = ref<User[]>([])
+    const isNoSubmit = ref<{stuId:number,classId:number}[]>([])
+    watch(() => [formData.branch, formData.subject], async (newValue) => {
+      console.log([...newValue]);
+      const [branch, subject] = newValue
+      //  发送请求 传入 newValue和classId
+      try {
+        const data = await http.get<any>('/work/download', {
+          branch,
+          subject,
+          classId: classId.value
+        }, { _autoLoading: true }) // 1 份 返回交的学号
+        isSubmit.value = data.data.stuIds
+        const unSubmit = await http.get<{stuId:number,classId:number}[]>('/user/total',{
+          classId: classId.value,
+          stuIds: isSubmit.value
+        })
+        isNoSubmit.value = unSubmit.data
+        console.log(isSubmit.value);
+        console.log(isNoSubmit.value);
+      } catch (e) {
+        console.log(e);
+      }
+    })
+    const onSubmit = (e:Event) => {
+      e.preventDefault()
     }
     const toast = () => {
       Toast({
@@ -43,10 +70,10 @@ export const DownLoads = defineComponent({
       });
     }
     onMounted(() => {
-      const classId = localStorage.getItem('classID') || ''
+      classId.value = Number(localStorage.getItem('classID')) || 0
       const info = JSON.parse(localStorage.getItem('info') as string)
       formData.stuId = info.stuId
-      className.value = classMap[classId] ? classMap[classId] : classId
+      className.value = classMap[classId.value] ? classMap[classId.value] : String(classId.value)
     })
     return () => (
       <MainLayout>{
@@ -71,17 +98,22 @@ export const DownLoads = defineComponent({
                 error={errors.branch?.[0] ?? '　'}
               ></FormItem>
               <div class={s.homework}>
-                <span>已查到：<span class={s.number}>63份</span>作业</span>
-                <span>还差：<span class={s.number}>7份</span>作业</span>
+                <span>已查到：<span class={s.number}>{isSubmit.value.length} 份</span></span>
+                <br />
+                <span>还　差：<span class={s.number}>{isNoSubmit.value.length} 份</span></span>
               </div>
-              <span class={s.unsubmit}>未交名单:</span>
-              <div class={s.fake}>
-                {isNoSubmit.value.map(item => {
-                  return <span class={s.item}>
-                      {item}
-                  </span>
-                })}
-              </div>
+              {
+                isSubmit.value.length !== 0 ?<>
+                  <span class={s.unsubmit}>未交名单:</span>
+                  <div class={s.fake}>
+                    {isNoSubmit.value.map(item => {
+                      return <span class={s.item} key={item.stuId}>
+                        {item.stuId}
+                      </span>
+                    })}
+                  </div> </> :
+                  null
+              }
               <div class={s.button}>
                 <Button type='submit'>直接下载</Button>
               </div>

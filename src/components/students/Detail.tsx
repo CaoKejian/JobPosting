@@ -86,7 +86,7 @@ export const Detail = defineComponent({
       try{
         const stuId = JSON.parse(localStorage.getItem('info') as string).stuId
         fetchMyData(stuId,page.value)
-        const data = await http.get('/user/addclassId',{
+        await http.get('/user/addclassId',{
           stuId,
           classId:classId.value
         })
