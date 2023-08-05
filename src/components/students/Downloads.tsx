@@ -9,6 +9,7 @@ import { Button } from '../../shared/Button';
 import { classMap, stuIdMapFunction } from '../../config/NameMap';
 import { http } from '../../shared/Http';
 import { User, Work } from '../../vite-env';
+import { DownLoadInfo } from '../../shared/DownLoad';
 
 export const DownLoads = defineComponent({
   setup: (props, context) => {
@@ -37,7 +38,7 @@ export const DownLoads = defineComponent({
       branch: []
     })
     const isSubmit = ref<[]>([])
-    const peopleTotal = ref<User[]>([])
+    const downloadsInfo = ref<Work[]>([]) // 需要下载的文件
     const isNoSubmit = ref<{ stuId: number, classId: number }[]>([])
     watch(() => [formData.branch, formData.subject], async (newValue) => {
       console.log([...newValue]);
@@ -49,8 +50,10 @@ export const DownLoads = defineComponent({
           subject,
           classId: classId.value
         }, { _autoLoading: true }) // 1 份 返回交的学号
+        downloadsInfo.value = data.data.data.map((item: { file: {}, stuId: Number }) => ({
+          file: item.file
+        }))
         isSubmit.value = data.data.stuIds
-        console.log(isSubmit.value);
         if (isSubmit.value.length !== 0) {
           const unSubmit = await http.get<{ stuId: number, classId: number }[]>('/user/total', {
             classId: classId.value,
@@ -67,8 +70,16 @@ export const DownLoads = defineComponent({
         console.log(e);
       }
     })
-    const onSubmit = (e: Event) => {
+    const onDownload = async (e: Event) => {
       e.preventDefault()
+      try {
+        for (const file of downloadsInfo.value) {
+          await DownLoadInfo(file.file);
+        }
+        console.log('全部文件下载完成');
+      } catch (error) {
+        console.error('提交出错：', error);
+      }
     }
     const toast = () => {
       Toast({
@@ -87,7 +98,7 @@ export const DownLoads = defineComponent({
           icon: () => <BackIcon svg='menu' onClick={() => isShowVisible.value = true} ></BackIcon>,
           title: () => '作业下载',
           default: () => <div class={s.wrapper}>
-            <Form onSubmit={onSubmit}>
+            <Form onSubmit={onDownload}>
               <FormItem label='班级' type='text' v-model={className.value}
                 onClick={toast}
                 InputDisabled={true}
