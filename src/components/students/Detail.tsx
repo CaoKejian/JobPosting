@@ -104,9 +104,10 @@ export const Detail = defineComponent({
       console.log(value1,value2);
       if(value2 === 1){
         try{
-          const data = http.post('/work/delete', {
+          http.post('/work/delete', {
             _id: isCancelId.value
           }, { _autoLoading: true})
+          Object.assign(isCancelId.value,'')
           const stuId = JSON.parse(localStorage.getItem('info') as string).stuId
           fetchMyData(stuId,page.value)
         }catch(error){
