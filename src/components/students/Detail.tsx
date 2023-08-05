@@ -49,6 +49,7 @@ export const Detail = defineComponent({
             otherArr.value.push(doc);
           }
         }
+        otherArr.value.sort((a,b) => b.time - a.time)
         if(data.data.pagination.totalPages === page){
           isHavePage.value = false
         }
