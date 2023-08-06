@@ -13,6 +13,7 @@ import { Work } from '../../vite-env';
 import { Toast } from 'vant';
 import { Time } from '../../shared/Time';
 import { stuIdMapFunction } from '../../config/NameMap';
+import axios from 'axios';
 
 export const Detail = defineComponent({
   setup: (props, context) => {
