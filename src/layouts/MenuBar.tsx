@@ -81,6 +81,12 @@ export const MenuBar = defineComponent({
                     </RouterLink>
                   </li>
                   <li>
+                    <RouterLink to="/student/analyze">
+                      <svg class={s.icon}><use xlinkHref='#analyze'></use></svg>
+                      <span onClick={() => onClick(7)}>数据分析</span>
+                    </RouterLink>
+                  </li>
+                  <li>
                     <RouterLink to="/student/downloads">
                       <svg class={s.icon}><use xlinkHref='#homedownload'></use></svg>
                       <span onClick={() => onClick(4)}>作业下载</span>

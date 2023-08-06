@@ -31,6 +31,9 @@
     font-size: 1rem;
     display: flex;
     flex-direction: column;
+    opacity: 0;
+    animation: title-animation 1s ease;
+    animation-fill-mode: forwards;
     >span{
       &:nth-child(2){
         margin-top: 0.5rem;
@@ -77,5 +80,14 @@
         }
       }
     }
+  }
+}
+
+@keyframes title-animation {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
   }
 }
