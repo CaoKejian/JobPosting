@@ -57,7 +57,6 @@ export const TabsLayout = defineComponent({
                 </props.component>
               </Tab>
             </Tabs> 
-            
           </div>
           {
             isBoolean.isShowMenu ?

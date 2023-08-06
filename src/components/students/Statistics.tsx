@@ -5,7 +5,6 @@ export const Statistics = defineComponent({
   setup: (props, context) => {
     return () => (
       <TabsLayout component={StatisList}/>
-     
     )
   }
 })
