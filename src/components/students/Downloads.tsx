@@ -10,6 +10,7 @@ import { classMap, stuIdMapFunction } from '../../config/NameMap';
 import { http } from '../../shared/Http';
 import { User, Work } from '../../vite-env';
 import { DownLoadInfo } from '../../shared/DownLoad';
+import { PeopleShow } from '../../shared/PeopleShow';
 
 export const DownLoads = defineComponent({
   setup: (props, context) => {
@@ -121,13 +122,8 @@ export const DownLoads = defineComponent({
               {
                 isSubmit.value.length !== 0 ? <>
                   <span class={s.unsubmit}>未交名单:</span>
-                  <div class={s.fake}>
-                    {isNoSubmit.value.map(item => {
-                      return <span class={s.item} key={item.stuId}>
-                        {stuIdMapFunction(item.stuId)}
-                      </span>
-                    })}
-                  </div> </> :
+                  <PeopleShow array={isNoSubmit.value} />
+                </> :
                   null
               }
               <div class={s.button}>

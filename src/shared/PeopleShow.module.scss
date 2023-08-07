@@ -1,0 +1,19 @@
+.fake{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 2rem;
+  .item{
+    width: 3rem;
+    max-height: 3rem;
+    border-radius: 8px;
+    background: var(--button-light);
+    color: var(--theme-font-color);
+    margin: 6px 10px;
+    line-height: 3rem;
+    overflow: hidden;
+    text-align: center;
+    font-size: 0.8rem;
+  }
+}
