@@ -1,0 +1,13 @@
+.svgWrapper{
+  width: 100%;
+  height: calc(100vh - 7rem);
+  position: relative;
+  .loading{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width: 10rem;
+    height: 10rem;
+  }
+}

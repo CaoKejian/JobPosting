@@ -3,6 +3,7 @@ import s from './StatisList.module.scss';
 import { Form, FormItem } from '../../shared/Form';
 import { http } from '../../shared/Http';
 import { Work } from '../../vite-env';
+import { Loading } from '../../shared/Loading';
 export const StatisList = defineComponent({
   props: {
     id: {
@@ -12,10 +13,11 @@ export const StatisList = defineComponent({
   setup: (props, context) => {
     const active = ref<number>(0);
     const workNumber = ref<number>(0)
+    const isShowDom = ref<boolean>(false)
     const formData = reactive({
       branch: ''
     })
-    const branchArr = ref<{value:string,text:string}[]>([])
+    const branchArr = ref<{ value: string, text: string }[]>([])
     watch(() => formData.branch, (newValue) => {
       console.log(newValue);
     })
@@ -28,14 +30,12 @@ export const StatisList = defineComponent({
         workNumber.value = data.data.length
         const obj = data.data
         obj.map((item) => {
-          const objItem: {value:string,text:string} = {value:'',text:''}
+          const objItem: { value: string, text: string } = { value: '', text: '' }
           objItem.value = item.subject
           objItem.text = item.branch
-          console.log(objItem);
-          
           branchArr.value.push(objItem)
-          // item.subject,item.branch
         })
+        isShowDom.value = true
       } catch (error) {
       }
     }
@@ -47,21 +47,24 @@ export const StatisList = defineComponent({
       {
         props.id === '0' ? (
           <div class={s.content}>
-            <p>近30天已有 {workNumber.value} 份作业提交，请选择查看提交状态:</p>
-            <Form>
-              <FormItem label='' type='select'
-                options={branchArr.value} v-model={formData.branch}
-              ></FormItem>
-            </Form>
             {
-              formData.branch ?
-                <div class={s.steps}>
-                  <van-steps active={active.value} style={{ background: '#d1daf5' }} active-icon="success" active-color='#386b78'>
-                    <van-step>已提交</van-step>
-                    <van-step>老师点评</van-step>
-                    <van-step>评分</van-step>
-                  </van-steps>
-                </div> : <div class={s.steps}></div>
+              isShowDom.value ? <>
+                <p>近30天已有 {workNumber.value} 份作业提交，请选择查看提交状态:</p>
+                <Form>
+                  <FormItem label='' type='select'
+                    options={branchArr.value} v-model={formData.branch}
+                  ></FormItem>
+                </Form>
+                {
+                  formData.branch ?
+                    <div class={s.steps}>
+                      <van-steps active={active.value} style={{ background: '#d1daf5' }} active-icon="success" active-color='#386b78'>
+                        <van-step>已提交</van-step>
+                        <van-step>老师点评</van-step>
+                        <van-step>评分</van-step>
+                      </van-steps>
+                    </div> : <div class={s.steps}></div>
+                }</> : <Loading visible={isShowDom.value}/>
             }
           </div>
         ) : props.id === '1' ? (
