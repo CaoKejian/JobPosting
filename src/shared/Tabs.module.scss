@@ -1,7 +1,10 @@
 .tabs{
   position: relative;
-  width: 70%;
+  .content{
+    width: 100%;
+  }
   &_nav{
+    width: 70%;
     display: flex;
     justify-content: space-between;
     text-align: center;

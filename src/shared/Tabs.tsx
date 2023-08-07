@@ -30,7 +30,7 @@ export const Tabs = defineComponent({
               {item.props?.name}</li>)}
         </ol>
         {props.rerenderOnSelect ?
-          <div key={props.selected}>
+          <div key={props.selected} class={s.content}>
             {array.find(item=>item.props?.value === props.selected)}
           </div>:
           <div>
