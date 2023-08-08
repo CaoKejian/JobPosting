@@ -11,7 +11,7 @@ export const StatisList = defineComponent({
     }
   },
   setup: (props, context) => {
-    const active = ref<number>(0);
+    const active = ref<number>(1);
     const workNumber = ref<number>(0)
     const isShowDom = ref<boolean>(false)
     const formData = reactive({
@@ -60,9 +60,15 @@ export const StatisList = defineComponent({
                     <div class={s.steps}>
                       <van-steps active={active.value} style={{ background: '#d1daf5' }} active-icon="success" active-color='#386b78'>
                         <van-step>已提交</van-step>
+                        <van-step>等候批改</van-step>
                         <van-step>老师点评</van-step>
-                        <van-step>评分</van-step>
-                      </van-steps>
+                      </van-steps> 
+                      <p>作业分支</p>
+                      <p>提交文档：abc.doc 点击下载</p>
+                      <p>提交时间</p>
+                      <p>是否优秀</p>
+                      <p>老师评语</p>
+                      <p>最终得分</p>
                     </div> : <div class={s.steps}></div>
                 }</> : <Loading visible={isShowDom.value}/>
             }
