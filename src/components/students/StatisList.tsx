@@ -5,7 +5,7 @@ import { http } from '../../shared/Http';
 import { Work } from '../../vite-env';
 import { Loading } from '../../shared/Loading';
 import { Button } from '../../shared/Button';
-import { Time, mTime } from '../../shared/Time';
+import { Time } from '../../shared/Time';
 export const StatisList = defineComponent({
   props: {
     id: {
@@ -61,7 +61,7 @@ export const StatisList = defineComponent({
                   ></FormItem>
                 </Form>
                 {
-                  !formData.branch ?
+                  formData.branch ?
                     <div class={s.steps}>
                       <van-steps active={active.value} style={{ background: '#d1daf5' }} active-icon="success" active-color='#386b78'>
                         <van-step>已提交</van-step>
@@ -70,7 +70,7 @@ export const StatisList = defineComponent({
                       </van-steps>
                       <div class={s.homework}>
                         <div class={s.head}>
-                          <p class={s.time}>{mTime(workObj.value?.time||0)}</p>
+                          <p class={s.time}>{Time(workObj.value?.time||0,'YY-MM-SS')}</p>
                           <p class={s.name}>{workObj.value?.branch}</p>
                           <p class={s.score}>{workObj.value?.score}</p>
                         </div>
