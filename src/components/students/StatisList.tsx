@@ -4,6 +4,8 @@ import { Form, FormItem } from '../../shared/Form';
 import { http } from '../../shared/Http';
 import { Work } from '../../vite-env';
 import { Loading } from '../../shared/Loading';
+import { Button } from '../../shared/Button';
+import { Time, mTime } from '../../shared/Time';
 export const StatisList = defineComponent({
   props: {
     id: {
@@ -17,6 +19,7 @@ export const StatisList = defineComponent({
     const formData = reactive({
       branch: ''
     })
+    const workObj = ref<Work>()
     const branchArr = ref<{ value: string, text: string }[]>([])
     watch(() => formData.branch, (newValue) => {
       console.log(newValue);
@@ -35,6 +38,8 @@ export const StatisList = defineComponent({
           objItem.text = item.branch
           branchArr.value.push(objItem)
         })
+        workObj.value = data.data[0]
+        console.log(workObj.value);
         isShowDom.value = true
       } catch (error) {
       }
@@ -56,21 +61,38 @@ export const StatisList = defineComponent({
                   ></FormItem>
                 </Form>
                 {
-                  formData.branch ?
+                  !formData.branch ?
                     <div class={s.steps}>
                       <van-steps active={active.value} style={{ background: '#d1daf5' }} active-icon="success" active-color='#386b78'>
                         <van-step>已提交</van-step>
                         <van-step>等候批改</van-step>
                         <van-step>老师点评</van-step>
-                      </van-steps> 
-                      <p>作业分支</p>
-                      <p>提交文档：abc.doc 点击下载</p>
-                      <p>提交时间</p>
-                      <p>是否优秀</p>
-                      <p>老师评语</p>
-                      <p>最终得分</p>
+                      </van-steps>
+                      <div class={s.homework}>
+                        <div class={s.head}>
+                          <p class={s.time}>{mTime(workObj.value?.time||0)}</p>
+                          <p class={s.name}>{workObj.value?.branch}</p>
+                          <p class={s.score}>{workObj.value?.score}</p>
+                        </div>
+                        <div class={s.body}>
+                          <div>
+                            <p>老师评语:</p>
+                            <div class={s.tComments}>{workObj.value?.tComments || '暂无'}</div>
+                          </div>
+                        </div>
+                        <div class={s.foot}>
+                          <p class={s.file}>
+                            <span>文件：{workObj.value?.file.fileName}</span>
+                          </p>
+                          {workObj.value?.favor ?
+                            <img class={s.good} src="/src/assets/img/award.png" alt="" />
+                            : null
+                          }
+                        </div>
+                        <Button>点击下载</Button>
+                      </div>
                     </div> : <div class={s.steps}></div>
-                }</> : <Loading visible={isShowDom.value}/>
+                }</> : <Loading visible={isShowDom.value} />
             }
           </div>
         ) : props.id === '1' ? (
