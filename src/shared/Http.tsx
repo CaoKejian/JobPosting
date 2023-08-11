@@ -40,8 +40,14 @@ export class Http {
     return this.instance.request<R>({ ...config, url: url, params: query, method: 'delete' })
   }
 }
+function isDev() {
+  if (location.hostname !== 'localhost'
+    && location.hostname !== '127.0.0.1'
+    && location.hostname !== '192.168.3.57') { return false }
+  return true
+}
+export const http = new Http(isDev() ? '/api' : 'http://43.139.142.203:3000/api')
 
-export const http = new Http('/api')
 
 http.instance.interceptors.request.use(config => {
   const jwt = localStorage.getItem('jwt')
