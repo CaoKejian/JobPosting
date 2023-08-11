@@ -10,7 +10,10 @@ id:班级 {
       }   
     }
 }
-
+> 自动化上传COS命令
+```bash
+bin/coscli-mac cp -r dist/ cos://jobpost-1314966552
+```
 ## 学生作业统计 p3
   ![Alt text](image.png)
   ![Alt text](image-1.png)
