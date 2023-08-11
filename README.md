@@ -15,11 +15,8 @@ id:班级 {
 bin/coscli-mac cp -r dist/ cos://jobpost-1314966552
 ```
 ## 学生作业统计 p3
-  ![Alt text](image.png)
-  ![Alt text](image-1.png)
 ## 学生作业详情 p0
   搜索框、我参与的、别人的提交
-  ![Alt text](image-2.png)
 ## 学生作业提交 p1 
   浮动按钮、详情页按钮（点击提交）
 ## 学生作业下载 p4
