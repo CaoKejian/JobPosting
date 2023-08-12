@@ -12,10 +12,13 @@ import { Rules, hasError, validate } from '../../shared/Validate';
 import axios from 'axios';
 import { useRoute, useRouter } from 'vue-router';
 import { classMap } from '../../config/NameMap';
+import { Work } from '../../vite-env';
+import { Loading } from '../../shared/Loading';
 
 export const HandWork = defineComponent({
   setup: (props, context) => {
     const className = ref<string>('')
+    const isReady = ref<boolean>(false)
     const subjectArr = ref([
       { value: 'a', text: '数据挖掘' },
       { value: 'b', text: 'React' },
@@ -56,13 +59,29 @@ export const HandWork = defineComponent({
         message: '不能修改班级码',
       });
     }
+    const fetchUploadWork = async (id: string) => {
+      try {
+        const response = await http.get<Work>('/work/upload/work', { id }, { _autoLoading: true })
+        console.log(response)
+        const data = response.data
+        formData.subject = data.subject
+        formData.branch = data.branch
+        isReady.value = true
+      } catch (error) {
+        console.log(error)
+      }
+    }
     onMounted(() => {
       formData.id = Array.isArray(route.params.id) ? route.params.id.join('') : route.params.id
+      if (formData.id !== 'submit') {
+        fetchUploadWork(formData.id)
+      }
       const info = JSON.parse(localStorage.getItem('info') as string)
       formData.stuId = info.stuId
       const classId = Number(localStorage.getItem('classID'))
       formData.classId = classId
       className.value = classMap[classId] ? classMap[classId] : String(classId)
+      isReady.value = true
     })
     watch(() => formData.subject, (newValue, oldValue) => {
     })
@@ -137,39 +156,43 @@ export const HandWork = defineComponent({
           icon: () => <BackIcon svg='menu' onClick={() => isShowVisible.value = true} />,
           title: () => '提交作业',
           default: () => <div>
-            <Form onSubmit={onSubmit}>
-              <FormItem label='班级' type='text' v-model={className.value}
-                onClick={toast}
-                InputDisabled={true}
-                error={errors.classId?.[0] ?? '　'}
-              ></FormItem>
-              <FormItem label='学科' type='select'
-                options={subjectArr.value}
-                v-model={formData.subject}
-                error={errors.subject?.[0] ?? '　'}
-              >
-              </FormItem>
-              <FormItem label='作业分支' type='select'
-                options={branchArr.value} v-model={formData.branch}
-                error={errors.branch?.[0] ?? '　'}
-              ></FormItem>
-              <div class={s.upload}>
-                <span class={s.title}>上传作业</span>
-                <van-uploader
-                  after-read={afterRead}
-                  v-model={fileList.value}
-                  max-count={1}
-                  deletable={true}
-                  accept=".doc,.docx,.pdf,.ppt,.pptx,.xlsx,.xls,.jpg,.png,.jpeg"
-                />
-              </div>
-              <div class={s.button}>
-                <Button type='submit'>提交</Button>
-              </div>
-            </Form>
-            {isShowVisible.value ?
-              <MenuBar style={s.overlay} onClose={() => isShowVisible.value = false} /> :
-              null
+            {isReady.value ?
+              <Form onSubmit={onSubmit}>
+                <FormItem label='班级' type='text' v-model={className.value}
+                  onClick={toast}
+                  InputDisabled={true}
+                  error={errors.classId?.[0] ?? '　'}
+                ></FormItem>
+                <FormItem label='学科' type='select'
+                  options={subjectArr.value}
+                  v-model={formData.subject}
+                  error={errors.subject?.[0] ?? '　'}
+                >
+                </FormItem>
+                <FormItem label='作业分支' type='select'
+                  options={branchArr.value} v-model={formData.branch}
+                  error={errors.branch?.[0] ?? '　'}
+                ></FormItem>
+                <div class={s.upload}>
+                  <span class={s.title}>上传作业</span>
+                  <van-uploader
+                    after-read={afterRead}
+                    v-model={fileList.value}
+                    max-count={1}
+                    deletable={true}
+                    accept=".doc,.docx,.pdf,.ppt,.pptx,.xlsx,.xls,.jpg,.png,.jpeg"
+                  />
+                </div>
+                <div class={s.button}>
+                  <Button type='submit'>提交</Button>
+                </div>
+              </Form> :
+              <Loading visible={isReady.value} />
+            }
+            {
+              isShowVisible.value ?
+                <MenuBar onClose={() => isShowVisible.value = false} /> :
+                null
             }
           </div>
         }

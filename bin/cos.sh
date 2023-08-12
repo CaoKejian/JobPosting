@@ -8,6 +8,9 @@ function title {
 }
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
+title "正在打包"
+npm run build
+echo "${YELLOW}打包完成"
 title "正在上传"
 bin/coscli-mac cp -r dist/ cos://jobpost-1314966552
 

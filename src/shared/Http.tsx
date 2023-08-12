@@ -43,11 +43,12 @@ export class Http {
 function isDev() {
   if (location.hostname !== 'localhost'
     && location.hostname !== '127.0.0.1'
-    && location.hostname !== '192.168.3.57') { return false }
+    && location.hostname !== '192.168.3.126') { return false }
   return true
 }
 export const http = new Http(isDev() ? '/api' : 'http://43.139.142.203:3000/api')
-
+/* 未发布时暂时手动切换 */
+// export const http = new Http(isDev() ? 'http://43.139.142.203:3000/api' : '/api')
 
 http.instance.interceptors.request.use(config => {
   const jwt = localStorage.getItem('jwt')

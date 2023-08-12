@@ -69,7 +69,7 @@ export const MenuBar = defineComponent({
                     </RouterLink>
                   </li>
                   <li>
-                    <RouterLink to="/student/1/handwork">
+                    <RouterLink to="/student/submit/handwork">
                       <svg class={s.icon}><use xlinkHref='#homesubmit'></use></svg>
                       <span onClick={() => onClick(2)}>作业提交</span>
                     </RouterLink>
