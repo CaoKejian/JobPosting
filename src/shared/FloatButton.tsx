@@ -11,7 +11,7 @@ export const FloatButton = defineComponent({
     const router = useRouter()
     const onclick = () => {
       const info = JSON.parse(localStorage.getItem('info') as string)
-      router.push(`/student/1/handWork`)
+      router.push(`/student/submit/handWork`)
     }
     return () => (
       <div class={s.wrapper} onClick={onclick}>
