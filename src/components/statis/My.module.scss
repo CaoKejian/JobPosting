@@ -1,0 +1,103 @@
+.content{
+  margin: 2rem 0;
+  width: 100%;
+  font-size: 1rem;
+  color: var(--font-color-light);
+  >Form{
+    padding: 0.5rem 0;
+    margin-bottom: 8px;
+  }
+  .steps{
+    min-height: 5rem;
+    margin: 2rem 0;
+  }
+}
+.homework{
+  margin: 1rem 0;
+  width: 100%;
+  background: #fff;
+  border-radius: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  >button{
+    margin: 1rem;
+  }
+  .head{
+    display: flex;
+    padding: 0.5rem;
+    align-items: center;
+    .time{
+      font-size: 0.8rem;
+      transform: translateY(-0.8rem);
+    }
+    .name{
+      font-size: 1.2rem;
+      flex: 1;
+      text-align: center;
+      color: var(--theme-font-color);
+    }
+    .score{
+      width: 3rem;
+      font-size: 2rem;
+      margin-right: 6px;
+      text-align: center;
+      color: var(--score-font-color);
+      &::after{
+        content: '';
+        display: block;
+        height: 2px;
+        background: var(--error-color);
+        width: 40%;
+        border-radius: 2px;
+        transform:rotate(-15deg) translate(1rem,0.4rem);
+      }
+      &::before{
+        content: '';
+        display: block;
+        height: 3px;
+        border-radius: 2px;
+        background: var(--error-color);
+        width: 100%;
+        transform: translateY(3rem) rotate(-20deg);
+      }
+    }
+  }
+  .body{
+    width: 92%;
+    max-width: 100%;
+    height: auto;
+    flex: 1;
+    margin: 2rem auto;
+    white-space: normal; 
+    word-wrap: break-word;
+    p{
+      margin-bottom: 0.5rem;
+      color: var(--theme-font-color);
+    }
+    .tComments{
+      text-indent: 1rem;
+    }
+  }
+  .foot{
+    display: flex;
+    height: 4rem;
+    width: 92%;
+    margin: 0 auto;
+    margin-bottom: 0.5rem;
+    justify-content: space-between;
+    align-items:center;
+    .file{
+      max-width: 12rem;
+      overflow: hidden;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .good{
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: 50%;
+    }
+  }
+}
