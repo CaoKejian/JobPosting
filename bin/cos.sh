@@ -11,6 +11,10 @@ YELLOW='\033[0;33m'
 title "正在打包"
 npm run build
 echo "${YELLOW}打包完成"
+
+title "删除远端文件"
+bin/coscli-mac rm -f cos://jobpost-1314966552/ -r
+
 title "正在上传"
 bin/coscli-mac cp -r dist/ cos://jobpost-1314966552
 

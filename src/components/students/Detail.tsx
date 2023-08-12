@@ -14,6 +14,7 @@ import { Toast } from 'vant';
 import { Time } from '../../shared/Time';
 import { stuIdMapFunction } from '../../config/NameMap';
 import axios from 'axios';
+import { getAssetsFile } from '../../config/imgUtil';
 
 export const Detail = defineComponent({
   setup: (props, context) => {
@@ -158,9 +159,9 @@ export const Detail = defineComponent({
                   <svg onClick={() => gotoView(1)} class={s.svg}><use xlinkHref='#go'></use></svg>
                 </div>
                   {
-                    myArr.value.length===0 ? (
+                    myArr.value.length ===0 ? (
                       <div class={s.emptyBox}>
-                        <img class={s.empty} src="/src/assets/img/empty.png" alt="" />
+                        <img class={s.empty} src={`${getAssetsFile('empty.png')}`} alt="" />
                         <span>空空哒~</span>
                       </div>):
                       <van-swipe class="my-swipe" autoplay={30000} indicator-color="white">
@@ -170,7 +171,7 @@ export const Detail = defineComponent({
                             <van-swipe-item>
                               <div class={s.box}>
                                 <div class={s.infoF}>
-                                  <img src="/src/assets/img/author.png" alt="" />
+                                  <img src={`${getAssetsFile('author.png')}`} alt="" />
                                   <span class={s.name}>{item.stuId}</span> 
                                   <span class={s.time}></span>
                                   <Button onClick={() => cancel(item._id)}>取消提交</Button> 
@@ -201,14 +202,14 @@ export const Detail = defineComponent({
                 {
                 otherArr.value.length ===0 ? (
                       <div class={s.emptyBox}>
-                        <img class={s.empty} src="/src/assets/img/empty.png" alt="" />
+                        <img class={s.empty} src={`${getAssetsFile('empty.png')}`} alt="" />
                         <span>空空哒~, <span class={s.refresh} onClick={()=> isShowVisible.value = true}>点击重新请求</span></span>
                       </div>):(
                         otherArr.value.map((item,index) => {
                           return <div class={[s.box,s.box1]}>
                           <div class={s.infoF}>
                             {index + 1}. 
-                            <img src="/src/assets/img/author.png" alt="我" />
+                            <img src={`${getAssetsFile('author.png')}`}  alt="我" />
                             <span class={s.name}>{stuIdMapFunction(item.stuId)}</span> <span class={s.time}>{Time(item.time)}</span>
                             <Button onClick={() => gotoView(item._id)}>查看</Button> 
                           </div>
@@ -219,7 +220,7 @@ export const Detail = defineComponent({
                               <div class={s.info}><div class={s.type}>学科</div><span>{item.subject}</span></div>
                             </div>
                             <div class={s.right}>
-                                <img src="/src/assets/img/award.png" alt="" />
+                                <img src={`${getAssetsFile('award.png')}`}  alt="" />
                                 <span class={s.award}>优秀奖</span>
                             </div>
                           </div>

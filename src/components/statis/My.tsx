@@ -5,7 +5,9 @@ import { Time } from '../../shared/Time';
 import { Button } from '../../shared/Button';
 import { Loading } from '../../shared/Loading';
 import { Work } from '../../vite-env';
+import { getAssetsFile } from '../../config/imgUtil';
 import { http } from '../../shared/Http';
+
 export const My = defineComponent({
   props: {
     name: {
@@ -80,7 +82,7 @@ export const My = defineComponent({
                       <span>文件：{workObj.value?.file.fileName}</span>
                     </p>
                     {workObj.value?.favor ?
-                      <img class={s.good} src="/src/assets/img/award.png" alt="" />
+                      <img class={s.good}  src={`${getAssetsFile('award.png')}`} alt="" />
                       : null
                     }
                   </div>
