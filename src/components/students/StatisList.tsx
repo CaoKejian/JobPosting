@@ -1,6 +1,6 @@
 import { PropType, defineComponent, onMounted, reactive, ref, watch } from 'vue';
 import s from './StatisList.module.scss';
-import { My } from '../statis/My';
+import { MyItem } from '../statis/MyItem';
 import { Class } from '../statis/Class';
 export const StatisList = defineComponent({
   props: {
@@ -15,7 +15,7 @@ export const StatisList = defineComponent({
     return () => (<div class={s.wrapper}>
       {
         props.id === '0' ? (
-          <My />
+          <MyItem />
         ) : props.id === '1' ? (
           <Class />
         ) : props.id === '2' ? (
