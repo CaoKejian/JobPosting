@@ -9,6 +9,7 @@ export const PeopleShow = defineComponent({
     }
   },
   setup: (props, context) => {
+    console.log(props.array)
     return () => (<div class={s.fake}>
       {props.array.map(item => {
         return <span class={s.item} key={item.stuId}>

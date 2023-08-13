@@ -28,7 +28,6 @@ export const My = defineComponent({
         const data = await http.get<Work[]>('/work/mywork', {
           stuId: id,
         }, { _autoLoading: true })
-        console.log(data);
         workNumber.value = data.data.length
         const obj = data.data
         obj.map((item) => {

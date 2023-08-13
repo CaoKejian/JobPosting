@@ -3,6 +3,7 @@ import s from './Class.module.scss';
 import { Form, FormItem } from '../../shared/Form';
 import { PeopleShow } from '../../shared/PeopleShow';
 import { http } from '../../shared/Http';
+import { Work } from '../../vite-env';
 export const Class = defineComponent({
   props: {
     name: {
@@ -12,17 +13,41 @@ export const Class = defineComponent({
   setup: (props, context) => {
     const branchArr = ref<{ value: string, text: string }[]>([])
     const workNumber = ref<number>(0)
+    const page = ref<number>(1)
     const formData = reactive({
       branch: ''
     })
     const classSubmitArr = ref<{ stuId: number, classId: number }[]>([])
-    onMounted(() => {
-      const classId = localStorage.getItem('classID') || 0
-      http.get('/class',{classId},{_autoLoading:true})
-      classSubmitArr.value = [
-        { stuId: 2001063037, classId: 123123},
-        { stuId: 2001062028, classId: 123123},
-      ]
+    const fetchClassPeople = async (classId: number) => {
+      try {
+        const data = await http.get<{ stuId: number, classId: number }[]>('/class', { classId }, { _autoLoading: true })
+        classSubmitArr.value = data.data
+      } catch (error) {
+        classSubmitArr.value = []
+      }
+    }
+    const fetchClassBranch = async (classId: number) => {
+      try {
+        const data = await http.get<any>('/work', {
+          classId,
+          page: page.value
+        }, { _autoLoading: true })
+        const obj = data.data.data
+        obj.map((item: Work) => {
+          const objItem: { value: string, text: string } = { value: '', text: '' }
+          objItem.value = item.subject
+          objItem.text = item.branch
+          branchArr.value.push(objItem)
+        })
+        branchArr.value 
+      } catch (error) {
+
+      }
+    }
+    onMounted(async () => {
+      const classId = Number(localStorage.getItem('classID')) || 0
+      fetchClassBranch(classId)
+      fetchClassPeople(classId)
     })
     return () => (
       <div class={s.content}>
