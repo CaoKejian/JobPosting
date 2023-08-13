@@ -27,7 +27,6 @@ export const MyItem = defineComponent({
       branch: ''
     })
     watch(() => formData.branch, async (newValue) => {
-      console.log(newValue)
       const res = await http.get<Work>('/work/one', {
         stuId: stuId.value,
         branch: newValue

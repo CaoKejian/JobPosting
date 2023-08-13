@@ -46,6 +46,30 @@ export const Class = defineComponent({
             options={branchArr.value} v-model={formData.branch}
           ></FormItem>
         </Form>
+        <p>作业详情：</p>
+        <div class={s.detail}>
+          <div class={s.left}>
+            <div class={s.box}>
+              <span>作业分支</span>
+              <span>组件 （所属：React）</span>
+            </div>
+            <div class={s.box}>
+              <span>截止时间</span>
+              <span>2023/09/12</span>
+            </div>
+            <div class={s.box}>
+              <span>作业描述</span>
+              <span>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+            </div>
+          </div>
+          <div class={s.right}>
+            <div class={s.box}>
+              <span>发布者</span>
+              <span>xxx</span>
+            </div>
+          </div>
+
+        </div>
         <p>全班提交情况:</p>
         <PeopleShow array={classSubmitArr.value} />
       </div>
