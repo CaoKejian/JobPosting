@@ -130,7 +130,7 @@ export const HandWork = defineComponent({
           classId: '123123'
         })
         try {
-          if (formData.id !== '') {
+          if (formData.id !== '' && formData.id !== 'submit') {
             await http.post('/work/upload', formData, { _autoLoading: true })
           } else {
             await http.post('/work/submit', { formData }, {
