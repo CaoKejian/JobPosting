@@ -28,20 +28,9 @@ export const Class = defineComponent({
     }
     const fetchClassBranch = async (classId: number) => {
       try {
-        const data = await http.get<any>('/work', {
-          classId,
-          page: page.value
-        }, { _autoLoading: true })
-        const obj = data.data.data
-        obj.map((item: Work) => {
-          const objItem: { value: string, text: string } = { value: '', text: '' }
-          objItem.value = item.subject
-          objItem.text = item.branch
-          branchArr.value.push(objItem)
-        })
-        branchArr.value 
+        console.log('发送班级作业信息总分支请求')
       } catch (error) {
-
+        console.log(error)
       }
     }
     onMounted(async () => {
