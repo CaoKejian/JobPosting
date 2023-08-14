@@ -128,8 +128,8 @@ export const Login = defineComponent({
                 ></FormItem>
                 <FormItem style={{ paddingTop: '28px' }}>
                   <div class={s.submit}>
-                    <Button type='submit'>登录</Button>
                     <Button type='button' onClick={() => gotoInfo()}>免邮登录</Button>
+                    <Button type='submit'>登录</Button>
                   </div>
                 </FormItem>
               </Form>

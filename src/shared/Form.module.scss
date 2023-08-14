@@ -56,7 +56,12 @@
 }
 .validationcodeButton{
   margin-left: 16px;
-  font-size: 1.12rem;
+  font-size: 1.0rem;
+}
+@media (max-width: 360px) {
+  .validationcodeButton {
+    font-size: 12px;
+  }
 }
 .forItem_span{
   color: var(--error-color);
