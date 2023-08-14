@@ -74,7 +74,9 @@ export const DownLoads = defineComponent({
       e.preventDefault()
       try {
         for (const file of downloadsInfo.value) {
+          console.log(file)
           await DownLoadInfo(file.file);
+          await new Promise(resolve => setTimeout(resolve, 1000))
         }
         console.log('全部文件下载完成');
       } catch (error) {

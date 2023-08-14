@@ -3,10 +3,7 @@ import s from './LineChart.module.scss';
 import * as echarts from 'echarts';
 
 let axisData = ['大数据', '智能', '计科', '软工', '互联网']
-let seriesData = [6647, 7473, 8190, 8488, 9491]
 let topLableSize = 14
-let barWidth = 18
-
 export const LineChart = defineComponent({
   props: {
     data: {
