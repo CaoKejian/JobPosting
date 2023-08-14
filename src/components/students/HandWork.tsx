@@ -89,7 +89,7 @@ export const HandWork = defineComponent({
       let formDataFile = new FormData();
       formDataFile.append('file', file.file); // 上传的文件在 file 对象的 file 属性中
       // 发送文件上传请求到后端
-      axios.post('http://localhost:3000/api/upload/file', formDataFile, {
+      http.post('/upload/file', formDataFile, {
         _autoLoading: true
       }).then((response: any) => {
         Toast({

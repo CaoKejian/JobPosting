@@ -51,21 +51,21 @@ export const http = new Http(isDev() ? '/api' : 'http://43.139.142.203:3000/api'
 // export const http = new Http(isDev() ? 'http://43.139.142.203:3000/api' : '/api')
 
 http.instance.interceptors.request.use(config => {
-  const jwt = localStorage.getItem('jwt')
-  if (jwt) {
-    config.headers!.Authorization = `Bearer ${jwt}`
-  }
-  if (config._autoLoading === true) {
-    Toast.loading({
-      message: '加载中...',
-      forbidClick: true,
-    });
-  }
-  return config
-})
+    const jwt = localStorage.getItem('jwt')
+    if (jwt) {
+      config.headers!.Authorization = `Bearer ${jwt}`
+    }
+    if (config._autoLoading === true) {
+      Toast.loading({
+        message: '加载中...',
+        forbidClick: true,
+      });
+    }
+    return config
+  })
 http.instance.interceptors.response.use((response) => {
   const jwt = (response.headers.authorization as string)?.split(' ')[1]
-  jwt && localStorage.setItem('jwt',jwt)
+  jwt && localStorage.setItem('jwt', jwt)
   if (response.config._autoLoading === true) {
     Toast.clear();
   }

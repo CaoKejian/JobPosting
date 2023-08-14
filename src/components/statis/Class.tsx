@@ -4,6 +4,7 @@ import { Form, FormItem } from '../../shared/Form';
 import { PeopleShow } from '../../shared/PeopleShow';
 import { http } from '../../shared/Http';
 import { Work } from '../../vite-env';
+import { getAssetsFile } from '../../config/imgUtil';
 export const Class = defineComponent({
   props: {
     name: {
@@ -13,7 +14,6 @@ export const Class = defineComponent({
   setup: (props, context) => {
     const branchArr = ref<{ value: string, text: string }[]>([])
     const workNumber = ref<number>(0)
-    const page = ref<number>(1)
     const formData = reactive({
       branch: ''
     })
@@ -47,29 +47,34 @@ export const Class = defineComponent({
           ></FormItem>
         </Form>
         <p>作业详情：</p>
-        <div class={s.detail}>
-          <div class={s.left}>
-            <div class={s.box}>
-              <span>作业分支</span>
-              <span>组件 （所属：React）</span>
+        {
+          formData.branch !== '' ?
+            <div class={s.detail}>
+              <div class={s.left}>
+                <div class={s.box}>
+                  <span>作业分支</span>
+                  <span>组件 （所属：React）</span>
+                </div>
+                <div class={s.box}>
+                  <span>截止时间</span>
+                  <span>2023/09/12</span>
+                </div>
+                <div class={s.box}>
+                  <span>作业描述</span>
+                  <span>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                </div>
+              </div>
+              <div class={s.right}>
+                <div class={s.box}>
+                  <span>发布者</span>
+                  <span>xxx</span>
+                </div>
+              </div>
+            </div> : 
+            <div class={s.empty}>
+              <img src={`${getAssetsFile('empty.png')}`} alt="" />
             </div>
-            <div class={s.box}>
-              <span>截止时间</span>
-              <span>2023/09/12</span>
-            </div>
-            <div class={s.box}>
-              <span>作业描述</span>
-              <span>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
-            </div>
-          </div>
-          <div class={s.right}>
-            <div class={s.box}>
-              <span>发布者</span>
-              <span>xxx</span>
-            </div>
-          </div>
-
-        </div>
+        }
         <p>全班提交情况:</p>
         <PeopleShow array={classSubmitArr.value} />
       </div>
