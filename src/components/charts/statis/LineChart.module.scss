@@ -1,5 +1,14 @@
 .chart{
   width: 100%;
   height: 260px;
+  background: var(--chart-bg);
   margin-top: 1rem;
+  border-radius: 1rem;
+}
+.piechart{
+  width: 100%;
+  height: 380px;
+  background: var(--chart-bg);
+  margin-top: 1rem;
+  border-radius: 1rem;
 }

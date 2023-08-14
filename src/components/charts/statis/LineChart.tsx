@@ -43,7 +43,7 @@ export const LineChart = defineComponent({
       chart?.setOption({
         backgroundColor: '#fff',
         grid: {
-          left: '2%',
+          left: '4%',
           top: '2%',
           right: '0%',
           bottom: '0%',
