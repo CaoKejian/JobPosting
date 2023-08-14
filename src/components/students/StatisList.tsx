@@ -2,6 +2,7 @@ import { PropType, defineComponent, onMounted, reactive, ref, watch } from 'vue'
 import s from './StatisList.module.scss';
 import { MyItem } from '../statis/MyItem';
 import { Class } from '../statis/Class';
+import { AllSchool } from '../statis/AllScholl';
 export const StatisList = defineComponent({
   props: {
     id: {
@@ -19,7 +20,7 @@ export const StatisList = defineComponent({
         ) : props.id === '1' ? (
           <Class />
         ) : props.id === '2' ? (
-          <div>呵呵</div>
+          <AllSchool />
         ) : props.id === '3' ? (
           <div>你好</div>
         ) : null
