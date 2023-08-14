@@ -76,7 +76,14 @@ export const Class = defineComponent({
             </div>
         }
         <p>全班提交情况:</p>
-        <PeopleShow array={classSubmitArr.value} />
+        {
+          formData.branch !== '' ?
+          <PeopleShow array={classSubmitArr.value} />
+          :
+          <div class={s.empty}>
+              <img src={`${getAssetsFile('empty.png')}`} alt="" />
+            </div>
+        }
       </div>
     )
   }
