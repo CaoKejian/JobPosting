@@ -2,20 +2,24 @@ import { PropType, defineComponent, onMounted, ref, watch, watchEffect } from 'v
 import s from './LineChart.module.scss';
 import * as echarts from 'echarts';
 
-let axisData = ['大数据', '智能', '计科', '软工', '互联网']
 let topLableSize = 14
 export const LineChart = defineComponent({
   props: {
     data: {
-      type: Array as PropType<any>
+      type: Array as PropType<number[]>,
+      default:[0,0,0,0,0]
+    },
+    axisData:{
+      type: Array as PropType<string[]>,
+      default:['大数据', '智能', '计科', '软工', '互联网']
     }
   },
   setup: (props, context) => {
-    const seriesData = ref<number[]>([6647, 7473, 8190, 8488, 9491])
+    const seriesData = ref<number[]>([0,0,0,0,0])
     onMounted(async () => {
       if (refDiv.value === undefined) { return }
       chart = echarts.init(refDiv.value)
-      updateChart(seriesData.value)
+      updateChart(props.data)
       randomData()
     })
     const randomData = () => {
@@ -31,7 +35,6 @@ export const LineChart = defineComponent({
           }]
         });
       }, 2000);
-
       return () => {
         clearInterval(intervalId);
       };
@@ -81,7 +84,7 @@ export const LineChart = defineComponent({
               }
             }
           },
-          data: axisData
+          data: props.axisData
         }, {
           inverse: true,
           axisTick: 'none',
