@@ -1,4 +1,4 @@
-import { PropType, defineComponent, onMounted, ref, watch } from 'vue';
+import { PropType, defineComponent, onMounted, ref, watch, watchEffect } from 'vue';
 import s from './LineChart.module.scss';
 import * as echarts from 'echarts';
 
@@ -24,16 +24,21 @@ export const LineChart = defineComponent({
     const randomData = () => {
       seriesData.value = seriesData.value.map(() => Math.floor(Math.random() * 10000));
     }
-    watch(() => seriesData.value, () => {
-      setInterval(() => {
-        randomData()
+    watchEffect(() => {
+      console.log(1)
+      const intervalId = setInterval(() => {
+        randomData();
         chart?.setOption({
           series: [{
             data: seriesData.value
           }]
         });
-      },2000)
-    })
+      }, 2000);
+
+      return () => {
+        clearInterval(intervalId);
+      };
+    });
     const updateChart = (data: number[]) => {
       chart?.setOption({
         backgroundColor: '#fff',
