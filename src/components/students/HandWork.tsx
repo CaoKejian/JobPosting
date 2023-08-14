@@ -83,7 +83,8 @@ export const HandWork = defineComponent({
       className.value = classMap[classId] ? classMap[classId] : String(classId)
       isReady.value = true
     })
-    watch(() => formData.subject, (newValue, oldValue) => {
+    watch(() => formData.branch, (newValue, oldValue) => {
+      console.log(newValue)
     })
     const afterRead = (file: any) => {
       let formDataFile = new FormData();
@@ -183,6 +184,14 @@ export const HandWork = defineComponent({
                     accept=".doc,.docx,.pdf,.ppt,.pptx,.xlsx,.xls,.jpg,.png,.jpeg"
                   />
                 </div>
+                {
+                  formData.branch !== '' ?
+                    <div class={s.info}>
+                      <span>发布者： <span class={s.main}>xxx</span></span>
+                      <span>作业描述:  <div class={s.main}>xxxxxxxxxxxxxXxxxxxxxxxxxxxXxxxxxxxxxxxxxXxxxxxxxxxxxxxX</div></span>
+                    </div> : null
+                }
+
                 <div class={s.button}>
                   <Button type='submit'>提交</Button>
                 </div>
