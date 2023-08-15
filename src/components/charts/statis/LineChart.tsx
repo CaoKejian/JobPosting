@@ -26,7 +26,6 @@ export const LineChart = defineComponent({
       seriesData.value = seriesData.value.map(() => Math.floor(Math.random() * 10000));
     }
     watchEffect(() => {
-      console.log(1)
       const intervalId = setInterval(() => {
         randomData();
         chart?.setOption({
