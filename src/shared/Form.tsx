@@ -42,6 +42,7 @@ export const FormItem = defineComponent({
     options: Array as PropType<Array<{ value: string, text: string }>>,
     px: String,
     onClick: Function as PropType<() => void>,
+    onSearch: Function as PropType<() => void>,
     countForm: {
       type: Number,
       default: 60
@@ -65,7 +66,6 @@ export const FormItem = defineComponent({
       }, 1000)
     }
     const onClick = () => {
-      console.log(111);
       props.onClick?.()
     }
     context.expose({
@@ -94,7 +94,7 @@ export const FormItem = defineComponent({
               value = {props.modelValue}
               onInput={(e: any) => context.emit('update:modelValue', e.target.value)} placeholder={props.placeholder}
             />
-            <Button onClick={props.onClick} class={s.searchButton}>搜索</Button>
+            <Button onClick={props.onSearch} class={s.searchButton}>搜索</Button>
           </div>
         case 'select':
           return <select class={[s.formItem, s.select]}

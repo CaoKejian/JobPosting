@@ -20,7 +20,7 @@ export const TabsLayout = defineComponent({
     }
   },
   setup: (props, context) => {
-    const refSelected = ref('全校的')
+    const refSelected = ref('自定义')
     const isBoolean = reactive({
       isShowMenu: false
     })

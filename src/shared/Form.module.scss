@@ -80,3 +80,12 @@
     width: 80%;
   }
 }
+.search{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  >button{
+    margin-left: 0.5rem;
+    width: 12rem;
+  }
+}

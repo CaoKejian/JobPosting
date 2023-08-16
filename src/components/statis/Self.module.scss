@@ -1,0 +1,36 @@
+.content{
+  font-size: 1rem;
+  >Form{
+    padding: 0;
+  }
+  .empty{
+    padding: 3rem 0;
+    display: flex;
+    align-items: center;
+    >img{
+      width: 16rem;
+      height: 16rem;
+      margin: 0 auto;
+    }
+  }
+  .list{
+    width: 100%;
+    background: var(--chart-bg);
+    border-radius: 0.4rem;
+    margin-top: 1rem;
+    padding: 1rem 0.5rem;
+    box-sizing: border-box;
+    .item{
+      .info{
+        color: var(--theme-font-color);
+        margin-right: 0.5rem;
+      }
+      .itemList{
+        .infoEmpty{
+          margin: 3rem 0;
+          text-align: center;
+        }
+      }
+    }
+  }
+}

@@ -3,6 +3,7 @@ import s from './StatisList.module.scss';
 import { MyItem } from '../statis/MyItem';
 import { Class } from '../statis/Class';
 import { AllSchool } from '../statis/AllScholl';
+import { Self } from '../statis/Self';
 export const StatisList = defineComponent({
   props: {
     id: {
@@ -22,7 +23,7 @@ export const StatisList = defineComponent({
         ) : props.id === '2' ? (
           <AllSchool />
         ) : props.id === '3' ? (
-          <div>你好</div>
+          <Self />
         ) : null
       }
     </div>
