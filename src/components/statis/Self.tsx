@@ -4,11 +4,12 @@ import { Form, FormItem } from '../../shared/Form';
 import { Toast } from 'vant';
 import { getAssetsFile } from '../../config/imgUtil';
 import { classMapFunction } from '../../config/NameMap';
+import { http } from '../../shared/Http';
 
 type formDataObj = {
   searchPeople: number | string
   isEmpty: boolean
-  searchInfo: { _id: number, name: string, stuId: number, classId: number, data:[] } | null
+  searchInfo: { _id: number, name: string, stuId: number, classId: number, data: [] } | null
 }
 export const Self = defineComponent({
   props: {
@@ -22,6 +23,21 @@ export const Self = defineComponent({
       isEmpty: true,
       searchInfo: null
     })
+    const fetchWork = async (stuId: number|string) => {
+      try {
+        const data = await http.get('/work/mywork', {
+          stuId,
+        }, { _autoLoading: true })
+        console.log(data)
+        Object.assign(formData, {
+          isEmpty: false,
+          searchInfo:
+            { _id: 22222, name: '曹珂俭', stuId: 2001063037, classId: 123123, data: [] },
+        })
+      }catch(err){
+        console.log(err)
+      }
+    }
     const onSearch = () => {
       if (!formData.searchPeople) {
         Toast({
@@ -29,12 +45,7 @@ export const Self = defineComponent({
         })
         return
       }
-      Object.assign(formData, {
-        isEmpty: false,
-        searchInfo: 
-          { _id: 22222, name: '曹珂俭', stuId: 2001063037, classId: 123123, data: [] },
-      })
-      console.log(formData)
+      fetchWork(formData.searchPeople)
     }
     return () => (
       <div class={s.content}>
@@ -51,17 +62,17 @@ export const Self = defineComponent({
             <div class={s.empty}>
               <img src={`${getAssetsFile('empty.png')}`} alt="" />
             </div> : <div class={s.list}>
-               <div class={s.item}>
+              <div class={s.item}>
                 <span class={s.info}>{formData.searchInfo?.name}-{formData.searchInfo?.stuId}-{classMapFunction(formData.searchInfo!.classId)}</span>
                 <span>请核验信息！</span>
                 <div class={s.itemList}>
                   {
-                    formData.searchInfo?.data.length !==0 ?
-                    formData.searchInfo?.data.map(item => {
-                      return <div key={item}>
-                        123
-                      </div>
-                    }) : <p class={s.infoEmpty}>暂无数据</p>
+                    formData.searchInfo?.data.length !== 0 ?
+                      formData.searchInfo?.data.map(item => {
+                        return <div key={item}>
+                          123
+                        </div>
+                      }) : <p class={s.infoEmpty}>暂无数据</p>
                   }
                 </div>
               </div>
