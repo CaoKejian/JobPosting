@@ -92,6 +92,7 @@ export const Login = defineComponent({
       if (!hasError(errors)) {
         modelVisible.value = true
         console.log('我已经免邮登录了')
+        return
         localStorage.setItem('stuId', formData.stuId)
         localStorage.setItem('skip', '1')
       } else {
@@ -101,6 +102,10 @@ export const Login = defineComponent({
     const changeModelValue =(value: number) => {
       modelValue.value = value
       if(modelValue.value!==0){
+        Toast({
+          message: '功能暂时关闭！'
+        })
+        return
         router.push('/student/detail')
       }
     }
