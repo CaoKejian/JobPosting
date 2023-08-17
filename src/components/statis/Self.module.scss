@@ -24,11 +24,42 @@
       .info{
         color: var(--theme-font-color);
         margin-right: 0.5rem;
+        font-size: 0.9rem;
       }
       .itemList{
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: column;
         .infoEmpty{
           margin: 3rem 0;
           text-align: center;
+        }
+        .workList{
+          font-size: 0.8rem;
+          .workItem{
+            display: flex;
+            margin: 0.8rem 0;
+            .index{
+              color: var(--work-index);
+            }
+            .workName{
+              width: 6rem;
+              max-width: 6rem;
+              margin-left: 0.2rem;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              color: var(--work-name);
+            }
+            >span{
+              font-style: italic;
+              flex: 1;
+              color: var(--work-name);
+            }
+            .time{
+              color: var(--work-time);
+            }
+          }
         }
       }
     }

@@ -16,7 +16,7 @@ export const stuIdMapFunction = (stuId:number) => {
   return  stuIdMap[Number(stuId)] ?  stuIdMap[Number(stuId)] : '未录入'
 }
 
-export const classMapFunction = (classId:number) => {
+export const classMapFunction = (classId?:number) => {
   return  classMap[Number(classId)] ? classMap[Number(classId)] : '未录入'
 
 }
