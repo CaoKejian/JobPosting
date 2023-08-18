@@ -66,6 +66,35 @@ export const PieChart = defineComponent({
           containLabel: true
         },
         backgroundColor: '#fff',
+        legend: {
+          show: true,
+          icon: "rect", //  这个字段控制形状  类型包括 circle，rect ，roundRect，triangle，diamond，pin，arrow，none
+          top: '8%',
+          right: "2%",
+          data: arrName,
+          itemWidth: 17,
+          itemHeight: 8,
+          padding: [0, 16],
+          itemGap: 10,
+          orient: 'vertical',
+          formatter: function (name: string) {
+              return "{title|" + name + "}{value|" + (objData[name].value) + "}{title|项}"
+          },
+          textStyle: {
+              rich: {
+                  title: {
+                      fontSize: 14,
+                      lineHeight: 25,
+                      color: "#000"
+                  },
+                  value: {
+                      fontSize: 14,
+                      lineHeight: 20,
+                      color: "#386b78"
+                  }
+              }
+          },
+      },
         tooltip: {
           show: true,
           trigger: "item",
@@ -103,7 +132,7 @@ export const PieChart = defineComponent({
           startAngle: -90 * i, //起始角度
           center: ["45%", "55%"],
           label: {
-            show: true,
+            show: false,
             lineHeight: 40,
             formatter: '{b}\n\n{d}%',
             padding: [50, -60, 25, -60],
@@ -148,6 +177,16 @@ export const PieChart = defineComponent({
       }
       return res;
     }
+    const array2obj = (array:any, key:any) => {
+      var resObj:any = {};
+      for (var i = 0; i < array.length; i++) {
+          resObj[array[i][key]] = array[i];
+      }
+      return resObj;
+  }
+  
+    const arrName = getArrayValue(dataSeries.value, "name");
+    const objData = array2obj(dataSeries.value, "name");//alert(JSON.stringify(objData))
     const arrValue = getArrayValue(dataSeries.value, "value");
     const sumValue = eval(arrValue.join('+'));
     const optionData = getData(dataSeries.value, sumValue);
