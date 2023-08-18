@@ -2,6 +2,7 @@ import { PropType, defineComponent, onMounted, ref } from 'vue';
 import s from './AllSchool.module.scss';
 import { LineChart } from '../charts/statis/LineChart';
 import { PieChart } from '../charts/statis/PieChart';
+import { Quote } from '../../shared/Quote';
 type dataObj = {
   name: string, value: number
 }
@@ -31,8 +32,9 @@ export const AllSchool = defineComponent({
     })
     return () => (
       <div class={s.content}>
-        <p>作业发布排名</p>
+        <p><Quote name={'作业发布排名：'}/></p>
         <LineChart data={LineData.value}/>
+        <p class={s.two}><Quote name={'前三名：'}/></p>
         <PieChart data={Piedata.value}/>
       </div>
     )

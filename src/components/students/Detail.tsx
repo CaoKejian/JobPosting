@@ -15,6 +15,7 @@ import { Time } from '../../shared/Time';
 import { stuIdMapFunction } from '../../config/NameMap';
 import axios from 'axios';
 import { getAssetsFile } from '../../config/imgUtil';
+import { Quote } from '../../shared/Quote';
 
 export const Detail = defineComponent({
   setup: (props, context) => {
@@ -154,7 +155,7 @@ export const Detail = defineComponent({
               </div>
               <div class={s.my}>
                 <div class={s.content}>
-                  <span>我参与的</span>
+                  <span><Quote name={'我参与的'}/></span>
                   <span onClick={() => gotoView(1)}>全部</span>
                   <svg onClick={() => gotoView(1)} class={s.svg}><use xlinkHref='#go'></use></svg>
                 </div>
@@ -197,7 +198,7 @@ export const Detail = defineComponent({
               </div>
               <div class={[s.my,s.other]}>
                 <div class={s.content}>
-                  <span>班级成员</span>
+                  <span><Quote name={'班级成员'}/></span>
                 </div>
                 {
                 otherArr.value.length ===0 ? (

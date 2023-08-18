@@ -8,6 +8,7 @@ import { http } from '../../shared/Http';
 import { Work } from '../../vite-env';
 import { Rules, hasError, validate } from '../../shared/Validate';
 import { Time } from '../../shared/Time';
+import { Quote } from '../../shared/Quote';
 
 type formDataObj = {
   searchPeople: string
@@ -100,7 +101,7 @@ export const Self = defineComponent({
     }
     return () => (
       <div class={s.content}>
-        <p>查询同学提交过的作业：</p>
+        <p><Quote name={'查询同学提交过的作业：'}/></p>
         <Form>
           <FormItem label='' type='search'
             onSearch={onSearch}

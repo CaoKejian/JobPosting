@@ -8,6 +8,7 @@ import { Work } from '../../vite-env';
 import { getAssetsFile } from '../../config/imgUtil';
 import { http } from '../../shared/Http';
 import { DownLoadInfo } from '../../shared/DownLoad';
+import { Quote } from '../../shared/Quote';
 
 export const MyItem = defineComponent({
   props: {
@@ -76,7 +77,7 @@ export const MyItem = defineComponent({
       <div class={s.content}>
         {
           isShowDom.value ? <>
-            <p>近30天已有 {workNumber.value} 份作业提交，请选择查看提交状态:</p>
+            <p><Quote name={'近30天已有 {workNumber.value} 份作业提交，请选择查看提交状态:'}/></p>
             <Form>
               <FormItem label='' type='select'
                 options={branchArr.value} v-model={formData.branch}

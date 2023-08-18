@@ -5,6 +5,7 @@ import { PeopleShow } from '../../shared/PeopleShow';
 import { http } from '../../shared/Http';
 import { Work } from '../../vite-env';
 import { getAssetsFile } from '../../config/imgUtil';
+import { Quote } from '../../shared/Quote';
 export const Class = defineComponent({
   props: {
     name: {
@@ -40,13 +41,13 @@ export const Class = defineComponent({
     })
     return () => (
       <div class={s.content}>
-        <p>近30天已有 {workNumber.value} 份作业发布，请选择查看提交状态:</p>
+        <p><Quote name={'近30天已有 {workNumber.value} 份作业发布，请选择查看提交状态:'}/></p>
         <Form>
           <FormItem label='' type='select'
             options={branchArr.value} v-model={formData.branch}
           ></FormItem>
         </Form>
-        <p>作业详情：</p>
+        <p><Quote name={'作业详情：'}/></p>
         {
           formData.branch !== '' ?
             <div class={s.detail}>
@@ -75,7 +76,7 @@ export const Class = defineComponent({
               <img src={`${getAssetsFile('empty.png')}`} alt="" />
             </div>
         }
-        <p>全班提交情况:</p>
+        <p><Quote name={'全班提交情况:'}/></p>
         {
           formData.branch !== '' ?
           <PeopleShow array={classSubmitArr.value} />
