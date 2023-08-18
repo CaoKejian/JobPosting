@@ -12,11 +12,6 @@ import { throttle } from '../shared/Throttle';
 import { http } from '../shared/Http';
 import { Toast } from 'vant';
 export const Login = defineComponent({
-  props: {
-    name: {
-      type: String as PropType<string>
-    }
-  },
   setup: () => {
     const formData = reactive({
       stuId: '2001063037',

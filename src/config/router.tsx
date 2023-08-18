@@ -6,6 +6,7 @@ import HandWork from '../components/students/HandWork';
 import View from '../components/students/View';
 import { FeedBack } from '../components/students/FeedBack';
 import { Analyze } from '../components/students/Analyze';
+import { Publish } from '../components/teacher/Publish';
 
 export const routes:RouteRecordRaw[] = [
   {path:'/',redirect:'/welcome'},
@@ -26,6 +27,13 @@ export const routes:RouteRecordRaw[] = [
       {path:'downloads',component: DownLoads},
       {path:'feedBack',component: FeedBack},
       {path:'analyze',component: Analyze},
+    ]
+  },
+  {
+    path:'/teacher',component: () => import('../views/Teacher'),
+    children:[
+      {path:'', redirect:'/teacher/publish'},
+      {path:'publish',component: Publish},
     ]
   }
 ]

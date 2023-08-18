@@ -3,15 +3,10 @@ import s from './Welcome.module.scss';
 import { Button } from '../shared/Button';
 import { useRouter } from 'vue-router';
 export const Welcome = defineComponent({
-  props: {
-    name: {
-      type: String as PropType<string>
-    }
-  },
   setup: (props, context) => {
     const router = useRouter()
-    const gotoInfo = () => {
-      router.push('/student')
+    const gotoInfo = (where: string) => {
+      where === 'stu' ? router.push('/student') : router.push('/teacher') 
     }
     return () => (
       <div class={s.wrapper}>
@@ -29,11 +24,11 @@ export const Welcome = defineComponent({
           </svg>
           <div class={s.box}>
             <span>我是大学生</span>
-            <Button onClick={() => gotoInfo()}>点击进入</Button>
+            <Button onClick={() => gotoInfo('stu')}>点击进入</Button>
           </div>
           <div class={s.box}>
             <span>我是老师</span>
-            <Button>点击进入</Button>
+            <Button onClick={() => gotoInfo('tea')}>点击进入</Button>
           </div>
         </div>
         <div class={s.footer}>
