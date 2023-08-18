@@ -27,5 +27,13 @@ export const nameMapFunction = (name: string) => {
 
 export const classMapFunction = (classId?: number) => {
   return classMap[Number(classId)] ? classMap[Number(classId)] : '未录入'
+}
 
+export const classIdMapFunction = (className?: string) => {
+  for (const [classId, claName] of Object.entries(classMap)) {
+    if (claName === className) {
+      return classId
+    }
+  }
+  return '未录入'
 }

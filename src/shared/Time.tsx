@@ -20,3 +20,7 @@ export const Time = (time: number | Date, format?: string) => {
   return formattedTime;
 }
 
+export const Timestamp = (time: string) => {
+  const parsedDate = new Date(time.replace(/[年月]/g, '-').replace(/日/g, ''));
+ return parsedDate.getTime();
+}

@@ -7,16 +7,12 @@ import { Form, FormItem } from '../../shared/Form';
 import { DatetimePicker, Popup } from 'vant';
 import { Button } from '../../shared/Button';
 import { Rules, hasError, validate } from '../../shared/Validate';
+import { http } from '../../shared/Http';
+import { classIdMapFunction } from '../../config/NameMap';
+import { Timestamp } from '../../shared/Time';
 export const Publish = defineComponent({
   setup: (props, context) => {
     const isShowMenu = ref<boolean>(false)
-    const formData = reactive({
-      classId: '',
-      subject: '',
-      branch: '',
-      endTime: '',
-      content: ''
-    })
     const selectData = reactive({
       classMap: [
         { value: '123123', text: '大数据B201' },
@@ -31,24 +27,36 @@ export const Publish = defineComponent({
         { value: '2', text: '抖音数据分析' },
       ]
     })
+    const formData = reactive({
+      user: '黄Sir',
+      classId: selectData.classMap[0].text,
+      subject: selectData.subjectMap[0].text,
+      branch: selectData.branchMap[0].text,
+      cutTime: 0,
+      content: ''
+    })
     const errors = reactive({
       classId: [],
       subject: [],
       branch: [],
-      endTime: [],
+      cutTime: [],
       content: []
     })
-    const publish = () => {
-      Object.assign(errors, { classId: [], subject: [], branch: [], endTime: [], content: [] })
+    const publish = async () => {
+      Object.assign(errors, { classId: [], subject: [], branch: [], cutTime: [], content: [] })
       const rules: Rules<typeof formData> = [
         { key: 'classId', type: 'required', message: '必须选择班级' },
         { key: 'subject', type: 'required', message: '必须选择学科' },
         { key: 'branch', type: 'required', message: '必须选择作业分支' },
-        { key: 'endTime', type: 'required', message: '必须选择截止日期' },
+        { key: 'cutTime', type: 'required', message: '必须选择截止日期' },
       ]
       Object.assign(errors, validate(formData, rules))
       if (!hasError(errors)) {
         console.log(formData)
+        formData.cutTime = Timestamp(String(formData.cutTime))
+        formData.classId = classIdMapFunction(formData.classId)
+        const data = await http.post('/pub', formData, {_autoLoading:true})
+        console.log(data)
       }
     }
     return () => (
@@ -74,8 +82,8 @@ export const Publish = defineComponent({
                 error={errors.branch?.[0] ?? '　'} >
               </FormItem>
               <FormItem label='截止时间'
-                v-model={formData.endTime} type='date'
-                error={errors.endTime?.[0] ?? '　'}
+                v-model={formData.cutTime} type='date'
+                error={errors.cutTime?.[0] ?? '　'}
               ></FormItem>
               <FormItem label='作业描述' type='text'
                 v-model={formData.content} >
