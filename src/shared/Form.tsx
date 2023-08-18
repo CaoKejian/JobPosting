@@ -2,6 +2,9 @@ import { PropType, computed, defineComponent, ref } from 'vue';
 import s from './Form.module.scss'
 import { getFriendlyError } from './getFriendlyError';
 import { Button } from './Button';
+import { Popup, DatetimePicker } from 'vant';
+import { Time } from './Time';
+
 export const Form = defineComponent({
   props: {
     onSubmit: {
@@ -104,6 +107,21 @@ export const FormItem = defineComponent({
             {props.options?.map(options =>
               <option value={options.text} >{options.text}</option>)}
           </select>
+          case 'date':
+            return <>
+              <input readonly={true} value={props.modelValue}
+                placeholder={props.placeholder}
+                onClick={() => { refDateVisible.value = true }}
+                class={[s.formItem, s.input]} />
+              <Popup position='bottom' v-model:show={refDateVisible.value}>
+                <DatetimePicker vmodelValue={props.modelValue? new Date(props.modelValue): new Date()} type="date" title="选择年月日" max-date={new Date(2024, 1, 1)} min-date={new Date()}
+                  onConfirm={(date: Date) => {
+                    context.emit('update:modelValue', Time(date,'YY-MM-SS'))
+                    refDateVisible.value = false
+                  }}
+                  onCancel={() => refDateVisible.value = false} />
+              </Popup>
+            </>
         case undefined:
           return context.slots.default?.()
       }
