@@ -43,6 +43,8 @@ export const HandWork = defineComponent({
       score: 0,// 得分
       tComments: '', // 教师评语
       isPass: false,// 已评
+      publish: '', // 发布者
+      endTime: '', // 截止时间
       file: {
         fileName: '',
         fileUrl: ''
