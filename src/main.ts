@@ -8,7 +8,7 @@ import './assets/css/vari.scss'
 import "@svgstore"
 import './assets/fonts/fonts.css'
 import 'vant/lib/index.css';
-import { Toast,Loading, Search,Icon,Dialog,Uploader,Swipe, SwipeItem ,Step, Steps,ConfigProvider } from 'vant';
+import { Toast,DatetimePicker, Search,Icon,Dialog,Uploader,Swipe, SwipeItem ,Step, Steps,ConfigProvider } from 'vant';
 import { http } from './shared/Http'
 // 调试
 import VConsole from 'vconsole';
@@ -53,6 +53,7 @@ app.use(SwipeItem);
 app.use(Step);
 app.use(Steps);
 app.use(ConfigProvider);
+app.use(DatetimePicker);
 
 app.use(router)
 app.mount('#app')
