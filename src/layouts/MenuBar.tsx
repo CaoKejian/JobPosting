@@ -9,6 +9,10 @@ export const MenuBar = defineComponent({
   props: {
     onClose: {
       type: Function as PropType<() => void>
+    },
+    name: {
+      type: String as PropType<string>,
+      default: 'student'
     }
   },
   setup: (props, context) => {
@@ -50,64 +54,113 @@ export const MenuBar = defineComponent({
       <div class={s.mask} onClick={close}></div>
       <div class={s.wrapper}>
         <div class={s.content}>
-          <MainLayout>{
-            {
-              icon: () => <BackIcon svg='user' class={s.svg} />,
-              title: () => <div class={s.title}>
-                <span onClick={goToLogin}>{info.value}</span>
-                {
-                  info.value !== '未登录' ?
-                    <span onClick={onEdit}>退出登录</span> : null
-                }
-              </div>,
-              default: () => <div class={s.list}>
-                <ul>
-                  <li>
-                    <RouterLink to="/student/detail">
-                      <svg class={s.icon}><use xlinkHref='#homedetail'></use></svg>
-                      <span onClick={() => onClick(1)}>作业详情</span>
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/student/submit/handwork">
-                      <svg class={s.icon}><use xlinkHref='#homesubmit'></use></svg>
-                      <span onClick={() => onClick(2)}>作业提交</span>
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/student/statistics">
-                      <svg class={s.icon}><use xlinkHref='#homestatiscs'></use></svg>
-                      <span onClick={() => onClick(3)}>作业统计</span>
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/student/analyze">
-                      <svg class={s.icon}><use xlinkHref='#analyze'></use></svg>
-                      <span onClick={() => onClick(7)}>数据分析</span>
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/student/downloads">
-                      <svg class={s.icon}><use xlinkHref='#homedownload'></use></svg>
-                      <span onClick={() => onClick(4)}>作业下载</span>
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/student/feedback">
-                      <svg class={s.icon}><use xlinkHref='#homefeedback'></use></svg>
-                      <span onClick={() => onClick(5)}>用户反馈</span>
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/welcome">
-                      <svg class={s.icon}><use xlinkHref='#home'></use></svg>
-                      <span onClick={() => onClick(6)}>回到首页</span>
-                    </RouterLink>
-                  </li>
-                </ul>
-              </div>
-            }
-          }</MainLayout>
+          {
+            props.name === 'student' ?
+            <MainLayout>{
+              {
+                icon: () => <BackIcon svg='user' class={s.svg} />,
+                title: () => <div class={s.title}>
+                  <span onClick={goToLogin}>{info.value}</span>
+                  {
+                    info.value !== '未登录' ?
+                      <span onClick={onEdit}>退出登录</span> : null
+                  }
+                </div>,
+                default: () => <div class={s.list}>
+                  <ul>
+                    <li>
+                      <RouterLink to="/student/detail">
+                        <svg class={s.icon}><use xlinkHref='#homedetail'></use></svg>
+                        <span onClick={() => onClick(1)}>作业详情</span>
+                      </RouterLink>
+                    </li>
+                    <li>
+                      <RouterLink to="/student/submit/handwork">
+                        <svg class={s.icon}><use xlinkHref='#homesubmit'></use></svg>
+                        <span onClick={() => onClick(2)}>作业提交</span>
+                      </RouterLink>
+                    </li>
+                    <li>
+                      <RouterLink to="/student/statistics">
+                        <svg class={s.icon}><use xlinkHref='#homestatiscs'></use></svg>
+                        <span onClick={() => onClick(3)}>作业统计</span>
+                      </RouterLink>
+                    </li>
+                    <li>
+                      <RouterLink to="/student/analyze">
+                        <svg class={s.icon}><use xlinkHref='#analyze'></use></svg>
+                        <span onClick={() => onClick(7)}>数据分析</span>
+                      </RouterLink>
+                    </li>
+                    <li>
+                      <RouterLink to="/student/downloads">
+                        <svg class={s.icon}><use xlinkHref='#homedownload'></use></svg>
+                        <span onClick={() => onClick(4)}>作业下载</span>
+                      </RouterLink>
+                    </li>
+                    <li>
+                      <RouterLink to="/student/feedback">
+                        <svg class={s.icon}><use xlinkHref='#homefeedback'></use></svg>
+                        <span onClick={() => onClick(5)}>用户反馈</span>
+                      </RouterLink>
+                    </li>
+                    <li>
+                      <RouterLink to="/welcome">
+                        <svg class={s.icon}><use xlinkHref='#home'></use></svg>
+                        <span onClick={() => onClick(6)}>回到首页</span>
+                      </RouterLink>
+                    </li>
+                  </ul>
+                </div>
+              }
+            }</MainLayout> :
+            <MainLayout>{
+              {
+                icon: () => <BackIcon svg='user' class={s.svg} />,
+                title: () => <div class={s.title}>
+                  <span onClick={goToLogin}>{info.value}</span>
+                  {
+                    info.value !== '未登录' ?
+                      <span onClick={onEdit}>退出登录</span> : null
+                  }
+                </div>,
+                default: () => <div class={s.list}>
+                  <ul>
+                    <li>
+                      <RouterLink to="/teacher/publish">
+                        <svg class={s.icon}><use xlinkHref='#publish'></use></svg>
+                        <span onClick={() => onClick(1)}>作业发布</span>
+                      </RouterLink>
+                    </li>
+                    <li>
+                      <RouterLink to="/teacher/correct">
+                        <svg class={s.icon}><use xlinkHref='#correct'></use></svg>
+                        <span onClick={() => onClick(2)}>作业批改</span>
+                      </RouterLink>
+                    </li>
+                    <li>
+                      <RouterLink to="/teacher/search">
+                        <svg class={s.icon}><use xlinkHref='#worksearch'></use></svg>
+                        <span onClick={() => onClick(3)}>作业查询</span>
+                      </RouterLink>
+                    </li>
+                    <li>
+                      <RouterLink to="/teacher/analyze">
+                        <svg class={s.icon}><use xlinkHref='#analyze'></use></svg>
+                        <span onClick={() => onClick(7)}>数据分析</span>
+                      </RouterLink>
+                    </li>
+                    <li>
+                      <RouterLink to="/welcome">
+                        <svg class={s.icon}><use xlinkHref='#home'></use></svg>
+                        <span onClick={() => onClick(6)}>回到首页</span>
+                      </RouterLink>
+                    </li>
+                  </ul>
+                </div>
+              }
+            }</MainLayout>
+          }
         </div>
       </div>
     </>
