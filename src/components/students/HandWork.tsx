@@ -14,21 +14,25 @@ import { useRoute, useRouter } from 'vue-router';
 import { classMap } from '../../config/NameMap';
 import { Work } from '../../vite-env';
 import { Loading } from '../../shared/Loading';
+import { Quote } from '../../shared/Quote';
 
 export const HandWork = defineComponent({
   setup: (props, context) => {
     const className = ref<string>('')
     const isReady = ref<boolean>(false)
-    const subjectArr = ref([
-      { value: 'a', text: '数据挖掘' },
-      { value: 'b', text: 'React' },
-      { value: 'c', text: '英语' },
-    ])
-    const branchArr = ref([
-      { value: '数据挖掘', text: '抖音数据清洗' },
-      { value: '数据挖掘', text: '百度数据挖掘' },
-      { value: 'React', text: '类组件定义' },
-    ])
+    const submitInfo = reactive({
+      subjectArr: [
+        { value: 'a', text: '数据挖掘' },
+        { value: 'b', text: 'React' },
+        { value: 'c', text: '英语' },
+      ],
+      branchArr: [
+        { value: '数据挖掘', text: '抖音数据清洗' },
+        { value: '数据挖掘', text: '百度数据挖掘' },
+        { value: 'React', text: '类组件定义' },
+      ],
+      endTime: ''
+    })
     const router = useRouter()
     const route = useRoute()
     const isShowVisible = ref<boolean>(false)
@@ -36,7 +40,7 @@ export const HandWork = defineComponent({
       id: '',
       classId: 0,
       stuId: '',
-      subject: subjectArr.value[0].text,
+      subject: submitInfo.subjectArr[0].text,
       branch: '',
       favor: false, //优秀作品
       content: '',// 作业描述，用于详细说明作业要求和内容。
@@ -167,15 +171,23 @@ export const HandWork = defineComponent({
                   error={errors.classId?.[0] ?? '　'}
                 ></FormItem>
                 <FormItem label='学科' type='select'
-                  options={subjectArr.value}
+                  options={submitInfo.subjectArr}
                   v-model={formData.subject}
                   error={errors.subject?.[0] ?? '　'}
                 >
                 </FormItem>
                 <FormItem label='作业分支' type='select'
-                  options={branchArr.value} v-model={formData.branch}
+                  options={submitInfo.branchArr} v-model={formData.branch}
                   error={errors.branch?.[0] ?? '　'}
                 ></FormItem>
+                <div class={s.endTime}>
+                  <p>截止时间</p>
+                  {
+                    submitInfo.endTime ?
+                      <Quote name={submitInfo.endTime} />
+                      : '　'
+                  }
+                </div>
                 <div class={s.upload}>
                   <span class={s.title}>上传作业</span>
                   <van-uploader
