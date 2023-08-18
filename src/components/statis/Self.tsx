@@ -7,6 +7,7 @@ import { classMapFunction, nameMapFunction, stuIdMapFunction } from '../../confi
 import { http } from '../../shared/Http';
 import { Work } from '../../vite-env';
 import { Rules, hasError, validate } from '../../shared/Validate';
+import { Time } from '../../shared/Time';
 
 type formDataObj = {
   searchPeople: string
@@ -124,9 +125,9 @@ export const Self = defineComponent({
                           <div class={s.workItem}>
                             <div class={s.index}>{index + 1}、</div>
                             <div class={s.workName}>{item.branch}</div>
-                            <div>「React」 </div>
+                            <div class={s.subject}>「{item.subject}」 </div>
                             <span>T发布者</span>
-                            <div class={s.time}>2023月9月2日</div>
+                            <div class={s.time}>{Time(item.time,'YY-MM-SS-DD')}</div>
                           </div>
                         </div>
                       }) : <p class={s.infoEmpty}>暂无数据</p>

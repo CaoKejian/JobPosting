@@ -11,6 +11,9 @@ export const Time = (time: number,format?:string) => {
   if(format === 'YY-MM-SS'){
     return `${month}月${day}日`;
   }
+  if(format === 'YY-MM-SS-DD'){
+    return `${month}月${day}日 ${hours}:${minutes}`;
+  }
   return formattedTime;
 }
 
