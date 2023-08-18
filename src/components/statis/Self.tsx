@@ -106,7 +106,7 @@ export const Self = defineComponent({
           <FormItem label='' type='search'
             onSearch={onSearch}
             v-model={formData.searchPeople}
-            placeholder='学号'
+            placeholder='学号/姓名'
             error={errors.searchPeople?.[0] ?? '　'}
           ></FormItem>
         </Form>

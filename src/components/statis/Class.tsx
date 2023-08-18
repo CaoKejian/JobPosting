@@ -41,7 +41,7 @@ export const Class = defineComponent({
     })
     return () => (
       <div class={s.content}>
-        <p><Quote name={'近30天已有 {workNumber.value} 份作业发布，请选择查看提交状态:'}/></p>
+        <p><Quote name={`近30天已有 ${workNumber.value} 份作业发布，请选择查看提交状态:`}/></p>
         <Form>
           <FormItem label='' type='select'
             options={branchArr.value} v-model={formData.branch}
