@@ -128,7 +128,7 @@ export const Self = defineComponent({
                             <div class={s.workName}>{item.branch}</div>
                             <div class={s.subject}>「{item.subject}」 </div>
                             <span>T发布者</span>
-                            <div class={s.time}>{Time(item.time,'YY-MM-SS-DD')}</div>
+                            <div class={s.time}>{Time(item.time,'MM-SS-DD')}</div>
                           </div>
                         </div>
                       }) : <p class={s.infoEmpty}>暂无数据</p>

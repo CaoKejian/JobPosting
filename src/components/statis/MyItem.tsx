@@ -93,7 +93,7 @@ export const MyItem = defineComponent({
                   </van-steps>
                   <div class={s.homework}>
                     <div class={s.head}>
-                      <p class={s.time}>{Time(workObj.value?.time || 0, 'YY-MM-SS')}</p>
+                      <p class={s.time}>{Time(workObj.value?.time || 0, 'MM-SS')}</p>
                       <p class={s.name}>{workObj.value?.branch}</p>
                       <p class={s.score}>{workObj.value?.score}</p>
                     </div>
