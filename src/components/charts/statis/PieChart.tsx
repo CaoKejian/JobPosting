@@ -41,7 +41,8 @@ export const PieChart = defineComponent({
       x[0] = x[1];
       x[1] = x[2];
       x[2] = temp;
-      return x
+      dataSeries.value = x
+      return dataSeries.value
     }
     watchEffect(() => {
       const intervalId = setInterval(() => {
@@ -100,7 +101,7 @@ export const PieChart = defineComponent({
           hoverAnimation: false, //鼠标移入变大
           radius: [60 - i * 15 + '%', 55 - i * 15 + '%'],
           startAngle: -90 * i, //起始角度
-          center: ["55%", "60%"],
+          center: ["45%", "55%"],
           label: {
             show: true,
             lineHeight: 40,

@@ -81,9 +81,12 @@
   }
 }
 .search{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
   .searchInput{
-    max-width: 100%;
-    flex-grow: 1;
+    flex: 1;
+    max-width: 70%;
     border: 1px solid var(--input-border-color);
     border-radius: var(--input-radius);
     font-size: 1.125rem;
@@ -97,9 +100,6 @@
       border-color: var(--error-color);
     }
   }
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
   >button{
     margin-left: 0.5rem;
     width: 12rem;

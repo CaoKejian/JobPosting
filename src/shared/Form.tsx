@@ -90,7 +90,7 @@ export const FormItem = defineComponent({
           </>
         case 'search':
           return <div class={s.search}>
-            <input class={[s.searchInput]}
+            <input class={s.searchInput}
               value = {props.modelValue}
               onInput={(e: any) => context.emit('update:modelValue', e.target.value)} placeholder={props.placeholder}
             />

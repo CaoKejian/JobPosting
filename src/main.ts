@@ -19,7 +19,7 @@ function isDev() {
   return true
 }
 // if(isDev()){
-//   new VConsole()
+  new VConsole()
 // }
 const app = createApp(App)
 const router = createRouter({
