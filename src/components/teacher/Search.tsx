@@ -1,6 +1,6 @@
 import { PropType, defineComponent, ref } from 'vue';
-import s from './Analyze.module.scss';
-export const Analyze = defineComponent({
+import s from './Search.module.scss';
+export const Search = defineComponent({
   props: {
     name: {
       type: String as PropType<string>
@@ -8,9 +8,7 @@ export const Analyze = defineComponent({
   },
   setup: (props, context) => {
     return () => (
-      <div>Analyze</div>
+      <div>Search</div>
     )
   }
 })
-
-export default Analyze

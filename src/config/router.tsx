@@ -7,6 +7,8 @@ import View from '../components/students/View';
 import { FeedBack } from '../components/students/FeedBack';
 import { Analyze } from '../components/students/Analyze';
 import { Publish } from '../components/teacher/Publish';
+import { Correct } from '../components/teacher/Correct';
+import { Search } from '../components/teacher/Search';
 
 export const routes:RouteRecordRaw[] = [
   {path:'/',redirect:'/welcome'},
@@ -26,7 +28,7 @@ export const routes:RouteRecordRaw[] = [
       {path:'statistics',component: Statistics},
       {path:'downloads',component: DownLoads},
       {path:'feedBack',component: FeedBack},
-      {path:'analyze',component: Analyze},
+      {path:'analyze',component: () => import('../components/students/Analyze')},
     ]
   },
   {
@@ -34,6 +36,9 @@ export const routes:RouteRecordRaw[] = [
     children:[
       {path:'', redirect:'/teacher/publish'},
       {path:'publish',component: Publish},
+      {path:'correct',component: Correct},
+      {path:'search',component: Search},
+      {path:'analyze',component: () => import('../components/teacher/Analyze')},
     ]
   }
 ]

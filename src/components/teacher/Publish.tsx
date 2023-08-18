@@ -14,7 +14,7 @@ export const Publish = defineComponent({
           default: () => <div class={s.content}>
             {
               isShowMenu.value ?
-                <MenuBar onClose={() => isShowMenu.value = false} />
+                <MenuBar  name={'teacher'} onClose={() => isShowMenu.value = false} />
                 : null
             }
           </div>
