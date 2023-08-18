@@ -1,3 +1,4 @@
+import { nameMapFunction } from "../config/NameMap"
 import { JSONValue } from "../vite-env"
 
 interface FData {
@@ -8,6 +9,7 @@ type Rule<T> = {
   message: string
 } & (
     { type: 'required' } |
+    { type: 'type' } |
     { type: 'pattern', regex: RegExp } |
     { type: 'notEqual', value: JSONValue }
   )
@@ -28,6 +30,12 @@ export const validate = <T extends FData>(formData: T, rules: Rules<T>) => {
           errors[key]?.push(message)
         }
         break;
+      case 'type':
+        if (isEnter(value)){
+          errors[key] = errors[key] ?? []
+          errors[key]?.push(message)
+        }
+        break
       case 'pattern':
         if (!isEmpty(value) && !rule.regex.test(value!.toString())) {
           errors[key] = errors[key] ?? []
@@ -48,6 +56,9 @@ export const validate = <T extends FData>(formData: T, rules: Rules<T>) => {
 }
 function isEmpty(value: null | undefined | string | number | FData) {
   return value === null || value === undefined || value === ''
+}
+function isEnter(value: string) {
+  return nameMapFunction(value) === '未录入'
 }
 export function hasError(errors: Record<string, string[]>) {
   let result = false

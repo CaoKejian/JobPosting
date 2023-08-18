@@ -3,12 +3,13 @@ import s from './Self.module.scss';
 import { Form, FormItem } from '../../shared/Form';
 import { Toast } from 'vant';
 import { getAssetsFile } from '../../config/imgUtil';
-import { classMapFunction, stuIdMapFunction } from '../../config/NameMap';
+import { classMapFunction, nameMapFunction, stuIdMapFunction } from '../../config/NameMap';
 import { http } from '../../shared/Http';
 import { Work } from '../../vite-env';
+import { Rules, hasError, validate } from '../../shared/Validate';
 
 type formDataObj = {
-  searchPeople: number | string
+  searchPeople: string
   isEmpty: boolean
   searchInfo: Work[] | null
   info: { name: string, classId?: number, stuId?: number }
@@ -26,12 +27,14 @@ export const Self = defineComponent({
       searchInfo: null,
       info: { name: '', classId: undefined, stuId: undefined }
     })
+    const errors = reactive({
+      searchPeople:[]
+    })
     const fetchWork = async (stuId: number | string) => {
       try {
         const data = await http.get<Work[]>('/work/mywork', {
           stuId,
         }, { _autoLoading: true })
-        console.log(data)
         if (data.data.length === 0) {
           Object.assign(formData, {
             isEmpty: true,
@@ -39,7 +42,7 @@ export const Self = defineComponent({
             info: {}
           })
           Toast({
-            message: '没有提交！'
+            message: '该同学没有提交！'
           })
           return
         }
@@ -56,14 +59,43 @@ export const Self = defineComponent({
         Toast({ message: err as any })
       }
     }
+    const isName = (name: string) => {
+      return nameMapFunction(name)
+    }
     const onSearch = () => {
-      if (!formData.searchPeople) {
-        Toast({
-          message: '搜索不能为空！'
+      if (!/^\d+$/.test(formData.searchPeople)) {
+        Object.assign(errors, {
+          searchPeople: []
         })
-        return
+        Object.assign(formData, {
+          isEmpty: true,
+          searchInfo: [],
+          info: {}
+        })
+        const rules: Rules<typeof formData> = [
+          { key: 'searchPeople', type: 'required', message: '必填' },
+          { key: 'searchPeople', type: 'type', message: '该同学未录入，请填写学号查询' }
+        ]
+        Object.assign(errors, validate(formData, rules))
+        if (!formData.searchPeople) {
+          Toast({
+            message: '搜索不能为空！'
+          })
+          return
+        }
+        if(!hasError(errors)){
+          fetchWork(isName(formData.searchPeople))
+        }
+      }else{
+        if (!formData.searchPeople) {
+          Toast({
+            message: '搜索不能为空！'
+          })
+          return
+        }
+        fetchWork(formData.searchPeople)
       }
-      fetchWork(formData.searchPeople)
+     
     }
     return () => (
       <div class={s.content}>
@@ -73,6 +105,7 @@ export const Self = defineComponent({
             onSearch={onSearch}
             v-model={formData.searchPeople}
             placeholder='学号'
+            error={errors.searchPeople?.[0] ?? '　'}
           ></FormItem>
         </Form>
         {
