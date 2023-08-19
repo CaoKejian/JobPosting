@@ -46,7 +46,8 @@ export const Publish = defineComponent({
     onMounted(() => {
       formData.user = teacherMapFunction(JSON.parse(localStorage.getItem('info') as string).stuId)
     })
-    const publish = async () => {
+    const publish = async (e: Event) => {
+      e.preventDefault()
       Object.assign(errors, { classId: [], subject: [], branch: [], cutTime: [], content: [] })
       const rules: Rules<typeof formData> = [
         { key: 'classId', type: 'required', message: '必须选择班级' },
