@@ -35,6 +35,16 @@ type User = {
   stuId: number
   emial: string
 }
+
+type pubWork = {
+  user: string,
+  classId: string
+  subject: string,
+  branch: string,
+  cutTime?: undefined|number,
+  content: string
+}
+
 type Work = {
   data: [],
   _id: string

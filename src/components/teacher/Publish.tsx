@@ -1,15 +1,16 @@
-import { PropType, defineComponent, reactive, ref } from 'vue';
+import { PropType, defineComponent, onMounted, reactive, ref } from 'vue';
 import s from './Publish.module.scss';
 import { MainLayout } from '../../layouts/MainLayout';
 import { BackIcon } from '../../shared/BackIcon';
 import { MenuBar } from '../../layouts/MenuBar';
 import { Form, FormItem } from '../../shared/Form';
-import { DatetimePicker, Popup } from 'vant';
 import { Button } from '../../shared/Button';
 import { Rules, hasError, validate } from '../../shared/Validate';
 import { http } from '../../shared/Http';
-import { classIdMapFunction } from '../../config/NameMap';
+import { classIdMapFunction, teacherMapFunction } from '../../config/NameMap';
 import { Timestamp } from '../../shared/Time';
+import { pubWork } from '../../vite-env';
+import { Toast } from 'vant';
 export const Publish = defineComponent({
   setup: (props, context) => {
     const isShowMenu = ref<boolean>(false)
@@ -27,12 +28,12 @@ export const Publish = defineComponent({
         { value: '2', text: '抖音数据分析' },
       ]
     })
-    const formData = reactive({
-      user: '黄Sir',
+    const formData = reactive<pubWork>({
+      user: '',
       classId: selectData.classMap[0].text,
       subject: selectData.subjectMap[0].text,
       branch: selectData.branchMap[0].text,
-      cutTime: 0,
+      cutTime: undefined,
       content: ''
     })
     const errors = reactive({
@@ -41,6 +42,9 @@ export const Publish = defineComponent({
       branch: [],
       cutTime: [],
       content: []
+    })
+    onMounted(() => {
+      formData.user = teacherMapFunction(JSON.parse(localStorage.getItem('info') as string).stuId)
     })
     const publish = async () => {
       Object.assign(errors, { classId: [], subject: [], branch: [], cutTime: [], content: [] })
@@ -52,11 +56,17 @@ export const Publish = defineComponent({
       ]
       Object.assign(errors, validate(formData, rules))
       if (!hasError(errors)) {
-        console.log(formData)
         formData.cutTime = Timestamp(String(formData.cutTime))
         formData.classId = classIdMapFunction(formData.classId)
-        const data = await http.post('/pub', formData, {_autoLoading:true})
-        console.log(data)
+        try {
+          await http.post('/pub', formData, { _autoLoading: true })
+          Object.assign(formData, { cutTime: '', content: '' })
+          Toast({
+            message: '发布成功！'
+          })
+        } catch (err) {
+          console.log(err)
+        }
       }
     }
     return () => (
@@ -68,12 +78,12 @@ export const Publish = defineComponent({
             <Form>
               <FormItem label='班级' type='select'
                 options={selectData.classMap}
-                v-model={formData.classId} 
+                v-model={formData.classId}
                 error={errors.classId?.[0] ?? '　'}>
               </FormItem>
               <FormItem label='学科' type='select'
                 options={selectData.subjectMap}
-                v-model={formData.subject} 
+                v-model={formData.subject}
                 error={errors.subject?.[0] ?? '　'}>
               </FormItem>
               <FormItem label='分支' type='select'
