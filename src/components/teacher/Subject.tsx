@@ -29,7 +29,7 @@ export const Subject = defineComponent({
       subject: [],
       user: []
     })
-    const publish = (e: Event) => {
+    const publish = async (e: Event) => {
       e.preventDefault()
       Object.assign(errors, { classId: [], subject: [], user: [] })
       const rules: Rules<typeof formData> = [
@@ -41,13 +41,19 @@ export const Subject = defineComponent({
       if (!hasError(errors)) {
         formData.classId = classIdMapFunction(formData.classId)
         try {
-          http.post('/subject', formData, { _autoLoading: true })
+          await http.post('/subject', formData, { _autoLoading: true })
           Toast({
             message: '发布成功！'
           })
           Object.assign(formData, { classId: selectData.classOpt[0].text, subject: '' })
-        } catch (err) {
+        } catch (err: any) {
           console.log(err)
+          if (err.response?.status === 402) {
+            Object.assign(formData, { classId: selectData.classOpt[0].text, subject: '' })
+            Toast({
+              message: err.response.data.message
+            })
+          }
         }
       }
     }

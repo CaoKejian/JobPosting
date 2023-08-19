@@ -69,6 +69,7 @@ export const Publish = defineComponent({
           })
         } catch (err:any) {
           if(err.response?.status===402){
+          Object.assign(formData, { cutTime: '', content: '' })
             Toast({
               message: err.response.data.message
             })
