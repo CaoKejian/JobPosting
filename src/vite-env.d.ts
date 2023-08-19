@@ -38,9 +38,10 @@ type User = {
 
 type pubWork = {
   user: string,
-  classId: string
+  classId: number
   subject: string,
   branch: string,
+  time: number,
   cutTime?: undefined|number,
   content: string
 }
@@ -60,7 +61,7 @@ type Work = {
   tComments: String // 教师评语
   isPass: Boolean// 已评
   publish: string, // 发布者
-  endTime: number,
+  cutTime: number,
   __v: number
 }
 type WorkObj = {
@@ -77,7 +78,7 @@ type WorkObj = {
   tComments: String // 教师评语
   isPass: Boolean// 已评
   publish: string, // 发布者
-  endTime: number,
+  cutTime: number,
   __v: number
 }
 type pubWork = {
