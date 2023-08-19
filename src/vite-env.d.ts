@@ -80,7 +80,13 @@ type WorkObj = {
   endTime: number,
   __v: number
 }
-
+type pubWork = {
+  _id: string,
+  subject: string,
+  classId: number,
+  user: string,
+  __v: number
+}
 type Class ={
   data: [],
   classes: [],
