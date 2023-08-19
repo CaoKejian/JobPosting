@@ -44,3 +44,12 @@ export const classIdMapFunction = (className?: string) => {
   }
   return '未录入'
 }
+
+export const teacherIdMapFunction = (stuname?: string) => {
+  for (const [stuId, stuName] of Object.entries(teacherMao)) {
+    if (stuName === stuname) {
+      return stuId
+    }
+  }
+  return '未录入'
+}

@@ -80,7 +80,18 @@ type WorkObj = {
   endTime: number,
   __v: number
 }
+
+type Class ={
+  data: [],
+  classes: [],
+  subjects: []
+}
+interface ClassSelectItem {
+  value: string;
+  text: string;
+}
 export interface File {
   fileName: string
   fileUrl: string
 }
+
