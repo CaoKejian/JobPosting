@@ -1,17 +1,19 @@
-import { PropType, defineComponent, ref } from 'vue';
+import { PropType, defineComponent, onMounted, ref } from 'vue';
 import s from './Authority.module.scss';
 import { MainLayout } from '../../layouts/MainLayout';
 import { BackIcon } from '../../shared/BackIcon';
 import { Button } from '../../shared/Button';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { removeLocal } from '../../config/utils';
 export const Authority = defineComponent({
   setup: (props, context) => {
     const router = useRouter()
     const goToLogin = () => {
-      router.push('/login')
+      router.push('/login?return_to=/')
       removeLocal()
     }
+    onMounted(() => {
+    })
     return () => (
       <MainLayout>{
         {

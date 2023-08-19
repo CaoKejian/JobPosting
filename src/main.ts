@@ -8,7 +8,7 @@ import './assets/css/vari.scss'
 import "@svgstore"
 import './assets/fonts/fonts.css'
 import 'vant/lib/index.css';
-import { Toast,DatetimePicker, Search,Icon,Dialog,Uploader,Swipe, SwipeItem ,Step, Steps,ConfigProvider } from 'vant';
+import { Toast, DatetimePicker, Search, Icon, Dialog, Uploader, Swipe, SwipeItem, Step, Steps, ConfigProvider } from 'vant';
 import { http } from './shared/Http'
 // 调试
 import VConsole from 'vconsole';
@@ -19,7 +19,7 @@ function isDev() {
   return true
 }
 // if(isDev()){
-  // new VConsole()
+// new VConsole()
 // }
 const app = createApp(App)
 const router = createRouter({
@@ -30,15 +30,15 @@ const router = createRouter({
 router.beforeEach(async (to, from) => {
   if (to.path === '/' || to.path === '/student/detail' || to.path.startsWith('/welcome') || to.path.startsWith('/login')) {
     return true
-  }else {
-    try{
+  } else {
+    try {
       const info = localStorage.getItem('info')
-      if(!info){
+      if (!info) {
         return '/login?return_to=' + from.path
       }
       await http.get('/user/verify/jwt')
       return true
-    }catch(error){
+    } catch (error) {
       return '/login?return_to=' + from.path
     }
   }

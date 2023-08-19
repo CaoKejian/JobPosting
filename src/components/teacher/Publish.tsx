@@ -47,12 +47,9 @@ export const Publish = defineComponent({
     })
     const router = useRouter()
     onMounted(() => {
-      const x = JSON.parse(localStorage.getItem('info') as string).stuId
-      console.log(x)
       formData.user = teacherMapFunction(JSON.parse(localStorage.getItem('info') as string).stuId)
       //* 判断是否有权限 * //
       if(formData.user === '未录入'){
-        console.log(1)
         router.push('/error/noauth')
       }
     })

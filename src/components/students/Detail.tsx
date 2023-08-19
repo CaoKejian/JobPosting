@@ -123,6 +123,12 @@ export const Detail = defineComponent({
       isCancel.value = true
     }
     onMounted(async () => {
+      const isAuth = stuIdMapFunction(JSON.parse(localStorage.getItem('info') as string).stuId)
+      if(isAuth === '未录入'){
+        router.push('/error/noauth')
+        // 没权限->权限页-> login
+        return
+      }
       classId.value = localStorage.getItem('classID') || ''
       if(classId.value&&classId.value!==null&&classId.value!==undefined){
         isHaveClass.value = true
