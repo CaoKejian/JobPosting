@@ -1,5 +1,6 @@
 export const classMap: Record<number, string> = {
-  123123: '大数据B201'
+  123123: '大数据B201',
+  122122: '智能B222'
 }
 
 export const stuIdMap: Record<number, string> = {

@@ -1,0 +1,16 @@
+.content{
+  width: 100%;
+  padding: 0.4rem 1rem;
+  box-sizing: border-box;
+  font-size: 1rem;
+  >Form{
+    padding: 0;
+    .button{
+      margin-top: 3rem;
+      width: 100%;
+      >button{
+        width: 100%;
+      }
+    }
+  }
+}
