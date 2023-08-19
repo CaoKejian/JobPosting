@@ -15,6 +15,7 @@ import { classMap } from '../../config/NameMap';
 import { Work } from '../../vite-env';
 import { Loading } from '../../shared/Loading';
 import { Quote } from '../../shared/Quote';
+import { Time } from '../../shared/Time';
 
 export const HandWork = defineComponent({
   setup: (props, context) => {
@@ -27,11 +28,10 @@ export const HandWork = defineComponent({
         { value: 'c', text: '英语' },
       ],
       branchArr: [
-        { value: '数据挖掘', text: '抖音数据清洗' },
+        { value: '数据挖掘', text: '抖音数据分析' },
         { value: '数据挖掘', text: '百度数据挖掘' },
-        { value: 'React', text: '类组件定义' },
+        { value: 'React', text: '组件定义' },
       ],
-      endTime: ''
     })
     const router = useRouter()
     const route = useRoute()
@@ -42,13 +42,13 @@ export const HandWork = defineComponent({
       stuId: '',
       subject: submitInfo.subjectArr[0].text,
       branch: '',
-      favor: false, //优秀作品
-      content: '',// 作业描述，用于详细说明作业要求和内容。
-      score: 0,// 得分
-      tComments: '', // 教师评语
-      isPass: false,// 已评
-      publish: '', // 发布者
-      endTime: '', // 截止时间
+      favor: false, 
+      content: '',
+      score: 0,
+      tComments: '', 
+      isPass: false,
+      user: '', 
+      cutTime: 0, 
       file: {
         fileName: '',
         fileUrl: ''
@@ -91,7 +91,28 @@ export const HandWork = defineComponent({
     })
     watch(() => formData.branch, (newValue, oldValue) => {
       console.log(newValue)
+      fetchBranchCutTime(newValue)
     })
+    const fetchBranchCutTime = async (branch: string) => {
+      try {
+        const data = await http.get<Work>('/pub/branch',
+          {
+            branch,
+            classId: formData.classId,
+            subject: formData.subject
+          },
+          { _autoLoading: true })
+        Object.assign(formData, {
+          cutTime : data.data.cutTime,
+          user : data.data.user,
+          content : data.data.content
+        })
+        console.log(formData.cutTime)
+
+      } catch (err) {
+
+      }
+    }
     const afterRead = (file: any) => {
       let formDataFile = new FormData();
       formDataFile.append('file', file.file); // 上传的文件在 file 对象的 file 属性中
@@ -183,8 +204,8 @@ export const HandWork = defineComponent({
                 <div class={s.endTime}>
                   <p>截止时间</p>
                   {
-                    submitInfo.endTime ?
-                      <Quote name={submitInfo.endTime} />
+                    formData.cutTime ?
+                      <Quote name={Time(formData.cutTime, 'YY-MM-SS')} />
                       : '　'
                   }
                 </div>
@@ -201,8 +222,8 @@ export const HandWork = defineComponent({
                 {
                   formData.branch !== '' ?
                     <div class={s.info}>
-                      <span>发布者： <span class={s.main}>xxx</span></span>
-                      <span>作业描述:  <div class={s.main}>xxxxxxxxxxxxxXxxxxxxxxxxxxxXxxxxxxxxxxxxxXxxxxxxxxxxxxxX</div></span>
+                      <span>发布者： <span class={s.main}>{formData.user}</span></span>
+                      <span>作业描述:  <div class={[s.main,s.content]}>{formData.content}</div></span>
                     </div> : null
                 }
 
