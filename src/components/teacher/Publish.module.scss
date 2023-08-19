@@ -1,5 +1,11 @@
 .content{
   width: 100%;
+  font-size: 1rem;
+  padding: 0.4rem 1rem;
+  box-sizing: border-box;
+  >Form{
+    padding: 0;
+  }
   .button{
     margin-top: 3rem;
     width: 100%;

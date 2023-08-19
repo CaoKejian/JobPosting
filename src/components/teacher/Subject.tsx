@@ -64,7 +64,7 @@ export const Subject = defineComponent({
             <Form>
               <FormItem label='班级' type='select' options={selectData.classOpt} v-model={formData.classId} error={errors.classId?.[0] ?? '　'}></FormItem>
               <FormItem label='学科' type='text' v-model={formData.subject} placeholder='请输入要发布的学科' error={errors.subject?.[0] ?? '　'}></FormItem>
-              <FormItem label='确认身份' type='text' v-model={formData.user} placeholder='还未登录/登录信息有误' error={errors.user?.[0] ?? '　'}></FormItem>
+              <FormItem label='确认发布人' type='text' v-model={formData.user} placeholder='还未登录/登录信息有误' error={errors.user?.[0] ?? '　'}></FormItem>
               <div class={s.button}>
                 <Button onClick={publish}>发布新学科</Button>
               </div>

@@ -12,6 +12,7 @@ import { Timestamp } from '../../shared/Time';
 import { pubWork } from '../../vite-env';
 import { Toast } from 'vant';
 import { Quote } from '../../shared/Quote';
+import { AxiosError } from 'axios';
 export const Publish = defineComponent({
   setup: (props, context) => {
     const isShowMenu = ref<boolean>(false)
@@ -66,8 +67,12 @@ export const Publish = defineComponent({
           Toast({
             message: '发布成功！'
           })
-        } catch (err) {
-          console.log(err)
+        } catch (err:any) {
+          if(err.response?.status===402){
+            Toast({
+              message: err.response.data.message
+            })
+          }
         }
       }
     }
