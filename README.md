@@ -12,7 +12,7 @@ id:班级 {
 }
 > 自动化上传COS命令
 ```bash
-bin/coscli-mac cp -r dist/ cos://jobpost-1314966552
+bin/coscli-mac cp -r dist/ cos://jobpost-*******
 ```
 ## 学生作业统计 p3
 ## 学生作业详情 p0
