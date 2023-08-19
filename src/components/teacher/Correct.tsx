@@ -1,16 +1,17 @@
-import { PropType, defineComponent, onMounted, reactive, ref, watch, watchEffect } from 'vue';
+import { PropType, defineComponent, onMounted, reactive, ref, watch } from 'vue';
 import s from './Correct.module.scss';
 import { MainLayout } from '../../layouts/MainLayout';
 import { BackIcon } from '../../shared/BackIcon';
 import { Quote } from '../../shared/Quote';
 import { Form, FormItem } from '../../shared/Form';
 import { http } from '../../shared/Http';
-import { teacherIdMapFunction, classMapFunction, teacherMapFunction, classIdMapFunction, stuIdMapFunction } from '../../config/NameMap';
-import { Class, ClassSelectItem, Resource, Work, WorkObj, pubWork } from '../../vite-env';
+import { classMapFunction, teacherMapFunction, classIdMapFunction, stuIdMapFunction } from '../../config/NameMap';
+import { Class, ClassSelectItem, Work, WorkObj } from '../../vite-env';
 import { getAssetsFile } from '../../config/imgUtil';
 import { Toast } from 'vant';
 import { Button } from '../../shared/Button';
 import { Time } from '../../shared/Time';
+
 import { DownLoadInfo } from '../../shared/DownLoad';
 export const Correct = defineComponent({
   props: {
@@ -48,7 +49,7 @@ export const Correct = defineComponent({
     const passData = ref({
       isPass: false,
       tComments: '',
-      favor:false,
+      favor: false,
       score: null,
     })
     const errors = reactive({
@@ -107,6 +108,7 @@ export const Correct = defineComponent({
       await new Promise(resolve => setTimeout(resolve, 1000))
     }
     const next = () => {
+      console.log(passData.value)
       swipe.value.next()
     }
     const prev = () => {
@@ -170,7 +172,8 @@ export const Correct = defineComponent({
                                 </div>
                                 <div class={s.comment}>
                                   <Form>
-                                    <FormItem label='评分' type='date' v-model={passData.value.tComments}></FormItem>
+                                    <FormItem label='分数' placeholder='打分' type='score' v-model={passData.value.score}></FormItem>
+                                    <FormItem label='是否优秀' type='radio' v-model:radioType={passData.value.favor}></FormItem>
                                     <FormItem label='评语' type='text' v-model={passData.value.tComments}></FormItem>
                                   </Form>
                                 </div>
