@@ -11,6 +11,7 @@ import { classIdMapFunction, teacherMapFunction } from '../../config/NameMap';
 import { Timestamp } from '../../shared/Time';
 import { pubWork } from '../../vite-env';
 import { Toast } from 'vant';
+import { Quote } from '../../shared/Quote';
 export const Publish = defineComponent({
   setup: (props, context) => {
     const isShowMenu = ref<boolean>(false)
@@ -76,6 +77,7 @@ export const Publish = defineComponent({
           icon: () => <BackIcon svg='menu' onClick={() => isShowMenu.value = true} />,
           title: () => '发布作业',
           default: () => <div class={s.content}>
+            <p><Quote name='发布作业'/></p>
             <Form>
               <FormItem label='班级' type='select'
                 options={selectData.classMap}

@@ -9,8 +9,10 @@ import { classIdMapFunction, teacherMapFunction } from '../../config/NameMap';
 import { Rules, hasError, validate } from '../../shared/Validate';
 import { http } from '../../shared/Http';
 import { Toast } from 'vant';
+import { MenuBar } from '../../layouts/MenuBar';
 export const Subject = defineComponent({
   setup: (props, context) => {
+    const isShowMenu = ref(false)
     const selectData = reactive({
       classOpt: [
         { value: '123123', text: '大数据B201' },
@@ -38,13 +40,13 @@ export const Subject = defineComponent({
       Object.assign(errors, validate(formData, rules))
       if (!hasError(errors)) {
         formData.classId = classIdMapFunction(formData.classId)
-        try{
+        try {
           http.post('/subject', formData, { _autoLoading: true })
           Toast({
             message: '发布成功！'
           })
-          Object.assign(formData, {classId: selectData.classOpt[0].text, subject: ''})
-        }catch(err){
+          Object.assign(formData, { classId: selectData.classOpt[0].text, subject: '' })
+        } catch (err) {
           console.log(err)
         }
       }
@@ -55,7 +57,7 @@ export const Subject = defineComponent({
     return () => (
       <MainLayout>{
         {
-          icon: () => <BackIcon svg='menu' />,
+          icon: () => <BackIcon svg='menu' onClick={() => isShowMenu.value = true} />,
           title: () => '新的学科',
           default: () => <div class={s.content}>
             <p><Quote name='发布学科' /></p>
@@ -67,6 +69,11 @@ export const Subject = defineComponent({
                 <Button onClick={publish}>发布新学科</Button>
               </div>
             </Form>
+            {
+              isShowMenu.value ?
+                <MenuBar name={'teacher'} onClose={() => isShowMenu.value = false} />
+                : null
+            }
           </div>
         }
       }</MainLayout>
