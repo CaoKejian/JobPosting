@@ -1,0 +1,13 @@
+.wrapper{
+  width: 100%;
+  position: absolute;
+  .svg{
+    width: 20rem;
+    height: 20rem;
+  }
+  .svg,>Button{
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
