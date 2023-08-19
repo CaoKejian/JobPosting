@@ -1,6 +1,7 @@
 import { PropType, defineComponent, ref } from 'vue';
 import s from './BackIcon.module.scss';
 import { useRoute, useRouter } from 'vue-router';
+import { removeLocal } from '../config/utils';
 export const BackIcon = defineComponent({
   props: {
     svg: {
@@ -23,7 +24,10 @@ export const BackIcon = defineComponent({
         return
       }else if(props.svg === 'user'){
         return 
-      } else {
+      } else if(props.svg === 'goLogin'){
+        router.push('/login')
+        removeLocal()
+      }else {
         router.back()
       }
     }
