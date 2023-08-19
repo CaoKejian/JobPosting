@@ -2,8 +2,9 @@ import { PropType, computed, defineComponent, ref } from 'vue';
 import s from './Form.module.scss'
 import { getFriendlyError } from './getFriendlyError';
 import { Button } from './Button';
-import { Popup, DatetimePicker } from 'vant';
+import { Popup, DatetimePicker, Picker } from 'vant';
 import { Time } from './Time';
+import { ScoreList } from './Score';
 
 export const Form = defineComponent({
   props: {
@@ -32,7 +33,7 @@ export const FormItem = defineComponent({
       type: [String, Number, Date]
     },
     type: {
-      type: String as PropType<'text' | 'emojiSelect' | 'date' | 'validationcode' | 'select' | 'search'>
+      type: String as PropType<'text' | 'emojiSelect' | 'date' | 'validationcode' | 'select' | 'search' | 'score'>
     },
     InputDisabled: {
       type: Boolean,
@@ -55,6 +56,7 @@ export const FormItem = defineComponent({
   emits: ['update:modelValue'],
   setup: (props, context) => {
     const refDateVisible = ref(false)
+    const refScoreVisible = ref(false)
     const timer = ref<any>()
     const count = ref<number>(props.countForm)
     const isCounting: any = computed(() => !!timer.value)
@@ -107,21 +109,38 @@ export const FormItem = defineComponent({
             {props.options?.map(options =>
               <option value={options.text} >{options.text}</option>)}
           </select>
-          case 'date':
-            return <>
-              <input readonly={true} value={props.modelValue}
-                placeholder={props.placeholder}
-                onClick={() => { refDateVisible.value = true }}
-                class={[s.formItem, s.input]} />
-              <Popup position='bottom' v-model:show={refDateVisible.value}>
-                <DatetimePicker vmodelValue={props.modelValue? new Date(props.modelValue): new Date()} type="date" title="选择年月日" max-date={new Date(2024, 1, 1)} min-date={new Date()}
-                  onConfirm={(date: Date) => {
-                    context.emit('update:modelValue', Time(date,'YY-MM-SS'))
-                    refDateVisible.value = false
-                  }}
-                  onCancel={() => refDateVisible.value = false} />
-              </Popup>
-            </>
+        case 'score':
+          return <><input readonly={true} value={props.modelValue}
+          placeholder={props.placeholder}
+          onClick={() => { refScoreVisible.value = true }}
+          class={[s.formItem, s.input]} />
+          <Popup position='bottom' v-model:show={refScoreVisible.value}>
+          <Picker
+            title="标题"
+            defaultIndex={80}
+            columns={ScoreList}
+            onCancel={() => refScoreVisible.value = false}
+            onConfirm={(score: number) =>{
+              context.emit('update:modelValue', score)
+              refScoreVisible.value = false
+            }}
+          />
+            </Popup></>
+        case 'date':
+          return <>
+            <input readonly={true} value={props.modelValue}
+              placeholder={props.placeholder}
+              onClick={() => { refDateVisible.value = true }}
+              class={[s.formItem, s.input]} />
+            <Popup position='bottom' v-model:show={refDateVisible.value}>
+              <DatetimePicker vmodelValue={props.modelValue? new Date(props.modelValue): new Date()} type="date" title="选择年月日" max-date={new Date(2024, 1, 1)} min-date={new Date()}
+                onConfirm={(date: Date) => {
+                  context.emit('update:modelValue', Time(date,'YY-MM-SS'))
+                  refDateVisible.value = false
+                }}
+                onCancel={() => refDateVisible.value = false} />
+            </Popup>
+          </>
         case undefined:
           return context.slots.default?.()
       }
