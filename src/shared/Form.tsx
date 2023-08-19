@@ -2,7 +2,7 @@ import { PropType, computed, defineComponent, ref } from 'vue';
 import s from './Form.module.scss'
 import { getFriendlyError } from './getFriendlyError';
 import { Button } from './Button';
-import { Popup, DatetimePicker, Picker } from 'vant';
+import { Popup, DatetimePicker, Picker, Checkbox } from 'vant';
 import { Time } from './Time';
 import { ScoreList } from './Score';
 
@@ -33,7 +33,7 @@ export const FormItem = defineComponent({
       type: [String, Number, Date]
     },
     type: {
-      type: String as PropType<'text' | 'emojiSelect' | 'date' | 'validationcode' | 'select' | 'search' | 'score'>
+      type: String as PropType<'text' | 'emojiSelect' | 'date' | 'validationcode' | 'select' | 'search' | 'score' | 'radio'>
     },
     InputDisabled: {
       type: Boolean,
@@ -41,6 +41,10 @@ export const FormItem = defineComponent({
     },
     error: {
       type: String
+    },
+    radioType: {
+      type: Boolean as PropType<boolean>,
+      defalut: false
     },
     placeholder: String,
     options: Array as PropType<Array<{ value: string, text: string }>>,
@@ -53,10 +57,11 @@ export const FormItem = defineComponent({
     },
     disabled: Boolean,
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'update:radioType'],
   setup: (props, context) => {
     const refDateVisible = ref(false)
     const refScoreVisible = ref(false)
+    const checked = ref(props.radioType)
     const timer = ref<any>()
     const count = ref<number>(props.countForm)
     const isCounting: any = computed(() => !!timer.value)
@@ -76,6 +81,9 @@ export const FormItem = defineComponent({
     context.expose({
       startCount
     })
+    const changeRadioType = () => {
+      context.emit('update:radioType', checked.value)
+    }
     const content = computed(() => {
       switch (props.type) {
         case 'text':
@@ -126,6 +134,17 @@ export const FormItem = defineComponent({
             }}
           />
             </Popup></>
+        case 'radio':
+            return<>
+            <Checkbox v-model={checked.value} shape="square" onClick={() => 
+              changeRadioType()
+              }>
+              {checked.value ?
+                <svg class={s.raidoIcon}><use xlinkHref='#isGood'></use></svg> :
+                <svg class={s.raidoIcon}><use xlinkHref='#isNoGood'></use></svg>
+              }
+            </Checkbox>
+            </>
         case 'date':
           return <>
             <input readonly={true} value={props.modelValue}
