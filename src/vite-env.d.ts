@@ -38,10 +38,10 @@ type User = {
 
 type pubWork = {
   user: string,
-  classId: number
+  classId: number | string
   subject: string,
   branch: string,
-  time: number,
+  time?: number,
   cutTime?: undefined|number,
   content: string
 }

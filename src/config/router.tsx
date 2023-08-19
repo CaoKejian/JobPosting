@@ -10,6 +10,7 @@ import { Publish } from '../components/teacher/Publish';
 import { Correct } from '../components/teacher/Correct';
 import { Search } from '../components/teacher/Search';
 import { Subject } from '../components/teacher/Subject';
+import { Authority } from '../components/error/Authority';
 
 export const routes:RouteRecordRaw[] = [
   {path:'/',redirect:'/welcome'},
@@ -18,6 +19,13 @@ export const routes:RouteRecordRaw[] = [
   },
   {
     path:'/login',component:() => import('../views/Login')
+  },
+  {
+    path: '/error', component:() => import('../views/Error'),
+    children:[
+      {path:'', redirect:'/error/noauth'},
+      {path:'noauth',component: Authority},
+    ]
   },
   {
     path:'/student',component:() => import('../views/Student'),

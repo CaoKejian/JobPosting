@@ -13,6 +13,7 @@ import { Button } from '../../shared/Button';
 import { Time } from '../../shared/Time';
 
 import { DownLoadInfo } from '../../shared/DownLoad';
+import { MenuBar } from '../../layouts/MenuBar';
 export const Correct = defineComponent({
   props: {
     name: {
@@ -20,6 +21,7 @@ export const Correct = defineComponent({
     }
   },
   setup: (props, context) => {
+    const isShowMenu = ref(false)
     const classSelect = ref<ClassSelectItem[]>([])
     const subjectSelect = ref<ClassSelectItem[]>([])
     const formData = reactive({
@@ -28,23 +30,23 @@ export const Correct = defineComponent({
       branch: ''
     })
     const workData = ref<WorkObj[]>([
-      {
-        _id: '123',
-        stuId: 2001063037,
-        classId: 123123,
-        subject: '数据挖掘',
-        time: 1692364849562,
-        branch: '抖音数据挖掘',
-        file: { fileName: '抖音..docx', fileUrl: '' },
-        favor: false,
-        content: '认真完成这一次作业',
-        score: 0,
-        tComments: '',
-        isPass: false,
-        publish: '曹Sir',
-        cutTime: 1692364849563,
-        __v: 123
-      }
+      // {
+      //   _id: '123',
+      //   stuId: 2001063037,
+      //   classId: 123123,
+      //   subject: '数据挖掘',
+      //   time: 1692364849562,
+      //   branch: '抖音数据挖掘',
+      //   file: { fileName: '抖音..docx', fileUrl: '' },
+      //   favor: false,
+      //   content: '认真完成这一次作业',
+      //   score: 0,
+      //   tComments: '',
+      //   isPass: false,
+      //   publish: '曹Sir',
+      //   cutTime: 1692364849563,
+      //   __v: 123
+      // }
     ])
     const passData = ref({
       isPass: false,
@@ -122,7 +124,7 @@ export const Correct = defineComponent({
     return () => (
       <MainLayout>{
         {
-          icon: () => <BackIcon svg='menu' />,
+          icon: () => <BackIcon svg='menu' onClick={() => isShowMenu.value = true} />,
           title: () => '作业批改',
           default: () => <div class={s.container}>
             <div class={s.content}>
@@ -189,7 +191,13 @@ export const Correct = defineComponent({
                     </van-swipe>
                   </div>
               }
-            </div></div>
+            </div>
+            {
+              isShowMenu.value ?
+                <MenuBar name={'teacher'} onClose={() => isShowMenu.value = false} />
+                : null
+            }
+          </div>
         }
       }</MainLayout>
     )

@@ -12,7 +12,7 @@ import { Timestamp } from '../../shared/Time';
 import { pubWork } from '../../vite-env';
 import { Toast } from 'vant';
 import { Quote } from '../../shared/Quote';
-import { AxiosError } from 'axios';
+import { useRouter } from 'vue-router';
 export const Publish = defineComponent({
   setup: (props, context) => {
     const isShowMenu = ref<boolean>(false)
@@ -45,8 +45,16 @@ export const Publish = defineComponent({
       cutTime: [],
       content: []
     })
+    const router = useRouter()
     onMounted(() => {
+      const x = JSON.parse(localStorage.getItem('info') as string).stuId
+      console.log(x)
       formData.user = teacherMapFunction(JSON.parse(localStorage.getItem('info') as string).stuId)
+      //* 判断是否有权限 * //
+      if(formData.user === '未录入'){
+        console.log(1)
+        router.push('/error/noauth')
+      }
     })
     const publish = async (e: Event) => {
       e.preventDefault()
@@ -60,7 +68,7 @@ export const Publish = defineComponent({
       Object.assign(errors, validate(formData, rules))
       if (!hasError(errors)) {
         formData.cutTime = Timestamp(String(formData.cutTime))
-        formData.classId = classIdMapFunction(formData.classId)
+        formData.classId = +classIdMapFunction(String(formData.classId))
         try {
           await http.post('/pub', formData, { _autoLoading: true })
           Object.assign(formData, { cutTime: '', content: '' })
