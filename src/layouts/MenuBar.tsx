@@ -139,6 +139,12 @@ export const MenuBar = defineComponent({
                       </RouterLink>
                     </li>
                     <li>
+                      <RouterLink to="/teacher/subject">
+                        <svg class={s.icon}><use xlinkHref='#subject'></use></svg>
+                        <span onClick={() => onClick(2)}>新的学科</span>
+                      </RouterLink>
+                    </li>
+                    <li>
                       <RouterLink to="/teacher/search">
                         <svg class={s.icon}><use xlinkHref='#worksearch'></use></svg>
                         <span onClick={() => onClick(3)}>作业查询</span>

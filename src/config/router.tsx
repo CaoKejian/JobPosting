@@ -9,6 +9,7 @@ import { Analyze } from '../components/students/Analyze';
 import { Publish } from '../components/teacher/Publish';
 import { Correct } from '../components/teacher/Correct';
 import { Search } from '../components/teacher/Search';
+import { Subject } from '../components/teacher/Subject';
 
 export const routes:RouteRecordRaw[] = [
   {path:'/',redirect:'/welcome'},
@@ -38,6 +39,7 @@ export const routes:RouteRecordRaw[] = [
       {path:'publish',component: Publish},
       {path:'correct',component: Correct},
       {path:'search',component: Search},
+      {path:'subject',component: Subject},
       {path:'analyze',component: () => import('../components/teacher/Analyze')},
     ]
   }
