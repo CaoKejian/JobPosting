@@ -12,7 +12,7 @@ import { Rules, hasError, validate } from '../../shared/Validate';
 import axios from 'axios';
 import { useRoute, useRouter } from 'vue-router';
 import { classMap } from '../../config/NameMap';
-import { Work } from '../../vite-env';
+import { Class, Work } from '../../vite-env';
 import { Loading } from '../../shared/Loading';
 import { Quote } from '../../shared/Quote';
 import { Time } from '../../shared/Time';
@@ -21,12 +21,11 @@ export const HandWork = defineComponent({
   setup: (props, context) => {
     const className = ref<string>('')
     const isReady = ref<boolean>(false)
-    const submitInfo = reactive({
-      subjectArr: [
-        { value: 'a', text: '数据挖掘' },
-        { value: 'b', text: 'React' },
-        { value: 'c', text: '英语' },
-      ],
+    const submitInfo = reactive<{
+      subjectArr: {value: string, text: string}[],
+      branchArr: {value: string, text: string}[]
+    }>({
+      subjectArr: [],
       branchArr: [
         { value: '数据挖掘', text: '抖音数据分析' },
         { value: '数据挖掘', text: '百度数据挖掘' },
@@ -40,7 +39,7 @@ export const HandWork = defineComponent({
       id: '',
       classId: 0,
       stuId: '',
-      subject: submitInfo.subjectArr[0].text,
+      subject: '',
       branch: '',
       favor: false, 
       content: '',
@@ -77,6 +76,22 @@ export const HandWork = defineComponent({
         console.log(error)
       }
     }
+    const fetchSubjectData = async (classId: number) => {
+      try{
+        const data = await http.get<Class>('/subject/myclass/classId', { classId: classId}, {_autoLoading:true})
+        console.log(data)
+        const subjects = data.data.subjects
+        subjects.forEach((item, index) => {
+          const subjectObj = {
+            value: `${index} + 1`,
+            text: item
+          };
+          submitInfo.subjectArr.push(subjectObj);
+        });
+      }catch(err){
+        console.log(err)
+      }
+    }
     onMounted(() => {
       formData.id = Array.isArray(route.params.id) ? route.params.id.join('') : route.params.id
       if (formData.id !== 'submit') {
@@ -85,6 +100,7 @@ export const HandWork = defineComponent({
       const info = JSON.parse(localStorage.getItem('info') as string)
       formData.stuId = info.stuId
       const classId = Number(localStorage.getItem('classID'))
+      fetchSubjectData(classId)
       formData.classId = classId
       className.value = classMap[classId] ? classMap[classId] : String(classId)
       isReady.value = true
