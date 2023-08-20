@@ -74,7 +74,6 @@ export const HandWork = defineComponent({
           user: data.data.user,
           content: data.data.content
         })
-        console.log(formData.cutTime)
       } catch (err) {
         console.log(err)
       }

@@ -48,7 +48,12 @@ export const Correct = defineComponent({
       //   __v: 123
       // }
     ])
-    const passData = ref({
+    const passData = ref<{
+      isPass: boolean,
+      tComments: string,
+      favor: boolean,
+      score: number | null,
+    }>({
       isPass: false,
       tComments: '',
       favor: false,
@@ -78,6 +83,9 @@ export const Correct = defineComponent({
           };
           classSelect.value.push(classObj);
         });
+        if(response.data.classes.length!==0){
+          formData.classId = classSelect.value[0].text
+        }
       } catch (err) {
         console.log(err)
       }
@@ -109,10 +117,17 @@ export const Correct = defineComponent({
       await DownLoadInfo(workData.value[index].file);
       await new Promise(resolve => setTimeout(resolve, 1000))
     }
-    const next = () => {
-      console.log(passData.value)
+    const next = async (index: number) => {
       swipe.value.next()
-    }
+      /* 作业批改 */
+        try{
+          Object.assign(workData.value[index], passData.value)
+          await http.post('/work/upload', workData.value[index], {_autoLoading:true})
+          Toast({message: '批改成功！'})
+        }catch(err){
+          Toast({message: '批改失败！'})
+        }
+      }
     const prev = () => {
       swipe.value.prev()
     }
@@ -152,7 +167,7 @@ export const Correct = defineComponent({
                               {/* 预期否、打分、是否优秀、下一个【通过】）-已批12/61份未批 */}
                               <div class={s.box}>
                                 <div class={s.top}>
-                                  {item.time - item.cutTime >= 0 ?
+                                  {item.time - item.cutTime < 0 ?
                                     <span>未逾期</span> :
                                     <span class={s.overTime}>逾期</span>
                                   }
@@ -181,7 +196,7 @@ export const Correct = defineComponent({
                                 </div>
                                 <div class={s.controller}>
                                   <Button onClick={prev}>上一个</Button>
-                                  <Button onClick={next} class={s.pass}>通过</Button>
+                                  <Button onClick={() => next(index)} class={s.pass}>通过</Button>
                                 </div>
                               </div>
                             </van-swipe-item>
