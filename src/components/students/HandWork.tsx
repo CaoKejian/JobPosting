@@ -9,7 +9,6 @@ import { http } from '../../shared/Http';
 import { Button } from '../../shared/Button';
 import { throttle } from '../../shared/Throttle';
 import { Rules, hasError, validate } from '../../shared/Validate';
-import axios from 'axios';
 import { useRoute, useRouter } from 'vue-router';
 import { classMap } from '../../config/NameMap';
 import { Class, Work } from '../../vite-env';

@@ -93,6 +93,9 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      .fileTitle{
+        color: var(--theme-font-color);
+      }
     }
     .good{
       width: 3.5rem;

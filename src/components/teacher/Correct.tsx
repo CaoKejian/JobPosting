@@ -54,7 +54,7 @@ export const Correct = defineComponent({
       favor: boolean,
       score: number | null,
     }>({
-      isPass: false,
+      isPass: true,
       tComments: '',
       favor: false,
       score: null,

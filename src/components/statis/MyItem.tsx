@@ -32,11 +32,11 @@ export const MyItem = defineComponent({
         branch: newValue
       }, { _autoLoading: true })
       workObj.value = res.data
+      active.value = res.data.isPass ? 2 : 1
       const data = await http.get<any>('/work/download/one', {
         stuId: stuId.value,
         branch: newValue
       }, { _autoLoading: true })
-      console.log(data)
       downloadsInfo.value = [data.data.data]
     })
     const fetchMyData = async (id: string) => {
@@ -93,7 +93,7 @@ export const MyItem = defineComponent({
                   </van-steps>
                   <div class={s.homework}>
                     <div class={s.head}>
-                      <p class={s.time}>{Time(workObj.value?.time || 0, 'MM-SS')}</p>
+                      <p class={s.time}>{Time(workObj.value?.time || 0, 'MM-SS-DD')}</p>
                       <p class={s.name}>{workObj.value?.branch}</p>
                       <p class={s.score}>{workObj.value?.score}</p>
                     </div>
@@ -105,7 +105,8 @@ export const MyItem = defineComponent({
                     </div>
                     <div class={s.foot}>
                       <p class={s.file}>
-                        <span>文件：{workObj.value?.file.fileName}</span>
+                        <span class={s.fileTitle}>文件：</span>
+                        <span>{workObj.value?.file.fileName}</span>
                       </p>
                       {workObj.value?.favor ?
                         <img class={s.good} src={`${getAssetsFile('award.png')}`} alt="" />
