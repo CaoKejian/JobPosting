@@ -25,7 +25,7 @@ export const BackIcon = defineComponent({
       }else if(props.svg === 'user'){
         return 
       } else if(props.svg === 'goLogin'){
-        router.push('/login')
+        router.push('/login?return_to=/')
         removeLocal()
       }else {
         router.back()
