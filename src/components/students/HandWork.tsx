@@ -22,15 +22,11 @@ export const HandWork = defineComponent({
     const className = ref<string>('')
     const isReady = ref<boolean>(false)
     const submitInfo = reactive<{
-      subjectArr: {value: string, text: string}[],
-      branchArr: {value: string, text: string}[]
+      subjectArr: { value: string, text: string }[],
+      branchArr: { value: string, text: string }[]
     }>({
       subjectArr: [],
-      branchArr: [
-        { value: '数据挖掘', text: '抖音数据分析' },
-        { value: '数据挖掘', text: '百度数据挖掘' },
-        { value: 'React', text: '组件定义' },
-      ],
+      branchArr: [],
     })
     const router = useRouter()
     const route = useRoute()
@@ -41,13 +37,13 @@ export const HandWork = defineComponent({
       stuId: '',
       subject: '',
       branch: '',
-      favor: false, 
+      favor: false,
       content: '',
       score: 0,
-      tComments: '', 
+      tComments: '',
       isPass: false,
-      user: '', 
-      cutTime: 0, 
+      user: '',
+      cutTime: 0,
       file: {
         fileName: '',
         fileUrl: ''
@@ -64,6 +60,25 @@ export const HandWork = defineComponent({
         message: '不能修改班级码',
       });
     }
+    const fetchBranchCutTime = async (branch: string) => {
+      try {
+        const data = await http.get<Work>('/pub/branch',
+          {
+            branch,
+            classId: formData.classId,
+            subject: formData.subject
+          },
+          { _autoLoading: true })
+        Object.assign(formData, {
+          cutTime: data.data.cutTime,
+          user: data.data.user,
+          content: data.data.content
+        })
+        console.log(formData.cutTime)
+      } catch (err) {
+        console.log(err)
+      }
+    }
     const fetchUploadWork = async (id: string) => {
       try {
         const response = await http.get<Work>('/work/upload/work', { id }, { _autoLoading: true })
@@ -77,9 +92,8 @@ export const HandWork = defineComponent({
       }
     }
     const fetchSubjectData = async (classId: number) => {
-      try{
-        const data = await http.get<Class>('/subject/myclass/classId', { classId: classId}, {_autoLoading:true})
-        console.log(data)
+      try {
+        const data = await http.get<Class>('/subject/myclass/classId', { classId: classId }, { _autoLoading: true })
         const subjects = data.data.subjects
         subjects.forEach((item, index) => {
           const subjectObj = {
@@ -88,7 +102,26 @@ export const HandWork = defineComponent({
           };
           submitInfo.subjectArr.push(subjectObj);
         });
-      }catch(err){
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    const fetchBranchData = async (subject: string) => {
+      try {
+        Object.assign(submitInfo, {
+          branchArr: []
+        })
+        const data = await http.get<Class>('pub/subject/branch', { subject }, { _autoLoading: true })
+        console.log(data)
+        const branches = data.data.branches
+        branches.forEach((item, index) => {
+          const branchObj = {
+            value: `${index} + 1`,
+            text: item
+          };
+          submitInfo.branchArr.push(branchObj);
+        });
+      } catch (err) {
         console.log(err)
       }
     }
@@ -106,29 +139,11 @@ export const HandWork = defineComponent({
       isReady.value = true
     })
     watch(() => formData.branch, (newValue, oldValue) => {
-      console.log(newValue)
       fetchBranchCutTime(newValue)
     })
-    const fetchBranchCutTime = async (branch: string) => {
-      try {
-        const data = await http.get<Work>('/pub/branch',
-          {
-            branch,
-            classId: formData.classId,
-            subject: formData.subject
-          },
-          { _autoLoading: true })
-        Object.assign(formData, {
-          cutTime : data.data.cutTime,
-          user : data.data.user,
-          content : data.data.content
-        })
-        console.log(formData.cutTime)
-
-      } catch (err) {
-
-      }
-    }
+    watch(() => formData.subject, (newValue, oldValue) => {
+      fetchBranchData(newValue)
+    })
     const afterRead = (file: any) => {
       let formDataFile = new FormData();
       formDataFile.append('file', file.file); // 上传的文件在 file 对象的 file 属性中
@@ -239,7 +254,7 @@ export const HandWork = defineComponent({
                   formData.branch !== '' ?
                     <div class={s.info}>
                       <span>发布者： <span class={s.main}>{formData.user}</span></span>
-                      <span>作业描述:  <div class={[s.main,s.content]}>{formData.content}</div></span>
+                      <span>作业描述:  <div class={[s.main, s.content]}>{formData.content}</div></span>
                     </div> : null
                 }
 

@@ -92,6 +92,7 @@ type Class ={
   data: [],
   classes: [],
   subjects: []
+  branches:[]
 }
 interface ClassSelectItem {
   value: string;
