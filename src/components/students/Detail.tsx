@@ -191,7 +191,15 @@ export const Detail = defineComponent({
                                   </div>
                                   <div class={s.right}>
                                     <div class={s.info}><div class={s.type}>时间</div><span>{Time(item.time)}</span></div>
+                                    <div class={s.favor}>
+                                      {
+                                        item.favor ? <>
+                                          <img src={`${getAssetsFile('award.png')}`}  alt="" />
+                                        </> : null
+                                      }
+                                    </div>
                                   </div>
+                                  
                                 </div>
                             </div>
                             </van-swipe-item>
@@ -226,8 +234,12 @@ export const Detail = defineComponent({
                               <div class={s.info}><div class={s.type}>学科</div><span>{item.subject}</span></div>
                             </div>
                             <div class={s.right}>
-                                <img src={`${getAssetsFile('award.png')}`}  alt="" />
-                                <span class={s.award}>优秀奖</span>
+                              {
+                                item.favor ? <>
+                                  <img src={`${getAssetsFile('award.png')}`}  alt="" />
+                                  <span class={s.award}>优秀奖</span>
+                                </> : null
+                              }
                             </div>
                           </div>
                         </div>
