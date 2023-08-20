@@ -132,6 +132,9 @@
           flex: 1;
           max-width: 50%;
           overflow: hidden;
+          .subject{
+            color: var(--theme-font-color);
+          }
         }
         .info{
           width: 100%;
