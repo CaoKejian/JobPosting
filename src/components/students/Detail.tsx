@@ -126,7 +126,6 @@ export const Detail = defineComponent({
       const isAuth = stuIdMapFunction(JSON.parse(localStorage.getItem('info') as string).stuId)
       if(isAuth === '未录入'){
         router.push('/error/noauth')
-        // 没权限->权限页-> login
         return
       }
       classId.value = localStorage.getItem('classID') || ''

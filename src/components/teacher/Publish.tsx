@@ -9,22 +9,23 @@ import { Rules, hasError, validate } from '../../shared/Validate';
 import { http } from '../../shared/Http';
 import { classIdMapFunction, teacherMapFunction } from '../../config/NameMap';
 import { Timestamp } from '../../shared/Time';
-import { pubWork } from '../../vite-env';
+import { Class, pubWork } from '../../vite-env';
 import { Toast } from 'vant';
 import { Quote } from '../../shared/Quote';
 import { useRouter } from 'vue-router';
 export const Publish = defineComponent({
   setup: (props, context) => {
     const isShowMenu = ref<boolean>(false)
-    const selectData = reactive({
+    const selectData = reactive<{
+      classMap: { value: string, text: string }[],
+      subjectMap: { value: string, text: string }[],
+      branchMap: { value: string, text: string }[]
+    }>({
       classMap: [
         { value: '123123', text: '大数据B201' },
         { value: '122122', text: '智能B222' },
       ],
-      subjectMap: [
-        { value: '1', text: 'React' },
-        { value: '2', text: '数据挖掘' },
-      ],
+      subjectMap: [],
       branchMap: [
         { value: '1', text: '组件定义' },
         { value: '2', text: '抖音数据分析' },
@@ -33,8 +34,8 @@ export const Publish = defineComponent({
     const formData = reactive<pubWork>({
       user: '',
       classId: selectData.classMap[0].text,
-      subject: selectData.subjectMap[0].text,
-      branch: selectData.branchMap[0].text,
+      subject: '',
+      branch: '',
       cutTime: undefined,
       content: ''
     })
@@ -46,12 +47,31 @@ export const Publish = defineComponent({
       content: []
     })
     const router = useRouter()
+    const fetchSubjectData = async (classId: string, user: string) => {
+      try {
+        const data = await http.get<Class>('/subject/myAll/subject', { classId, user }, { _autoLoading: true })
+        const subjects = data.data.subjects
+        subjects.forEach((item, index) => {
+          const subjectObj = {
+            value: `${index} + 1`,
+            text: item
+          };
+          selectData.subjectMap.push(subjectObj);
+        });
+        if (data.data.subjects.length !== 0) {
+          formData.subject = selectData.subjectMap[0].text
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    }
     onMounted(() => {
       formData.user = teacherMapFunction(JSON.parse(localStorage.getItem('info') as string).stuId)
       //* 判断是否有权限 * //
-      if(formData.user === '未录入'){
+      if (formData.user === '未录入') {
         router.push('/error/noauth')
       }
+      fetchSubjectData(classIdMapFunction(formData.classId), formData.user)
     })
     const publish = async (e: Event) => {
       e.preventDefault()
@@ -65,16 +85,16 @@ export const Publish = defineComponent({
       Object.assign(errors, validate(formData, rules))
       if (!hasError(errors)) {
         formData.cutTime = Timestamp(String(formData.cutTime))
-        formData.classId = +classIdMapFunction(String(formData.classId))
+        formData.classId = classIdMapFunction(String(formData.classId))
         try {
           await http.post('/pub', formData, { _autoLoading: true })
-          Object.assign(formData, { cutTime: '', content: '' })
+          Object.assign(formData, { classId: selectData.classMap[0].text, subject: selectData.classMap[0].text, cutTime: '', content: '', branch: '' })
           Toast({
             message: '发布成功！'
           })
-        } catch (err:any) {
-          if(err.response?.status===402){
-          Object.assign(formData, { cutTime: '', content: '' })
+        } catch (err: any) {
+          if (err.response?.status === 402) {
+            Object.assign(formData, { classId: selectData.classMap[0].text, subject: selectData.classMap[0].text, cutTime: '', content: '', branch: '' })
             Toast({
               message: err.response.data.message
             })
@@ -88,7 +108,7 @@ export const Publish = defineComponent({
           icon: () => <BackIcon svg='menu' onClick={() => isShowMenu.value = true} />,
           title: () => '发布作业',
           default: () => <div class={s.content}>
-            <p><Quote name='发布作业'/></p>
+            <p><Quote name='发布作业' /></p>
             <Form>
               <FormItem label='班级' type='select'
                 options={selectData.classMap}
@@ -100,9 +120,9 @@ export const Publish = defineComponent({
                 v-model={formData.subject}
                 error={errors.subject?.[0] ?? '　'}>
               </FormItem>
-              <FormItem label='分支' type='select'
-                options={selectData.branchMap}
+              <FormItem label='分支' type='text'
                 v-model={formData.branch}
+                placeholder='请填写要发布的作业名称'
                 error={errors.branch?.[0] ?? '　'} >
               </FormItem>
               <FormItem label='截止时间'

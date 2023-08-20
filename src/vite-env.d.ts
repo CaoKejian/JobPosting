@@ -38,7 +38,7 @@ type User = {
 
 type pubWork = {
   user: string,
-  classId: number | string
+  classId: string
   subject: string,
   branch: string,
   time?: number,
