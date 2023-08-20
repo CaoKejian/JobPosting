@@ -13,7 +13,6 @@ import axios from 'axios';
 import { useRoute, useRouter } from 'vue-router';
 import { classMap } from '../../config/NameMap';
 import { Class, Work } from '../../vite-env';
-import { Loading } from '../../shared/Loading';
 import { Quote } from '../../shared/Quote';
 import { Time } from '../../shared/Time';
 
@@ -261,7 +260,7 @@ export const HandWork = defineComponent({
                   <Button type='submit'>提交</Button>
                 </div>
               </Form> :
-              <Loading visible={isReady.value} />
+              null
             }
             {
               isShowVisible.value ?

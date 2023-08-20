@@ -3,7 +3,6 @@ import s from './MyItem.module.scss';
 import { Form, FormItem } from '../../shared/Form';
 import { Time } from '../../shared/Time';
 import { Button } from '../../shared/Button';
-import { Loading } from '../../shared/Loading';
 import { Work } from '../../vite-env';
 import { getAssetsFile } from '../../config/imgUtil';
 import { http } from '../../shared/Http';
@@ -37,6 +36,7 @@ export const MyItem = defineComponent({
         stuId: stuId.value,
         branch: newValue
       }, { _autoLoading: true })
+      console.log(data)
       downloadsInfo.value = [data.data.data]
     })
     const fetchMyData = async (id: string) => {
@@ -115,7 +115,7 @@ export const MyItem = defineComponent({
                     <Button onClick={onDownload}>点击下载</Button>
                   </div>
                 </div> : <div class={s.steps}></div>
-            }</> : <Loading visible={isShowDom.value} />
+            }</> : null
         }
       </div>
     )
