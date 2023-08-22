@@ -8,7 +8,7 @@ import { Form, FormItem } from '../../shared/Form';
 import { Button } from '../../shared/Button';
 import { classMap, stuIdMapFunction } from '../../config/NameMap';
 import { http } from '../../shared/Http';
-import { User, Work } from '../../vite-env';
+import { Class, User, Work } from '../../vite-env';
 import { DownLoadInfo } from '../../shared/DownLoad';
 import { PeopleShow } from '../../shared/PeopleShow';
 
@@ -17,20 +17,12 @@ export const DownLoads = defineComponent({
     const isShowVisible = ref<boolean>(false)
     const className = ref<string>('')
     const classId = ref<number>(0)
-    const subjectArr = ref([
-      { value: 'a', text: '数据挖掘' },
-      { value: 'b', text: 'React' },
-      { value: 'c', text: '英语' },
-    ])
-    const branchArr = ref([
-      { value: '数据挖掘', text: '抖音数据清洗' },
-      { value: '数据挖掘', text: '百度数据挖掘' },
-      { value: 'React', text: '类组件定义' },
-    ])
+    const subjectArr = ref<{value:string,text:string}[]>([])
+    const branchArr = ref<{value:string,text:string}[]>([])
     const formData = reactive({
       classId: '',
       stuId: '',
-      subject: subjectArr.value[0].text,
+      subject: '',
       branch: '',
     })
     const errors = reactive({
@@ -44,6 +36,8 @@ export const DownLoads = defineComponent({
     watch(() => [formData.branch, formData.subject], async (newValue) => {
       const [branch, subject] = newValue
       //  发送请求 传入 newValue和classId
+      await fetchBranchData(subject)
+      if(branch === '') return
       try {
         const data = await http.get<any>('/work/download', {
           branch,
@@ -88,11 +82,46 @@ export const DownLoads = defineComponent({
         message: '不能修改班级码',
       });
     }
-    onMounted(() => {
+    const fetchSubjectData = async (classId: number) => {
+      try {
+        const data = await http.get<Class>('/subject/myclass/classId', { classId: classId }, { _autoLoading: true })
+        const subjects = data.data.subjects
+        subjects.forEach((item, index) => {
+          const subjectObj = {
+            value: `${index} + 1`,
+            text: item
+          };
+          subjectArr.value.push(subjectObj);
+        });
+        if(subjectArr.value.length !== 0){
+          formData.subject = subjectArr.value[0].text
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    const fetchBranchData = async (subject: string) => {
+      try {
+        branchArr.value = []
+        const data = await http.get<Class>('pub/subject/branch', { subject }, { _autoLoading: true })
+        const branches = data.data.branches
+        branches.forEach((item, index) => {
+          const branchObj = {
+            value: `${index} + 1`,
+            text: item
+          };
+          branchArr.value.push(branchObj);
+        });
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    onMounted(async () => {
       classId.value = Number(localStorage.getItem('classID')) || 0
       const info = JSON.parse(localStorage.getItem('info') as string)
       formData.stuId = info.stuId
       className.value = classMap[classId.value] ? classMap[classId.value] : String(classId.value)
+      await fetchSubjectData(classId.value)
     })
     return () => (
       <MainLayout>{
