@@ -49,7 +49,7 @@ export const PieChart = defineComponent({
         randomData()
         const arrValue = getArrayValue(dataSeries.value, "value");
         const sumValue = eval(arrValue.join('+'));
-        const optionData = getData(dataSeries.value,sumValue);
+        const optionData = getData(dataSeries.value, sumValue);
         updateChart(optionData.series)
       }, 2000);
       return () => {
@@ -78,23 +78,23 @@ export const PieChart = defineComponent({
           itemGap: 10,
           orient: 'vertical',
           formatter: function (name: string) {
-              return "{title|" + name + "}{value|" + (objData[name].value) + "}{title|项}"
+            return "{title|" + name + "}{value|" + (objData[name].value) + "}{title|项}"
           },
           textStyle: {
-              rich: {
-                  title: {
-                      fontSize: 14,
-                      lineHeight: 25,
-                      color: "#000"
-                  },
-                  value: {
-                      fontSize: 14,
-                      lineHeight: 20,
-                      color: "#386b78"
-                  }
+            rich: {
+              title: {
+                fontSize: 14,
+                lineHeight: 25,
+                color: "#000"
+              },
+              value: {
+                fontSize: 14,
+                lineHeight: 20,
+                color: "#386b78"
               }
+            }
           },
-      },
+        },
         tooltip: {
           show: true,
           trigger: "item",
@@ -126,8 +126,10 @@ export const PieChart = defineComponent({
         res.series.push({
           name: '',
           type: 'pie',
-          clockWise: false, //顺时加载
-          hoverAnimation: false, //鼠标移入变大
+          clockwise: false, //顺时加载
+          emphasis: {
+            scale: false // 鼠标移入缩放
+          },
           radius: [60 - i * 15 + '%', 55 - i * 15 + '%'],
           startAngle: -90 * i, //起始角度
           center: ["45%", "55%"],
@@ -136,10 +138,8 @@ export const PieChart = defineComponent({
             lineHeight: 40,
             formatter: '{b}\n\n{d}%',
             padding: [50, -60, 25, -60],
-            textStyle: {
-              fontSize: 12,
-              color: "#386b78",
-            }
+            fontSize: 12,
+            color: "#386b78",
           },
           labelLine: {
             show: true,
@@ -177,14 +177,14 @@ export const PieChart = defineComponent({
       }
       return res;
     }
-    const array2obj = (array:any, key:any) => {
-      var resObj:any = {};
+    const array2obj = (array: any, key: any) => {
+      var resObj: any = {};
       for (var i = 0; i < array.length; i++) {
-          resObj[array[i][key]] = array[i];
+        resObj[array[i][key]] = array[i];
       }
       return resObj;
-  }
-  
+    }
+
     const arrName = getArrayValue(dataSeries.value, "name");
     const objData = array2obj(dataSeries.value, "name");//alert(JSON.stringify(objData))
     const arrValue = getArrayValue(dataSeries.value, "value");
