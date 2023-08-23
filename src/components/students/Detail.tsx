@@ -187,7 +187,7 @@ export const Detail = defineComponent({
                                   <div class={s.left}>
                                     <div class={s.info}><div class={s.type}>姓名</div><span>{stuIdMapFunction(item.stuId)}</span></div>
                                     <div class={s.info}><div class={s.type}>上传文件</div><div>{item.file.fileName}</div></div>
-                                    <div class={s.info}><div class={s.type}>作业分支</div><span>{item.branch}<span class={s.subject}>({item.subject})</span></span></div>
+                                    <div class={[s.info,s.branch]}><div class={s.type}>作业分支</div><span>{item.branch}<span class={s.subject}>({item.subject})</span></span></div>
                                   </div>
                                   <div class={s.right}>
                                     <div class={s.info}><div class={s.type}>时间</div><span>{Time(item.time)}</span></div>

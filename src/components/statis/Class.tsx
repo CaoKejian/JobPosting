@@ -80,15 +80,14 @@ export const Class = defineComponent({
           branch: queryBranch
         })
         work.value = data.data
-        // 查询提交情况-根据 classId、branch获取到所有提交的学号；在根据学号去查谁没提交
-        const response = await http.get('/work/class/allWork',{
+        const response = await http.get('/work/class/allWork', {
           classId: formData.classId,
           branch: queryBranch
         })
         console.log(response)
         Toast.clear()
-      } catch (err) {
-
+      } catch (err: any) {
+        Toast({ message: err })
       }
     })
     onMounted(async () => {
@@ -119,7 +118,7 @@ export const Class = defineComponent({
                 </div>
                 <div class={s.box}>
                   <span>截止时间</span>
-                  <span>{Time(work.value.cutTime,'YY-MM-SS')}</span>
+                  <span>{Time(work.value.cutTime, 'YY-MM-SS')}</span>
                 </div>
                 <div class={s.box}>
                   <span>作业描述</span>

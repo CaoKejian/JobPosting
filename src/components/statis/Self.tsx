@@ -9,6 +9,7 @@ import { Work } from '../../vite-env';
 import { Rules, hasError, validate } from '../../shared/Validate';
 import { Time } from '../../shared/Time';
 import { Quote } from '../../shared/Quote';
+import { useRouter } from 'vue-router';
 
 type formDataObj = {
   searchPeople: string
@@ -23,6 +24,7 @@ export const Self = defineComponent({
     }
   },
   setup: (props, context) => {
+    const router = useRouter()
     const formData = reactive<formDataObj>({
       searchPeople: '2001063037',
       isEmpty: true,
@@ -123,7 +125,7 @@ export const Self = defineComponent({
                     formData.searchInfo?.length !== 0 ?
                       formData.searchInfo?.map((item, index) => {
                         return <div key={item._id} class={s.workList}>
-                          <div class={s.workItem}>
+                          <div class={s.workItem} onClick={() => router.push(`/student/view/${item._id}`)}>
                             <div class={s.index}>{index + 1}、</div>
                             <div class={s.workName}>{item.branch}</div>
                             <div class={s.subject}>「{item.subject}」 </div>

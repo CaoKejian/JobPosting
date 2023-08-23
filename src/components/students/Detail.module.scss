@@ -132,6 +132,9 @@
           flex: 1;
           max-width: 50%;
           overflow: hidden;
+          .branch{
+            height: 4rem;
+          }
           .subject{
             color: var(--theme-font-color);
           }
