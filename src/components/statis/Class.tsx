@@ -8,6 +8,7 @@ import { getAssetsFile } from '../../config/imgUtil';
 import { Quote } from '../../shared/Quote';
 import { Toast } from 'vant';
 import { Time } from '../../shared/Time';
+import { Button } from '../../shared/Button';
 export const Class = defineComponent({
   props: {
     name: {
@@ -18,6 +19,8 @@ export const Class = defineComponent({
     const branchArr = ref<{ value: string, text: string }[]>([])
     const workNumber = ref<number>(0)
     const workArr = ref<Work[]>([])
+    // 未提交名单
+    const unSubmit = ref<number[]>([])
     const work = ref<Work>({
       data: [],
       _id: '',
@@ -43,7 +46,8 @@ export const Class = defineComponent({
       branch: '',
       classId: 0
     })
-    const classSubmitArr = ref<{ stuId: number, classId: number }[]>([])
+    // 全班人员
+    const classSubmitArr = ref<{ stuId: number, classId: number, isSubmit?: boolean }[]>([])
     const fetchClassPeople = async (classId: number) => {
       try {
         const data = await http.get<{ stuId: number, classId: number }[]>('/class', { classId }, { _autoLoading: true })
@@ -80,11 +84,16 @@ export const Class = defineComponent({
           branch: queryBranch
         })
         work.value = data.data
-        const response = await http.get('/work/class/allWork', {
+        const response = await http.get<{ stuId: number, classId: number }[]>('/work/class/allWork', {
           classId: formData.classId,
           branch: queryBranch
         })
-        console.log(response)
+        unSubmit.value = response.data.map(item => item.stuId)
+        console.log(unSubmit.value)
+        classSubmitArr.value = classSubmitArr.value.map(item => {
+          const x = unSubmit.value.some(it => it === item.stuId)
+          return { ...item, isSubmit: x }
+        })
         Toast.clear()
       } catch (err: any) {
         Toast({ message: err })
@@ -138,8 +147,10 @@ export const Class = defineComponent({
         }
         <p><Quote name={'全班提交情况:'} /></p>
         {
-          formData.branch !== '' ?
+          formData.branch !== '' ? <>
             <PeopleShow array={classSubmitArr.value} />
+            <Button>一键通知未交同学</Button>
+            </>
             :
             <div class={s.empty}>
               <img src={`${getAssetsFile('empty.png')}`} alt="" />
