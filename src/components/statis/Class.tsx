@@ -99,6 +99,11 @@ export const Class = defineComponent({
         Toast({ message: err })
       }
     })
+    const onNotice = async () => {
+      const stuIds = [2001063037, 2001062028]
+      const data = await http.post('/user/email/unsubmit', { stuIds })
+      console.log(data)
+    }
     onMounted(async () => {
       Toast.loading({
         message: '加载中...',
@@ -149,8 +154,8 @@ export const Class = defineComponent({
         {
           formData.branch !== '' ? <>
             <PeopleShow array={classSubmitArr.value} />
-            <Button>一键通知未交同学</Button>
-            </>
+            <Button onClick={onNotice}>一键通知未交同学</Button>
+          </>
             :
             <div class={s.empty}>
               <img src={`${getAssetsFile('empty.png')}`} alt="" />
