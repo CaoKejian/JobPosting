@@ -1,4 +1,4 @@
-import { PropType, defineComponent, onMounted, reactive, ref } from 'vue';
+import { PropType, defineComponent, onMounted, reactive, ref, watch } from 'vue';
 import s from './Login.module.scss';
 import { MainLayout } from '../layouts/MainLayout';
 import { Form, FormItem } from '../shared/Form';
@@ -16,12 +16,14 @@ export const Login = defineComponent({
     const formData = reactive({
       stuId: '2001063037',
       email: '1849201815@qq.com',
-      code: ''
+      code: '',
+      name: ''
     })
     const errors = reactive({
       stuId: [],
       email: [],
-      code: []
+      code: [],
+      name:[]
     })
     const refValidationCode = ref<any>('')
     const { ref: refDisabled } = useBool(false)
@@ -32,11 +34,12 @@ export const Login = defineComponent({
     const onSubmit = throttle(async (e: Event) => {
       e.preventDefault()
       Object.assign(errors, {
-        id: [], email: [], code: []
+        id: [], email: [], code: [], name: []
       })
       const reules: Rules<typeof formData> = [
         { key: 'stuId', type: 'required', message: '必填' },
         { key: 'email', type: 'required', message: '必填' },
+        { key: 'name', type: 'required', message: '必填' },
         { key: 'email', type: 'pattern', regex: /.+@.+/, message: '必须是邮箱地址' },
         { key: 'code', type: 'required', message: '必填' },
         { key: 'code', type: 'pattern',regex: /^\d{6}$/, message: '六位数字验证码' }
@@ -104,6 +107,10 @@ export const Login = defineComponent({
         router.push('/student/detail')
       }
     }
+    watch(()=> formData.stuId, async () => {
+      const data = await http.get<{name:string}>('/class/stuid/name', {stuId:formData.stuId},{_autoLoading:true})
+      formData.name = data.data.name
+    }, { immediate: true })
     return () => (
       <MainLayout>{
         {
@@ -118,6 +125,9 @@ export const Login = defineComponent({
               <Form onSubmit={onSubmit}>
                 <FormItem label='学号' type='text' v-model={formData.stuId}
                   placeholder='请输入学号' error={errors.stuId?.[0] ?? '　'}></FormItem>
+                <FormItem label='姓名' type='text' v-model={formData.name}
+                  InputDisabled={formData.name !== ''}
+                  placeholder='请手动输入姓名' error={errors.stuId?.[0] ?? '　'}></FormItem>
                 <FormItem label='邮箱' type='text' v-model={formData.email}
                   placeholder='请输入邮箱，然后点击发送验证码' error={errors.email?.[0] ?? '　'}></FormItem>
                 <FormItem ref={refValidationCode} countForm={60} label='验证码' type='validationcode'
