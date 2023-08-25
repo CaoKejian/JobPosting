@@ -100,7 +100,7 @@ export const Class = defineComponent({
       }
     })
     const onNotice = async () => {
-      const stuIds = [2001063037, 2001062028]
+      const stuIds = classSubmitArr.value.filter(item => item.isSubmit!==true).map(it => it.stuId)
       const data = await http.post('/user/email/unsubmit', { stuIds })
       console.log(data)
     }
