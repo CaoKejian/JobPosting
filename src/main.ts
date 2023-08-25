@@ -32,10 +32,11 @@ router.beforeEach(async (to, from) => {
     return true
   } else {
     try {
-      const info = localStorage.getItem('info')
+      const info = JSON.parse(localStorage.getItem('info') as string)
       if (!info) {
         return '/login?return_to=' + from.path
       }
+      await http.post('/user/isself/auth', info)
       await http.get('/user/verify/jwt')
       return true
     } catch (error) {

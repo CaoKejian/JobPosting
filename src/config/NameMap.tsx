@@ -14,7 +14,9 @@ export const stuIdMap: Record<number, string> = {
 }
 
 export const teacherMao: Record<number,string> = {
-  2001: '曹Sir'
+  2001: '曹Sir',
+  2002: 'JackSonYao',
+  2003: '嘿老师'
 }
 export const stuIdMapFunction = (stuId: number) => {
   return stuIdMap[Number(stuId)] ? stuIdMap[Number(stuId)] : '未录入'

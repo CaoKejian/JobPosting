@@ -15,6 +15,7 @@ import { Time } from '../../shared/Time';
 import { stuIdMapFunction } from '../../config/NameMap';
 import { getAssetsFile } from '../../config/imgUtil';
 import { Quote } from '../../shared/Quote';
+import { isHaveAuth } from '../../config/utils';
 
 export const Detail = defineComponent({
   setup: (props, context) => {
@@ -94,17 +95,24 @@ export const Detail = defineComponent({
           stuId:info.stuId,
           classId:classId.value
         })
-        await http.post('/class/insert', {
-          stuId:info.stuId,
-          name:info.name,
-          classId:classId.value
-        })
+        insertClass(info)
       }catch(error){
         setTimeout(() => {
           Toast({
             message:'还未登陆，没有个人信息'
           })
         }, 500);
+      }
+    }
+    const insertClass = async(info:any) => {
+      try{
+        await http.post('/class/insert', {
+          stuId:info.stuId,
+          name:info.name,
+          classId:classId.value
+        })
+      }catch(err){
+        console.log(err)
       }
     }
     const onChangeModel2 = async(value1:string,value2:number) => {
