@@ -18,9 +18,9 @@ function isDev() {
     && location.hostname !== '192.168.3.126') { return false }
   return true
 }
-// if(isDev()){
-// new VConsole()
-// }
+if(!isDev()){
+new VConsole()
+}
 const app = createApp(App)
 const router = createRouter({
   history,

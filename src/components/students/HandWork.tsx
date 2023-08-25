@@ -238,7 +238,7 @@ export const HandWork = defineComponent({
                   }
                 </div>
                 <div class={s.upload}>
-                  <span class={s.title}>上传作业</span>
+                  <span class={s.title}>上传作业(提交命名格式：学号-作业分支名.docx等)</span>
                   <van-uploader
                     after-read={afterRead}
                     v-model={fileList.value}

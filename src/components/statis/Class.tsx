@@ -100,7 +100,7 @@ export const Class = defineComponent({
       }
     })
     const onNotice = async () => {
-      const stuIds = classSubmitArr.value.filter(item => item.isSubmit!==true).map(it => it.stuId)
+      const stuIds = classSubmitArr.value.filter(item => item.isSubmit !== true).map(it => it.stuId)
       const data = await http.post('/user/email/unsubmit', { stuIds })
       console.log(data)
     }
@@ -154,7 +154,9 @@ export const Class = defineComponent({
         {
           formData.branch !== '' ? <>
             <PeopleShow array={classSubmitArr.value} />
-            <Button onClick={onNotice}>一键通知未交同学</Button>
+            <div class={s.button}>
+              <Button onClick={onNotice}>一键通知未交同学</Button>
+            </div>
           </>
             :
             <div class={s.empty}>

@@ -5,6 +5,7 @@ import { Button } from './Button';
 import { Popup, DatetimePicker, Picker, Checkbox } from 'vant';
 import { Time } from './Time';
 import { ScoreList } from './Score';
+import { debounce } from './Debounce';
 
 export const Form = defineComponent({
   props: {
@@ -84,11 +85,14 @@ export const FormItem = defineComponent({
     const changeRadioType = () => {
       context.emit('update:radioType', checked.value)
     }
+    const handleInput = debounce((e:any) => {
+      context.emit('update:modelValue', e.target.value)
+    },1000)
     const content = computed(() => {
       switch (props.type) {
         case 'text':
           return <input value={props.modelValue}  autocomplete="off" 
-            onInput={(e: any) => context.emit('update:modelValue', e.target.value)}
+            onInput={(e: any) => handleInput(e)}
             placeholder={props.placeholder}
             disabled={props.InputDisabled}
             class={[s.formItem, s.input]}
