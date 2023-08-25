@@ -75,7 +75,7 @@ export const Login = defineComponent({
     },1000)
     const onClickSendValidationCode = async () => {
       console.log('发送校验信息');
-      await http.post('/user', formData, { _autoLoading: true })
+      await http.post('/user', formData)
       await http.post('/user/email', formData ,{_autoLoading: true})
       refValidationCode.value.startCount()
     }
@@ -127,7 +127,7 @@ export const Login = defineComponent({
                   placeholder='请输入学号' error={errors.stuId?.[0] ?? '　'}></FormItem>
                 <FormItem label='姓名' type='text' v-model={formData.name}
                   InputDisabled={formData.name !== ''}
-                  placeholder='请手动输入姓名' error={errors.stuId?.[0] ?? '　'}></FormItem>
+                  placeholder='请手动输入姓名' error={errors.name?.[0] ?? '　'}></FormItem>
                 <FormItem label='邮箱' type='text' v-model={formData.email}
                   placeholder='请输入邮箱，然后点击发送验证码' error={errors.email?.[0] ?? '　'}></FormItem>
                 <FormItem ref={refValidationCode} countForm={60} label='验证码' type='validationcode'

@@ -13,7 +13,6 @@ import { Work } from '../../vite-env';
 import { Toast } from 'vant';
 import { Time } from '../../shared/Time';
 import { stuIdMapFunction } from '../../config/NameMap';
-import axios from 'axios';
 import { getAssetsFile } from '../../config/imgUtil';
 import { Quote } from '../../shared/Quote';
 
@@ -89,10 +88,15 @@ export const Detail = defineComponent({
     }
     const getStuId = async () => {
       try{
-        const stuId = JSON.parse(localStorage.getItem('info') as string).stuId
-        fetchMyData(stuId,page.value)
+        const info = JSON.parse(localStorage.getItem('info') as string)
+        fetchMyData(info.stuId,page.value)
         await http.get('/user/addclassId',{
-          stuId,
+          stuId:info.stuId,
+          classId:classId.value
+        })
+        await http.post('/class/insert', {
+          stuId:info.stuId,
+          name:info.name,
           classId:classId.value
         })
       }catch(error){
