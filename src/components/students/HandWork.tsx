@@ -31,6 +31,7 @@ export const HandWork = defineComponent({
     const isShowVisible = ref<boolean>(false)
     const formData = reactive({
       id: '',
+      name: '',
       classId: 0,
       stuId: '',
       subject: '',
@@ -129,6 +130,7 @@ export const HandWork = defineComponent({
       }
       const info = JSON.parse(localStorage.getItem('info') as string)
       formData.stuId = info.stuId
+      formData.name = info.name
       const classId = Number(localStorage.getItem('classID'))
       fetchSubjectData(classId)
       formData.classId = classId

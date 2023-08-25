@@ -50,6 +50,7 @@ export const Self = defineComponent({
           })
           return
         }
+        console.log(data.data)
         Object.assign(formData, {
           isEmpty: false,
           searchInfo: data.data,
