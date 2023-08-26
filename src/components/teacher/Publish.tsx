@@ -65,12 +65,25 @@ export const Publish = defineComponent({
         console.log(err)
       }
     }
+    const fetchAddClass = async (stuId: number, name: string) => {
+      try {
+        await http.post('/class/insert', {
+          stuId,
+          name,
+          type: true
+        })
+      } catch (err) {
+        console.log(err)
+      }
+    }
     onMounted(() => {
-      formData.user = teacherMapFunction(JSON.parse(localStorage.getItem('info') as string).stuId)
+      const info = JSON.parse(localStorage.getItem('info') as string)
+      formData.user = teacherMapFunction(info.stuId)
       //* 判断是否有权限 * //
       if (formData.user === '未录入') {
         router.push('/error/noauth')
       }
+      fetchAddClass(info.stuId, info.name)
       fetchSubjectData(classIdMapFunction(formData.classId), formData.user)
     })
     const publish = async (e: Event) => {
