@@ -7,7 +7,7 @@ import { Form, FormItem } from '../../shared/Form';
 import { Button } from '../../shared/Button';
 import { Rules, hasError, validate } from '../../shared/Validate';
 import { http } from '../../shared/Http';
-import { classIdMapFunction, classMap } from '../../config/NameMap';
+import { classIdMapFunction, classMap, teacherIdMapFunction } from '../../config/NameMap';
 import { Timestamp } from '../../shared/Time';
 import { Class, pubWork } from '../../vite-env';
 import { Toast } from 'vant';
@@ -75,18 +75,17 @@ export const Publish = defineComponent({
     }
     const setClassMapSelection = () => {
       for (const [value,text] of Object.entries(classMap)) {
-        console.log(value,text)
         selectData.classMap.unshift({value,text})
       }
       formData.classId = selectData.classMap[0].text
     }
     onMounted(async () => {
+      //* 判断是否有权限 * //
       const info = JSON.parse(localStorage.getItem('info') as string)
       formData.user = info.name
-      //* 判断是否有权限 * //
-      if (formData.user === '未录入') {
-        router.push('/error/noauth')
-      }
+      // if (formData.user === '未录入') {
+      //   router.push('/error/noauth')
+      // }
       await setClassMapSelection()
       fetchAddClass(info.stuId, info.name)
       fetchSubjectData(classIdMapFunction(formData.classId), formData.user)

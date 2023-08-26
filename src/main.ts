@@ -12,6 +12,7 @@ import { Toast, DatetimePicker, Search, Icon, Dialog, Uploader, Swipe, SwipeItem
 import { http } from './shared/Http'
 // 调试
 import VConsole from 'vconsole';
+import { stuIdMapFunction, teacherMapFunction } from './config/NameMap'
 function isDev() {
   if (location.hostname !== 'localhost'
     && location.hostname !== '127.0.0.1'
@@ -29,6 +30,22 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
   if (to.path === '/' || to.path === '/student/detail' || to.path.startsWith('/welcome') || to.path.startsWith('/login')) {
+    return true
+  }else if(to.path.startsWith('/teacher')){
+    const info = JSON.parse(localStorage.getItem('info') as string)
+    if(!info) {
+      router.push('/login')
+    }
+    const stuId = info.stuId
+    if(stuId === '未录入'){
+      router.push('/error/noauth')
+    }
+    return true
+  } else if(to.path.startsWith('/student')){
+    const stuId = stuIdMapFunction(JSON.parse(localStorage.getItem('info') as string).stuId)
+    if(stuId === '未录入'){
+      router.push('/error/noauth')
+    }
     return true
   } else {
     try {
