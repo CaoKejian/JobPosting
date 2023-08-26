@@ -11,9 +11,6 @@ export const StatisList = defineComponent({
     }
   },
   setup: (props, context) => {
-    onMounted(() => {
-     
-    })
     return () => (<div class={s.wrapper}>
       {
         props.id === '0' ? (

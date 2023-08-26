@@ -19,8 +19,8 @@ function isDev() {
     && location.hostname !== '192.168.3.126') { return false }
   return true
 }
-if(!isDev()){
-new VConsole()
+if (!isDev()) {
+  new VConsole()
 }
 const app = createApp(App)
 const router = createRouter({
@@ -31,39 +31,40 @@ const router = createRouter({
 router.beforeEach(async (to, from) => {
   if (to.path === '/' || to.path === '/student/detail' || to.path.startsWith('/welcome') || to.path.startsWith('/login')) {
     return true
-  }else if(to.path.startsWith('/teacher')){
-    const info = JSON.parse(localStorage.getItem('info') as string)
-    if(!info) {
-      return router.push('/login')
-    }
-    const stuId = info.stuId
-    if(stuId === '未录入'){
-      router.push('/error/noauth')
-    }
-    return true
-  } else if(to.path.startsWith('/student')){
-    const info = JSON.parse(localStorage.getItem('info') as string)
-    if(!info) {
-      return router.push('/login')
-    }
-    const stuId = stuIdMapFunction(info.stuId)
-    if(stuId === '未录入'){
-      router.push('/error/noauth')
-    }
-    return true
-  } else {
+  } else if (to.path.startsWith('/teacher')) {
     try {
       const info = JSON.parse(localStorage.getItem('info') as string)
       if (!info) {
-        return '/login?return_to=' + from.path
+        return router.push('/login')
+      }
+      const stuId = info.stuId
+      if (stuId === '未录入') {
+        router.push('/error/noauth')
       }
       await http.post('/user/isself/auth', info)
       await http.get('/user/verify/jwt')
       return true
-    } catch (error) {
+    } catch (err) {
       return '/login?return_to=' + from.path
     }
-  }
+
+  } else if (to.path.startsWith('/student')) {
+    try{
+      const info = JSON.parse(localStorage.getItem('info') as string)
+      if (!info) {
+        return router.push('/login')
+      }
+      const stuId = stuIdMapFunction(info.stuId)
+      if (stuId === '未录入') {
+        router.push('/error/noauth')
+      }
+      await http.post('/user/isself/auth', info)
+      await http.get('/user/verify/jwt')
+      return true
+    }catch(error){
+      return '/login?return_to=' + from.path
+    }
+  } 
 })
 app.use(Search)
 app.use(Toast)

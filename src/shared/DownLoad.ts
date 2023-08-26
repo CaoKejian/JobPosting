@@ -1,5 +1,3 @@
-import { Toast } from "vant";
-
 export const DownLoadInfo = async (file: any) => {
   try {
     console.log(file);
