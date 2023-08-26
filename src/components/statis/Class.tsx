@@ -52,6 +52,7 @@ export const Class = defineComponent({
     const fetchClassPeople = async (classId: number) => {
       try {
         const data = await http.get<{ stuId: number, classId: number }[]>('/class', { classId }, { _autoLoading: true })
+        console.log(data.data)
         classSubmitArr.value = data.data
       } catch (error) {
         classSubmitArr.value = []

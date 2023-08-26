@@ -49,7 +49,7 @@ export const DownLoads = defineComponent({
         }))
         isSubmit.value = data.data.stuIds
         if (isSubmit.value.length !== 0) {
-          const unSubmit = await http.get<{ stuId: number, classId: number }[]>('/user/total', {
+          const unSubmit = await http.get<{ stuId: number, classId: number,name: string }[]>('/user/total', {
             classId: classId.value,
             stuIds: isSubmit.value
           })

@@ -4,7 +4,7 @@ import { stuIdMapFunction } from '../config/NameMap';
 export const PeopleShow = defineComponent({
   props: {
     array: {
-      type: Array as PropType<{ stuId: number, classId: number, isSubmit?: boolean }[]>,
+      type: Array as PropType<{ stuId: number, name?:string, classId: number, isSubmit?: boolean }[]>,
       default: []
     }
   },
@@ -13,7 +13,7 @@ export const PeopleShow = defineComponent({
       {props.array.map(item => {
         return <span class={s.item} key={item.stuId}>
           {item.isSubmit ? <svg class={s.svg}><use xlinkHref='#isSubmit'></use></svg> : null }
-          {stuIdMapFunction(item.stuId)}
+          {item.name}
         </span>
       })}
     </div>
