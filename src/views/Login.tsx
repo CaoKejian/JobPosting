@@ -14,8 +14,8 @@ import { Toast } from 'vant';
 export const Login = defineComponent({
   setup: () => {
     const formData = reactive({
-      stuId: '2001063037',
-      email: '1849201815@qq.com',
+      stuId: '',
+      email: '',
       code: '',
       name: ''
     })
@@ -28,6 +28,7 @@ export const Login = defineComponent({
     const refValidationCode = ref<any>('')
     const { ref: refDisabled } = useBool(false)
     const modelVisible = ref<boolean>(false)
+    const canModifyName = ref<boolean>()
     const modelValue = ref<number>(0)
     const route = useRoute()
     const router = useRouter()
@@ -108,8 +109,14 @@ export const Login = defineComponent({
       }
     }
     watch(()=> formData.stuId, async () => {
-      const data = await http.get<{name:string}>('/class/stuid/name', {stuId:formData.stuId},{_autoLoading:true})
+      const data = await http.get<{name:string,email:string}>('/class/stuid/name', {stuId:+formData.stuId},{_autoLoading:true})
+      console.log(data)
+      if(data.data.name === ''){
+        canModifyName.value = true
+      }
+      canModifyName.value  = data.data.name ? true : false
       formData.name = data.data.name
+      formData.email = data.data.email
     }, { immediate: true })
     return () => (
       <MainLayout>{
@@ -126,7 +133,7 @@ export const Login = defineComponent({
                 <FormItem label='学号' type='text' v-model={formData.stuId}
                   placeholder='请输入学号' error={errors.stuId?.[0] ?? '　'}></FormItem>
                 <FormItem label='姓名' type='text' v-model={formData.name}
-                  InputDisabled={formData.name !== ''}
+                  InputDisabled={canModifyName.value}
                   placeholder='请手动输入姓名' error={errors.name?.[0] ?? '　'}></FormItem>
                 <FormItem label='邮箱' type='text' v-model={formData.email}
                   placeholder='请输入邮箱，然后点击发送验证码' error={errors.email?.[0] ?? '　'}></FormItem>
