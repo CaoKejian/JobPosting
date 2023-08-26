@@ -6,7 +6,7 @@ import { Toast } from 'vant';
 import { MenuBar } from '../../layouts/MenuBar';
 import { Form, FormItem } from '../../shared/Form';
 import { Button } from '../../shared/Button';
-import { classMap, stuIdMapFunction } from '../../config/NameMap';
+import { classMap } from '../../config/NameMap';
 import { http } from '../../shared/Http';
 import { Class, User, Work } from '../../vite-env';
 import { DownLoadInfo } from '../../shared/DownLoad';
@@ -17,8 +17,8 @@ export const DownLoads = defineComponent({
     const isShowVisible = ref<boolean>(false)
     const className = ref<string>('')
     const classId = ref<number>(0)
-    const subjectArr = ref<{value:string,text:string}[]>([])
-    const branchArr = ref<{value:string,text:string}[]>([])
+    const subjectArr = ref<{ value: string, text: string }[]>([])
+    const branchArr = ref<{ value: string, text: string }[]>([])
     const formData = reactive({
       classId: '',
       stuId: '',
@@ -37,7 +37,7 @@ export const DownLoads = defineComponent({
       const [branch, subject] = newValue
       //  发送请求 传入 newValue和classId
       await fetchBranchData(subject)
-      if(branch === '') return
+      if (branch === '') return
       try {
         const data = await http.get<any>('/work/download', {
           branch,
@@ -93,7 +93,7 @@ export const DownLoads = defineComponent({
           };
           subjectArr.value.push(subjectObj);
         });
-        if(subjectArr.value.length !== 0){
+        if (subjectArr.value.length !== 0) {
           formData.subject = subjectArr.value[0].text
         }
       } catch (err) {

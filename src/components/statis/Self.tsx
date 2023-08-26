@@ -3,7 +3,7 @@ import s from './Self.module.scss';
 import { Form, FormItem } from '../../shared/Form';
 import { Toast } from 'vant';
 import { getAssetsFile } from '../../config/imgUtil';
-import { classMapFunction, nameMapFunction, stuIdMapFunction } from '../../config/NameMap';
+import { classMapFunction, nameMapFunction } from '../../config/NameMap';
 import { http } from '../../shared/Http';
 import { Work } from '../../vite-env';
 import { Rules, hasError, validate } from '../../shared/Validate';
@@ -15,7 +15,7 @@ type formDataObj = {
   searchPeople: string
   isEmpty: boolean
   searchInfo: Work[] | null
-  info: { name: string, classId?: number, stuId?: number }
+  info: { name: string, classId?: number, stuId?: number}
 }
 export const Self = defineComponent({
   props: {
@@ -32,7 +32,7 @@ export const Self = defineComponent({
       info: { name: '', classId: undefined, stuId: undefined }
     })
     const errors = reactive({
-      searchPeople:[]
+      searchPeople: []
     })
     const fetchWork = async (stuId: number | string) => {
       try {
@@ -50,12 +50,12 @@ export const Self = defineComponent({
           })
           return
         }
-        console.log(data.data)
         Object.assign(formData, {
           isEmpty: false,
           searchInfo: data.data,
           info: {
-            name: stuIdMapFunction(data.data[0].stuId),
+            subject:'',
+            name: data.data[0].name,
             stuId: formData.searchPeople,
             classId: data.data[0].classId
           }
@@ -88,10 +88,11 @@ export const Self = defineComponent({
           })
           return
         }
-        if(!hasError(errors)){
+        if (!hasError(errors)) {
+          console.log(formData.searchPeople,isName(formData.searchPeople))
           fetchWork(isName(formData.searchPeople))
         }
-      }else{
+      } else {
         if (!formData.searchPeople) {
           Toast({
             message: '搜索不能为空！'
@@ -100,11 +101,11 @@ export const Self = defineComponent({
         }
         fetchWork(formData.searchPeople)
       }
-     
+
     }
     return () => (
       <div class={s.content}>
-        <p><Quote name={'查询同学提交过的作业：'}/></p>
+        <p><Quote name={'查询同学提交过的作业：'} /></p>
         <Form>
           <FormItem label='' type='search'
             onSearch={onSearch}
@@ -131,7 +132,7 @@ export const Self = defineComponent({
                             <div class={s.workName}>{item.branch}</div>
                             <div class={s.subject}>「{item.subject}」 </div>
                             <span>T发布者</span>
-                            <div class={s.time}>{Time(item.time,'MM-SS-DD')}</div>
+                            <div class={s.time}>{Time(item.time, 'MM-SS-DD')}</div>
                           </div>
                         </div>
                       }) : <p class={s.infoEmpty}>暂无数据</p>

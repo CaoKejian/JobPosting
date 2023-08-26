@@ -15,7 +15,6 @@ import { Time } from '../../shared/Time';
 import { stuIdMapFunction } from '../../config/NameMap';
 import { getAssetsFile } from '../../config/imgUtil';
 import { Quote } from '../../shared/Quote';
-import { isHaveAuth } from '../../config/utils';
 
 export const Detail = defineComponent({
   setup: (props, context) => {
@@ -136,6 +135,7 @@ export const Detail = defineComponent({
     }
     onMounted(async () => {
       const isAuth = stuIdMapFunction(JSON.parse(localStorage.getItem('info') as string).stuId)
+      console.log(isAuth)
       if(isAuth === '未录入'){
         router.push('/error/noauth')
         return
@@ -197,7 +197,7 @@ export const Detail = defineComponent({
                                 </div>
                                 <div class={s.infoB}>
                                   <div class={s.left}>
-                                    <div class={s.info}><div class={s.type}>姓名</div><span>{stuIdMapFunction(item.stuId)}</span></div>
+                                    <div class={s.info}><div class={s.type}>姓名</div><span>{item.name}</span></div>
                                     <div class={s.info}><div class={s.type}>上传文件</div><div>{item.file.fileName}</div></div>
                                     <div class={[s.info,s.branch]}><div class={s.type}>作业分支</div><span>{item.branch}<span class={s.subject}>({item.subject})</span></span></div>
                                   </div>
@@ -236,7 +236,7 @@ export const Detail = defineComponent({
                           <div class={s.infoF}>
                             {index + 1}. 
                             <img src={`${getAssetsFile('author.png')}`}  alt="我" />
-                            <span class={s.name}>{stuIdMapFunction(item.stuId)}</span> <span class={s.time}>{Time(item.time)}</span>
+                            <span class={s.name}>{item.name}</span> <span class={s.time}>{Time(item.time)}</span>
                             <Button onClick={() => gotoView(item._id)}>查看</Button> 
                           </div>
                           <div class={s.infoB}>

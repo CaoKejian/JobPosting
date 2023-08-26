@@ -5,7 +5,7 @@ import { BackIcon } from '../../shared/BackIcon';
 import { Quote } from '../../shared/Quote';
 import { Form, FormItem } from '../../shared/Form';
 import { Button } from '../../shared/Button';
-import { classIdMapFunction, teacherMapFunction } from '../../config/NameMap';
+import { classIdMapFunction, classMap } from '../../config/NameMap';
 import { Rules, hasError, validate } from '../../shared/Validate';
 import { http } from '../../shared/Http';
 import { Toast } from 'vant';
@@ -13,14 +13,13 @@ import { MenuBar } from '../../layouts/MenuBar';
 export const Subject = defineComponent({
   setup: (props, context) => {
     const isShowMenu = ref(false)
-    const selectData = reactive({
-      classOpt: [
-        { value: '123123', text: '大数据B201' },
-        { value: '122122', text: '智能B222' }
-      ]
+    const selectData = reactive<{
+      classOpt: {value:string,text:string}[]
+    }>({
+      classOpt: []
     })
     const formData = reactive({
-      classId: selectData.classOpt[0].text,
+      classId: '',
       subject: '',
       user: ''
     })
@@ -57,8 +56,16 @@ export const Subject = defineComponent({
         }
       }
     }
+    const setClassMapSelection = () => {
+      for (const [value,text] of Object.entries(classMap)) {
+        console.log(value,text)
+        selectData.classOpt.unshift({value,text})
+      }
+      formData.classId = selectData.classOpt[0].text
+    }
     onMounted(() => {
-      formData.user = teacherMapFunction(JSON.parse(localStorage.getItem('info') as string).stuId)
+      formData.user = JSON.parse(localStorage.getItem('info') as string).name
+      setClassMapSelection()
     })
     return () => (
       <MainLayout>{
@@ -70,7 +77,7 @@ export const Subject = defineComponent({
             <Form>
               <FormItem label='班级' type='select' options={selectData.classOpt} v-model={formData.classId} error={errors.classId?.[0] ?? '　'}></FormItem>
               <FormItem label='学科' type='text' v-model={formData.subject} placeholder='请输入要发布的学科' error={errors.subject?.[0] ?? '　'}></FormItem>
-              <FormItem label='确认发布人' type='text' v-model={formData.user} placeholder='还未登录/登录信息有误' error={errors.user?.[0] ?? '　'}></FormItem>
+              <FormItem label='确认发布人' type='text' v-model={formData.user} placeholder='还未登录/登录信息有误' InputDisabled={true} error={errors.user?.[0] ?? '　'}></FormItem>
               <div class={s.button}>
                 <Button onClick={publish}>发布新学科</Button>
               </div>

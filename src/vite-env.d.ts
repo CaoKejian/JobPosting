@@ -49,6 +49,7 @@ type pubWork = {
 type Work = {
   data: [],
   _id: string
+  name:string
   stuId: number
   classId: number
   subject: string
@@ -68,6 +69,7 @@ type WorkObj = {
   _id: string
   stuId: number
   classId: number
+  name:string
   subject: string
   time: number
   branch: string

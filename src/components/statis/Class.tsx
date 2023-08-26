@@ -24,6 +24,7 @@ export const Class = defineComponent({
     const work = ref<Work>({
       data: [],
       _id: '',
+      name: '',
       stuId: 0,
       classId: 0,
       subject: '',

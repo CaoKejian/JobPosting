@@ -7,7 +7,7 @@ import { Form, FormItem } from '../../shared/Form';
 import { Button } from '../../shared/Button';
 import { Rules, hasError, validate } from '../../shared/Validate';
 import { http } from '../../shared/Http';
-import { classIdMapFunction, teacherMapFunction } from '../../config/NameMap';
+import { classIdMapFunction, classMap } from '../../config/NameMap';
 import { Timestamp } from '../../shared/Time';
 import { Class, pubWork } from '../../vite-env';
 import { Toast } from 'vant';
@@ -21,10 +21,7 @@ export const Publish = defineComponent({
       subjectMap: { value: string, text: string }[],
       branchMap: { value: string, text: string }[]
     }>({
-      classMap: [
-        { value: '123123', text: '大数据B201' },
-        { value: '122122', text: '智能B222' },
-      ],
+      classMap: [],
       subjectMap: [],
       branchMap: [
         { value: '1', text: '组件定义' },
@@ -33,7 +30,7 @@ export const Publish = defineComponent({
     })
     const formData = reactive<pubWork>({
       user: '',
-      classId: selectData.classMap[0].text,
+      classId: '',
       subject: '',
       branch: '',
       cutTime: undefined,
@@ -76,13 +73,21 @@ export const Publish = defineComponent({
         console.log(err)
       }
     }
-    onMounted(() => {
+    const setClassMapSelection = () => {
+      for (const [value,text] of Object.entries(classMap)) {
+        console.log(value,text)
+        selectData.classMap.unshift({value,text})
+      }
+      formData.classId = selectData.classMap[0].text
+    }
+    onMounted(async () => {
       const info = JSON.parse(localStorage.getItem('info') as string)
-      formData.user = teacherMapFunction(info.stuId)
+      formData.user = info.name
       //* 判断是否有权限 * //
       if (formData.user === '未录入') {
         router.push('/error/noauth')
       }
+      await setClassMapSelection()
       fetchAddClass(info.stuId, info.name)
       fetchSubjectData(classIdMapFunction(formData.classId), formData.user)
     })

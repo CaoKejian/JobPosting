@@ -5,7 +5,7 @@ import { BackIcon } from '../../shared/BackIcon';
 import { Quote } from '../../shared/Quote';
 import { Form, FormItem } from '../../shared/Form';
 import { http } from '../../shared/Http';
-import { classMapFunction, teacherMapFunction, classIdMapFunction, stuIdMapFunction } from '../../config/NameMap';
+import { classMapFunction, classIdMapFunction } from '../../config/NameMap';
 import { Class, ClassSelectItem, Work, WorkObj } from '../../vite-env';
 import { getAssetsFile } from '../../config/imgUtil';
 import { Toast } from 'vant';
@@ -99,7 +99,6 @@ export const Correct = defineComponent({
         const data = await http.get<Work[]>('/work/correct/work', {
           classId: classIdMapFunction(formData.classId), branch: formData.branch,
         }, { _autoLoading: true })
-        console.log(data)
         workData.value = data.data
         Toast.clear()
       } catch (err) {
@@ -118,12 +117,17 @@ export const Correct = defineComponent({
       await new Promise(resolve => setTimeout(resolve, 1000))
     }
     const next = async (index: number) => {
-      swipe.value.next()
       /* 作业批改 */
         try{
           Object.assign(workData.value[index], passData.value)
           await http.post('/work/upload', workData.value[index], {_autoLoading:true})
           Toast({message: '批改成功！'})
+          if(index === workData.value.length - 1){
+            setTimeout(() => {
+              Toast({message: '全部批改完成'})
+            },1000)
+          }
+          swipe.value.next()
         }catch(err){
           Toast({message: '批改失败！'})
         }
@@ -132,7 +136,7 @@ export const Correct = defineComponent({
       swipe.value.prev()
     }
     onMounted(() => {
-      formData.user = teacherMapFunction(JSON.parse(localStorage.getItem('info') as string).stuId)
+      formData.user = JSON.parse(localStorage.getItem('info') as string).name
       fetchMyClass()
     })
     const swipe = ref()
@@ -171,7 +175,7 @@ export const Correct = defineComponent({
                                     <span>未逾期</span> :
                                     <span class={s.overTime}>逾期</span>
                                   }
-                                  <span>提交人：<span class={s.name}>{stuIdMapFunction(item.stuId)}</span></span>
+                                  <span>提交人：<span class={s.name}>{item.name}</span></span>
                                 </div>
                                 <div class={s.center}>
                                   <div>
