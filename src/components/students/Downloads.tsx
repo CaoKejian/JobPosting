@@ -35,30 +35,37 @@ export const DownLoads = defineComponent({
     const isNoSubmit = ref<{ stuId: number, classId: number }[]>([])
     watch(() => [formData.branch, formData.subject], async (newValue) => {
       const [branch, subject] = newValue
+      isNoSubmit.value = []
+      isSubmit.value = []
+      downloadsInfo.value = []
       //  发送请求 传入 newValue和classId
       await fetchBranchData(subject)
       if (branch === '') return
       try {
         const data = await http.get<any>('/work/download', {
           branch,
-          subject,
+          subject: formData.subject,
           classId: classId.value
         }, { _autoLoading: true }) // 1 份 返回交的学号
         downloadsInfo.value = data.data.data.map((item: { file: {}, stuId: Number }) => ({
           file: item.file
         }))
-        isSubmit.value = data.data.stuIds
+        isSubmit.value = data.data.data.length === 0 ? [] : data.data.stuIds;
         if (isSubmit.value.length !== 0) {
-          const unSubmit = await http.get<{ stuId: number, classId: number,name: string }[]>('/user/total', {
+          const unSubmit = await http.get<{ stuId: number, classId: number, name: string }[]>('/user/total', {
             classId: classId.value,
             stuIds: isSubmit.value
           })
           isNoSubmit.value = unSubmit.data
+          console.log(isNoSubmit.value)
         } else {
           Toast({
             message: '没有相关作业提交'
           })
-          isNoSubmit.value = []
+          // 查询所有班级下的同学
+          const unSubmit = await http.get<{ stuId: number, classId: number, name: string }[]>('/user/demand', { classId: classId.value })
+          isNoSubmit.value = unSubmit.data
+          console.log(isNoSubmit.value)
         }
       } catch (e) {
         console.log(e);
@@ -111,9 +118,6 @@ export const DownLoads = defineComponent({
           };
           branchArr.value.push(branchObj);
         });
-        if(branchArr.value.length !==0 ){
-          formData.branch = branchArr.value[0].text
-        }
       } catch (err) {
         console.log(err)
       }
@@ -153,7 +157,7 @@ export const DownLoads = defineComponent({
                 <span>还　差：<span class={s.number}>{isNoSubmit.value.length} 份</span></span>
               </div>
               {
-                isSubmit.value.length !== 0 ? <>
+                isNoSubmit.value.length !== 0 ? <>
                   <span class={s.unsubmit}>未交名单:</span>
                   <PeopleShow array={isNoSubmit.value} />
                 </> :
