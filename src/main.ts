@@ -34,7 +34,7 @@ router.beforeEach(async (to, from) => {
   }else if(to.path.startsWith('/teacher')){
     const info = JSON.parse(localStorage.getItem('info') as string)
     if(!info) {
-      router.push('/login')
+      return router.push('/login')
     }
     const stuId = info.stuId
     if(stuId === '未录入'){
@@ -42,7 +42,11 @@ router.beforeEach(async (to, from) => {
     }
     return true
   } else if(to.path.startsWith('/student')){
-    const stuId = stuIdMapFunction(JSON.parse(localStorage.getItem('info') as string).stuId)
+    const info = JSON.parse(localStorage.getItem('info') as string)
+    if(!info) {
+      return router.push('/login')
+    }
+    const stuId = stuIdMapFunction(info.stuId)
     if(stuId === '未录入'){
       router.push('/error/noauth')
     }
