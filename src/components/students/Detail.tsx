@@ -32,7 +32,6 @@ export const Detail = defineComponent({
     const router = useRouter()
     const onChangeModel = async(value1:string,value2:number) => {
       if(value2===1){
-        console.log('你正在搜索班级群：',classId.value);
         fetchData(classId.value ,page.value)
         isHaveClass.value = true
         localStorage.setItem('classID', classId.value)
@@ -115,7 +114,6 @@ export const Detail = defineComponent({
       }
     }
     const onChangeModel2 = async(value1:string,value2:number) => {
-      console.log(value1,value2);
       if(value2 === 1){
         try{
           http.post('/work/delete', {

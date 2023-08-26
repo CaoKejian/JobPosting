@@ -52,7 +52,6 @@ export const Class = defineComponent({
     const fetchClassPeople = async (classId: number) => {
       try {
         const data = await http.get<{ stuId: number, classId: number }[]>('/class', { classId }, { _autoLoading: true })
-        console.log(data.data)
         classSubmitArr.value = data.data
       } catch (error) {
         classSubmitArr.value = []
@@ -91,7 +90,6 @@ export const Class = defineComponent({
           branch: queryBranch
         })
         unSubmit.value = response.data.map(item => item.stuId)
-        console.log(unSubmit.value)
         classSubmitArr.value = classSubmitArr.value.map(item => {
           const x = unSubmit.value.some(it => it === item.stuId)
           return { ...item, isSubmit: x }
@@ -104,7 +102,6 @@ export const Class = defineComponent({
     const onNotice = async () => {
       const stuIds = classSubmitArr.value.filter(item => item.isSubmit !== true).map(it => it.stuId)
       const data = await http.post('/user/email/unsubmit', { stuIds })
-      console.log(data)
     }
     onMounted(async () => {
       Toast.loading({

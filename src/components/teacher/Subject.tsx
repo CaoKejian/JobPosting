@@ -58,7 +58,6 @@ export const Subject = defineComponent({
     }
     const setClassMapSelection = () => {
       for (const [value,text] of Object.entries(classMap)) {
-        console.log(value,text)
         selectData.classOpt.unshift({value,text})
       }
       formData.classId = selectData.classOpt[0].text

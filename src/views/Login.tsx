@@ -47,7 +47,6 @@ export const Login = defineComponent({
       ]
       Object.assign(errors, validate(formData, reules))
       if (!hasError(errors)) {
-        console.log('成功,发送请求')
         try {
           const res = await http.post('/user/veifycode', {code: formData.code}, { _autoLoading: true })
           if(res.status===200){
@@ -75,7 +74,6 @@ export const Login = defineComponent({
       }
     },1000)
     const onClickSendValidationCode = async () => {
-      console.log('发送校验信息');
       await http.post('/user', formData)
       await http.post('/user/email', formData ,{_autoLoading: true})
       refValidationCode.value.startCount()
@@ -90,7 +88,6 @@ export const Login = defineComponent({
       Object.assign(errors, validate(formData, reules))
       if (!hasError(errors)) {
         modelVisible.value = true
-        console.log('我已经免邮登录了')
         return
         localStorage.setItem('stuId', formData.stuId)
         localStorage.setItem('skip', '1')

@@ -80,7 +80,6 @@ export const HandWork = defineComponent({
     const fetchUploadWork = async (id: string) => {
       try {
         const response = await http.get<Work>('/work/upload/work', { id }, { _autoLoading: true })
-        console.log(response)
         const data = response.data
         formData.subject = data.subject
         formData.branch = data.branch
@@ -110,7 +109,6 @@ export const HandWork = defineComponent({
           branchArr: []
         })
         const data = await http.get<Class>('pub/subject/branch', { subject }, { _autoLoading: true })
-        console.log(data)
         const branches = data.data.branches
         branches.forEach((item, index) => {
           const branchObj = {

@@ -52,7 +52,6 @@ export const MyItem = defineComponent({
           objItem.text = item.branch
           branchArr.value.push(objItem)
         })
-        console.log(data)
         isShowDom.value = true
       } catch (error) {
       }

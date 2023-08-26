@@ -89,7 +89,6 @@ export const Self = defineComponent({
           return
         }
         if (!hasError(errors)) {
-          console.log(formData.searchPeople,isName(formData.searchPeople))
           fetchWork(isName(formData.searchPeople))
         }
       } else {
