@@ -68,7 +68,6 @@ export const DownLoads = defineComponent({
       e.preventDefault()
       try {
         for (const file of downloadsInfo.value) {
-          console.log(file)
           await DownLoadInfo(file.file);
           await new Promise(resolve => setTimeout(resolve, 1000))
         }
@@ -112,6 +111,9 @@ export const DownLoads = defineComponent({
           };
           branchArr.value.push(branchObj);
         });
+        if(branchArr.value.length !==0 ){
+          formData.branch = branchArr.value[0].text
+        }
       } catch (err) {
         console.log(err)
       }
