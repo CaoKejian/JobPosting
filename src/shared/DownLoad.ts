@@ -3,10 +3,9 @@ import { Toast } from "vant";
 export const DownLoadInfo = async (file: any) => {
   try {
     console.log(file);
-    if (file.fileUrl.endsWith('.jpg') || file.fileUrl.endsWith('.png')) {
-      Toast({
-        message: '如果为图片形式，则去详情页单独下载！'
-      })
+    const allowedExtensions = ['.jpg', '.png', '.jpeg', '.gif']
+    if (allowedExtensions.some(item => file.fileName.endsWith(item))) {
+      window.open(file.fileUrl)
       return
     }
     const link = document.createElement('a');
