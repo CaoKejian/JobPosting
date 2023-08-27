@@ -102,14 +102,14 @@ export const Class = defineComponent({
     })
     const onNotice = async () => {
       const stuIds = classSubmitArr.value.filter(item => item.isSubmit !== true).map(it => it.stuId)
-      const data = await http.post('/user/email/unsubmit', {
+      await http.post('/user/email/unsubmit', {
         stuIds,
         url: getHref(),
         user: work.value.user,
         cutTime: Time(work.value.cutTime, 'YY-MM-SS'),
         branch: work.value.branch,
         content: work.value.content,
-        unSubmit: unSubmit.value
+        unSubmit: classSubmitArr.value.length - unSubmit.value.length
       })
     }
     onMounted(async () => {
