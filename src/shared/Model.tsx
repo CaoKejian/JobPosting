@@ -37,10 +37,11 @@ export const Model = defineComponent({
               <div class={s.top}>{context.slots.title?.()}</div>
               <div class={s.bottom}>
                 <div class={s.content}>
-                  <span>进班码</span>
-                  {props.isShowForm ?<input type="text" value={props.classId}
+                  {props.isShowForm ? <>
+                   <span>进班码</span>
+                  <input type="text" value={props.classId}
                     onInput={(e: any) => context.emit('update:classId', e.target.value)}
-                    placeholder='六位数字' class={[s.formItem, s.input]}/> : null}
+                    placeholder='六位数字' class={[s.formItem, s.input]}/></> : null}
                   <span>{context.slots.content?.()}</span>
                   <div class={s.button}>
                     <Button onClick={() => onclick(1)}>{context.slots.buttonL?.() || '取消'}</Button>
