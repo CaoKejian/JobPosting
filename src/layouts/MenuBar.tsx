@@ -105,7 +105,7 @@ export const MenuBar = defineComponent({
                       </RouterLink>
                     </li>
                     <li>
-                      <RouterLink to="/welcome">
+                      <RouterLink to="/">
                         <svg class={s.icon}><use xlinkHref='#home'></use></svg>
                         <span onClick={() => onClick(6)}>回到首页</span>
                       </RouterLink>
@@ -157,7 +157,7 @@ export const MenuBar = defineComponent({
                       </RouterLink>
                     </li>
                     <li>
-                      <RouterLink to="/welcome">
+                      <RouterLink to="/">
                         <svg class={s.icon}><use xlinkHref='#home'></use></svg>
                         <span onClick={() => onClick(6)}>回到首页</span>
                       </RouterLink>
