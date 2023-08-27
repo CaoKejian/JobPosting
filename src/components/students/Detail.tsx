@@ -1,9 +1,9 @@
-import { defineComponent, onMounted, ref, watchEffect } from 'vue';
+import { defineComponent, onMounted, ref, watch, watchEffect } from 'vue';
 import s from './Detail.module.scss';
 import { MainLayout } from '../../layouts/MainLayout';
 import { BackIcon } from '../../shared/BackIcon';
 import { Model } from '../../shared/Model';
-import { FormItem } from '../../shared/Form';
+import { Form, FormItem } from '../../shared/Form';
 import { Button } from '../../shared/Button';
 import { useRouter } from 'vue-router';
 import { FloatButton } from '../../shared/FloatButton';
@@ -12,7 +12,6 @@ import { http } from '../../shared/Http';
 import { Work } from '../../vite-env';
 import { Toast } from 'vant';
 import { Time } from '../../shared/Time';
-import { stuIdMapFunction } from '../../config/NameMap';
 import { getAssetsFile } from '../../config/imgUtil';
 import { Quote } from '../../shared/Quote';
 
@@ -262,13 +261,11 @@ export const Detail = defineComponent({
             {isShowVisible.value ?
               <Model v-model:modelVisible={isShowVisible.value}
                 onUpdate:modelVisible={onChangeModel}
+                v-model:classId={classId.value}
+                isShowForm={true}
               >{
                 {
                   title:() => '请填写班级码',
-                  content:() => <div>
-                    <FormItem label='进班码' type='text' v-model={classId.value}
-                  placeholder='六位数字' ></FormItem>
-                  </div>,
                 }
               }</Model> : null
             }
