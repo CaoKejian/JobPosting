@@ -9,13 +9,8 @@ import { Quote } from '../../shared/Quote';
 import { Toast } from 'vant';
 import { Time } from '../../shared/Time';
 import { Button } from '../../shared/Button';
-import { getHref } from '../../config/utils';
+import { getHref, isHaveAuth } from '../../config/utils';
 export const Class = defineComponent({
-  props: {
-    name: {
-      type: String as PropType<string>
-    }
-  },
   setup: (props, context) => {
     const branchArr = ref<{ value: string, text: string }[]>([])
     const workNumber = ref<number>(0)
@@ -101,15 +96,23 @@ export const Class = defineComponent({
       }
     })
     const onNotice = async () => {
-      const stuIds = classSubmitArr.value.filter(item => item.isSubmit !== true).map(it => it.stuId)
-      await http.post('/user/email/unsubmit', {
-        stuIds,
-        url: getHref(),
-        user: work.value.user,
-        cutTime: Time(work.value.cutTime, 'YY-MM-SS'),
-        branch: work.value.branch,
-        content: work.value.content,
-        unSubmit: classSubmitArr.value.length - unSubmit.value.length
+      Toast({ message: '正在下载...' })
+      isHaveAuth().then(async res => {
+        if (res) {
+          const stuIds = classSubmitArr.value.filter(item => item.isSubmit !== true).map(it => it.stuId)
+          await http.post('/user/email/unsubmit', {
+            stuIds,
+            url: getHref(),
+            user: work.value.user,
+            cutTime: Time(work.value.cutTime, 'YY-MM-SS'),
+            branch: work.value.branch,
+            content: work.value.content,
+            unSubmit: classSubmitArr.value.length - unSubmit.value.length
+          })
+          Toast.clear()
+        } else {
+          Toast({ message: '你没有权限下载！' })
+        }
       })
     }
     onMounted(async () => {

@@ -1,3 +1,5 @@
+import { http } from "../shared/Http"
+
 export const removeLocal = () => {
   localStorage.clear()
 }
@@ -7,13 +9,10 @@ type InfoObj = {
   name: string
   email: string
 }
-export const isHaveAuth = () => {
+export const isHaveAuth = async() => {
   const info = JSON.parse(localStorage.getItem('info') as string)
-  console.log(info)
-  return
-  const resData = info.map((item: InfoObj) => {
-    return { stuId: item.stuId, name: item.name, email: item.email, }
-  })
+  const Auth = await http.get<any>('/class/download/auth', info)
+  return Auth.data.data
 }
 
 export const getHref = () => {
