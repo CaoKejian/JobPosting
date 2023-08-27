@@ -157,6 +157,12 @@ export const MenuBar = defineComponent({
                       </RouterLink>
                     </li>
                     <li>
+                      <RouterLink to="/teacher/auth">
+                        <svg class={s.icon}><use xlinkHref='#setAuth'></use></svg>
+                        <span onClick={() => onClick(8)}>权限配置</span>
+                      </RouterLink>
+                    </li>
+                    <li>
                       <RouterLink to="/">
                         <svg class={s.icon}><use xlinkHref='#home'></use></svg>
                         <span onClick={() => onClick(6)}>回到首页</span>
