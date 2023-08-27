@@ -37,7 +37,7 @@ router.beforeEach(async (to, from) => {
       if (!info) {
         return router.push('/login')
       }
-      const stuId = info.stuId
+      const stuId = teacherMapFunction(info.stuId)
       if (stuId === '未录入') {
         router.push('/error/noauth')
       }

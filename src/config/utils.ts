@@ -15,3 +15,7 @@ export const isHaveAuth = () => {
     return { stuId: item.stuId, name: item.name, email: item.email, }
   })
 }
+
+export const getHref = () => {
+  return window.location.href
+}

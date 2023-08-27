@@ -57,7 +57,6 @@ export const DownLoads = defineComponent({
             stuIds: isSubmit.value
           })
           isNoSubmit.value = unSubmit.data
-          console.log(isNoSubmit.value)
         } else {
           Toast({
             message: '没有相关作业提交'
@@ -65,7 +64,6 @@ export const DownLoads = defineComponent({
           // 查询所有班级下的同学
           const unSubmit = await http.get<{ stuId: number, classId: number, name: string }[]>('/user/demand', { classId: classId.value })
           isNoSubmit.value = unSubmit.data
-          console.log(isNoSubmit.value)
         }
       } catch (e) {
         console.log(e);
