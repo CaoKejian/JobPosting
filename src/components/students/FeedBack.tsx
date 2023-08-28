@@ -7,6 +7,7 @@ import { Form, FormItem } from '../../shared/Form';
 import { http } from '../../shared/Http';
 import { FeedBackObj } from '../../vite-env';
 import { randomFn } from '../../config/utils';
+import { Map } from '../charts/feedback/Map';
 
 interface UseDataObj {
   isLoading: boolean,
@@ -61,6 +62,9 @@ export const FeedBack = defineComponent({
                   <svg class={s.svg}><use xlinkHref='#star'></use></svg>{item.name}：{item.feedBackValue}
                 </div>
               })}
+            </div>
+            <div class={s.chart}>
+              <Map />
             </div>
             <div class={s.submit}>
               <Form>
