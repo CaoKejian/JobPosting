@@ -1,4 +1,4 @@
-import { PropType, Transition, defineComponent, onMounted, reactive, ref, toRefs } from 'vue';
+import { defineComponent, onMounted, reactive, toRefs } from 'vue';
 import s from './FeedBack.module.scss';
 import { MainLayout } from '../../layouts/MainLayout';
 import { BackIcon } from '../../shared/BackIcon';
@@ -6,6 +6,7 @@ import { Quote } from '../../shared/Quote';
 import { Form, FormItem } from '../../shared/Form';
 import { http } from '../../shared/Http';
 import { FeedBackObj } from '../../vite-env';
+import { randomFn } from '../../config/utils';
 
 interface UseDataObj {
   isLoading: boolean,
@@ -31,13 +32,17 @@ export const FeedBack = defineComponent({
     })
     const { isLoading, formData, feedArr } = toRefs(useData)
     const onSubmit = async () => {
+      formData.value.feedBackValue = ''
       await http.post('/feedback/submit', { form: formData.value }, { _autoLoading: true })
       fetchFeedValue()
     }
     const fetchFeedValue = async () => {
       const data = await http.get<FeedBackObj[]>('/feedback', {}, { _autoLoading: true })
       feedArr.value = data.data
-      console.log(feedArr.value)
+      feedArr.value.map(item => {
+        item.randomMargin = randomFn(1,6)
+        item.randomSpeed = randomFn(2,4)
+      })
     }
     onMounted(() => {
       fetchFeedValue()
@@ -53,7 +58,7 @@ export const FeedBack = defineComponent({
             <Quote name="您的反馈是我最大的动力！" />
             <div class={s.feedback}>
               {feedArr.value.map(item => {
-                return <div key={item._id} class={s.ball}>
+                return <div key={item._id} class={s.ball} style={{ paddingLeft: item.randomMargin + 'rem', animationDuration: item.randomSpeed + 's' }}>
                   <svg class={s.svg}><use xlinkHref='#star'></use></svg>{item.name}：{item.feedBackValue}
                 </div>
               })}

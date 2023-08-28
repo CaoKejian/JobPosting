@@ -42,14 +42,14 @@ type pubWork = {
   subject: string,
   branch: string,
   time?: number,
-  cutTime?: undefined|number,
+  cutTime?: undefined | number,
   content: string
 }
 
 type Work = {
   data: [],
   _id: string
-  name:string
+  name: string
   stuId: number
   classId: number
   subject: string
@@ -69,7 +69,7 @@ type WorkObj = {
   _id: string
   stuId: number
   classId: number
-  name:string
+  name: string
   subject: string
   time: number
   branch: string
@@ -90,11 +90,11 @@ type pubWork = {
   user: string,
   __v: number
 }
-type Class ={
+type Class = {
   data: [],
   classes: [],
   subjects: []
-  branches:[]
+  branches: []
 }
 type FeedBackObj = {
   _id: string
@@ -102,6 +102,8 @@ type FeedBackObj = {
   email: string
   stuId: number
   feedBackValue: string
+  randomMargin?: number
+  randomSpeed?: number
 }
 interface ClassSelectItem {
   value: string;

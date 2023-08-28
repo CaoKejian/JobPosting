@@ -5,19 +5,28 @@
     margin: 1rem 0;
     width: 100%;
     min-height: 8rem;
+    max-height: 8rem;
     display: flex;
     flex-direction: column;
     background: var(--lunbo-wrapper-bg);
     position: relative;
     overflow: hidden;
     border-radius: 0.5rem;
+    padding: 0.2rem 0 ;
+    flex-wrap: wrap;
+    box-sizing: border-box;
     .ball{
+      height: 1.8rem;
       color: var(--theme-font-color);
       width: 100%;
       padding: 0.2rem;
+      box-sizing: border-box;
       display: flex;
       align-items: center;
-      animation: resetSlide 3s linear infinite;
+      animation-name: resetSlide;
+      animation-duration: 3s;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
       .svg{
         width: 1.3rem;
         height: 1.3rem;

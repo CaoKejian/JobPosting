@@ -18,3 +18,8 @@ export const isHaveAuth = async() => {
 export const getHref = () => {
   return window.location.href
 }
+
+export const randomFn = (min: number, max: number) => {
+  const x = (Math.random() * (max - min) - min).toFixed(2);
+  return parseFloat(x);
+}
