@@ -20,6 +20,6 @@ export const getHref = () => {
 }
 
 export const randomFn = (min: number, max: number) => {
-  const x = (Math.random() * (max - min) - min).toFixed(2);
+  const x = (Math.random() * (max - min) + min).toFixed(2);
   return parseFloat(x);
 }

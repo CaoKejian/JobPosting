@@ -41,7 +41,6 @@ export const FeedBack = defineComponent({
       feedArr.value = data.data
       feedArr.value.map(item => {
         item.randomMargin = randomFn(1,6)
-        item.randomSpeed = randomFn(2,4)
       })
     }
     onMounted(() => {
@@ -58,7 +57,7 @@ export const FeedBack = defineComponent({
             <Quote name="您的反馈是我最大的动力！" />
             <div class={s.feedback}>
               {feedArr.value.map(item => {
-                return <div key={item._id} class={s.ball} style={{ paddingLeft: item.randomMargin + 'rem', animationDuration: item.randomSpeed + 's' }}>
+                return <div key={item._id} class={s.ball} style={{ paddingLeft: item.randomMargin + 'rem' }}>
                   <svg class={s.svg}><use xlinkHref='#star'></use></svg>{item.name}：{item.feedBackValue}
                 </div>
               })}
