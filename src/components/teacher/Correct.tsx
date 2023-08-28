@@ -123,6 +123,7 @@ export const Correct = defineComponent({
           await http.post('/work/upload', workData.value[index], {_autoLoading:true})
           Toast({message: '批改成功！'})
           if(index === workData.value.length - 1){
+            workData.value = []
             setTimeout(() => {
               Toast({message: '全部批改完成'})
             },1000)

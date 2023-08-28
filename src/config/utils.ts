@@ -11,7 +11,7 @@ type InfoObj = {
 }
 export const isHaveAuth = async() => {
   const info = JSON.parse(localStorage.getItem('info') as string)
-  const Auth = await http.get<any>('/class/download/auth', info)
+  const Auth = await http.get<any>('/user/president/auth', info)
   return Auth.data.data
 }
 

@@ -14,6 +14,12 @@ id:班级 {
 ```bash
 bin/coscli-mac cp -r dist/ cos://jobpost-*******
 ```
+
+> 统计代码行数
+```bash
+npm i -g cloc  
+cloc . --vcs git
+```
 ## 学生作业统计 p3
 ## 学生作业详情 p0
   搜索框、我参与的、别人的提交
