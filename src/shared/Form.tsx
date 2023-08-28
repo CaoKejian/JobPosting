@@ -43,6 +43,10 @@ export const FormItem = defineComponent({
     error: {
       type: String
     },
+    srachValue:{
+      type: String as PropType<string>,
+      defalut: '搜索'
+    },
     radioType: {
       type: Boolean as PropType<boolean>,
       defalut: false
@@ -77,7 +81,7 @@ export const FormItem = defineComponent({
       }, 1000)
     }
     const onClick = () => {
-      props.onClick?.()
+      props.onSearch?.()
     }
     context.expose({
       startCount
@@ -111,7 +115,7 @@ export const FormItem = defineComponent({
               value = {props.modelValue}
               onInput={(e: any) => context.emit('update:modelValue', e.target.value)} placeholder={props.placeholder}
             />
-            <Button onClick={props.onSearch} class={s.searchButton}>搜索</Button>
+            <Button onClick={props.onClick} class={s.searchButton}>{props.srachValue}</Button>
           </div>
         case 'select':
           return <select class={[s.formItem, s.select]}
@@ -119,7 +123,7 @@ export const FormItem = defineComponent({
             value={props.modelValue}
           >
             {props.options?.map(options =>
-              <option value={options.text} >{options.text}</option>)}
+              <option value={options.text}>{options.text}</option>)}
           </select>
         case 'score':
           return <><input readonly={true} value={props.modelValue}

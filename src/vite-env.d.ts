@@ -96,6 +96,13 @@ type Class ={
   subjects: []
   branches:[]
 }
+type FeedBackObj = {
+  _id: string
+  name: string
+  email: string
+  stuId: number
+  feedBackValue: string
+}
 interface ClassSelectItem {
   value: string;
   text: string;

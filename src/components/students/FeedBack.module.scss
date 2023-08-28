@@ -1,12 +1,62 @@
 .wrapper{
-  padding: 0.8rem 1rem;
+  padding: 0.4rem 1rem;
   font-size: 1rem;
+  .feedback{
+    margin: 1rem 0;
+    width: 100%;
+    min-height: 8rem;
+    display: flex;
+    flex-direction: column;
+    background: var(--lunbo-wrapper-bg);
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    .ball{
+      color: var(--theme-font-color);
+      width: 100%;
+      padding: 0.2rem;
+      display: flex;
+      align-items: center;
+      animation: resetSlide 3s linear infinite;
+      .svg{
+        width: 1.3rem;
+        height: 1.3rem;
+      }
+    }
+  }
   .icon{
     width: 100%;
+    padding: 3rem 0;
     .svg{
-      // width: 100%;
       position: relative;
       right: 0;
     }
+  }
+  .submit{
+    position: fixed;
+    bottom: 2rem;
+    left: 0.6rem;
+    right: 0.6rem;
+    >Form{
+      padding: 0;
+    }
+  }
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes resetSlide {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
   }
 }
