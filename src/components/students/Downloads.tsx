@@ -11,6 +11,7 @@ import { http } from '../../shared/Http';
 import { Class, User, Work } from '../../vite-env';
 import { DownLoadInfo } from '../../shared/DownLoad';
 import { PeopleShow } from '../../shared/PeopleShow';
+import { isHaveAuth } from '../../config/utils';
 
 export const DownLoads = defineComponent({
   setup: (props, context) => {
@@ -72,11 +73,17 @@ export const DownLoads = defineComponent({
     const onDownload = async (e: Event) => {
       e.preventDefault()
       try {
-        for (const file of downloadsInfo.value) {
-          await DownLoadInfo(file.file);
-          await new Promise(resolve => setTimeout(resolve, 1000))
-        }
-        console.log('全部文件下载完成');
+        isHaveAuth().then(async res => {
+          if(!res){
+            for (const file of downloadsInfo.value) {
+              await DownLoadInfo(file.file);
+              await new Promise(resolve => setTimeout(resolve, 1000))
+            }
+            console.log('全部文件下载完成');
+          }else{
+            Toast({message:"你没有该权限！"})
+          }
+        })
       } catch (error) {
         console.error('提交出错：', error);
       }
