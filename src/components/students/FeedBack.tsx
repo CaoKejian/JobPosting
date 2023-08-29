@@ -33,9 +33,9 @@ export const FeedBack = defineComponent({
     })
     const { isLoading, formData, feedArr } = toRefs(useData)
     const onSubmit = async () => {
-      formData.value.feedBackValue = ''
       await http.post('/feedback/submit', { form: formData.value }, { _autoLoading: true })
       fetchFeedValue()
+      formData.value.feedBackValue = ''
     }
     const fetchFeedValue = async () => {
       const data = await http.get<FeedBackObj[]>('/feedback', {}, { _autoLoading: true })

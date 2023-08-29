@@ -54,9 +54,9 @@ export const Detail = defineComponent({
         if(data.data.pagination.totalPages === page){
           isHavePage.value = false
         }
-      }catch(error){
+      }catch(error:any){
         Toast({
-          message: '获取错误'
+          message: error
         })
       }
     }

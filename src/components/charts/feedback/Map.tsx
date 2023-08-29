@@ -161,7 +161,7 @@ export const Map = defineComponent({
                 label: {
                   show: true,
                   position: "inside",
-                  formatter: function (p) {
+                  formatter: function (p:any) {
                     return p.value > 0 ? p.value : "";
                   },
                 },
