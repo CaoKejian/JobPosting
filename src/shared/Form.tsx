@@ -45,7 +45,7 @@ export const FormItem = defineComponent({
     },
     srachValue:{
       type: String as PropType<string>,
-      defalut: '搜索'
+      default: '搜索'
     },
     radioType: {
       type: Boolean as PropType<boolean>,
