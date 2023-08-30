@@ -15,19 +15,16 @@ export const BackIcon = defineComponent({
   setup: (props, context) => {
     const route = useRoute()
     const router = useRouter()
-    const onClick = (e:MouseEvent) => {
+    const onClick = (e: MouseEvent) => {
       props.onClick?.(e)
       const { return_to } = route.query
       if (return_to) {
         router.push(return_to.toString())
-      }else if(props.svg === 'menu'){
+      } else if (props.svg === 'menu') {
         return
-      }else if(props.svg === 'user'){
-        return 
-      } else if(props.svg === 'goLogin'){
-        router.push('/login?return_to=/')
-        removeLocal()
-      }else {
+      } else if (props.svg === 'user') {
+        return
+      } else {
         router.back()
       }
     }

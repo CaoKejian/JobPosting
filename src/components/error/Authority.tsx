@@ -22,7 +22,7 @@ export const Authority = defineComponent({
     return () => (
       <MainLayout>{
         {
-          icon: () => <BackIcon svg='goLogin'/>,
+          icon: () => <BackIcon svg='return'/>,
           title: () => '权限错误',
           default: () => <><div class={s.wrapper}>
               <svg class={s.svg}><use xlinkHref='#noAuth'></use></svg>
