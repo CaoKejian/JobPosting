@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, reactive, ref, toRefs } from 'vue';
+import { defineComponent, onMounted, onUnmounted, reactive, ref, toRefs } from 'vue';
 import s from './FeedBack.module.scss';
 import { MainLayout } from '../../layouts/MainLayout';
 import { BackIcon } from '../../shared/BackIcon';
@@ -13,6 +13,8 @@ import { MenuBar } from '../../layouts/MenuBar';
 interface UseDataObj {
   isLoading: boolean,
   feedArr: FeedBackObj[],
+  page: number,
+  isHaveData: boolean,
   formData: {
     email: string,
     name: string,
@@ -26,6 +28,8 @@ export const FeedBack = defineComponent({
     const useData = reactive<UseDataObj>({
       isLoading: false,
       feedArr: [],
+      page: 1,
+      isHaveData: false,
       formData: {
         email: "",
         name: "",
@@ -33,23 +37,39 @@ export const FeedBack = defineComponent({
         feedBackValue: '',
       },
     })
-    const { isLoading, formData, feedArr } = toRefs(useData)
+    const { isLoading, formData, feedArr, page, isHaveData } = toRefs(useData)
     const onSubmit = async () => {
       await http.post('/feedback/submit', { form: formData.value }, { _autoLoading: true })
-      fetchFeedValue()
+      fetchFeedValue(1)
       formData.value.feedBackValue = ''
     }
-    const fetchFeedValue = async () => {
-      const data = await http.get<FeedBackObj[]>('/feedback', {}, { _autoLoading: true })
-      feedArr.value = data.data
+    const fetchFeedValue = async (page: number) => {
+      const data = await http.get<any>('/feedback', { page }, { _autoLoading: true })
+      if (data.data.pagination.totalPages <= page) {
+        isHaveData.value = false
+      } else {
+        isHaveData.value = true
+      }
+      feedArr.value = data.data.data
       feedArr.value.map(item => {
         item.randomMargin = randomFn(1, 6)
       })
     }
+    const uploadFeedValue = () => {
+      if (isHaveData.value) {
+        page.value++;
+        feedArr.value = [];
+        fetchFeedValue(page.value);
+      }
+    }
     onMounted(() => {
-      fetchFeedValue()
+      fetchFeedValue(page.value)
       const info = JSON.parse(localStorage.getItem('info') as string)
       Object.assign(formData.value, { name: info.name, email: info.email, stuId: info.stuId, })
+      const intervalId = setInterval(uploadFeedValue, 10000)
+      onUnmounted(() => {
+        clearInterval(intervalId);
+      });
     })
     return () => (
       <MainLayout>{
@@ -58,12 +78,14 @@ export const FeedBack = defineComponent({
           title: () => '反馈系统',
           default: () => <div class={s.wrapper}>
             <Quote name="您的反馈是我最大的动力！" />
-            <div class={s.feedback}>
-              {feedArr.value.map(item => {
-                return <div key={item._id} class={s.ball} style={{ paddingLeft: item.randomMargin + 'rem' }}>
-                  <svg class={s.svg}><use xlinkHref='#star'></use></svg>{item.name}：{item.feedBackValue}
-                </div>
-              })}
+            <div class={s.container}>
+              <div class={s.feedback}>
+                {feedArr.value.map(item => {
+                  return <div key={item._id} class={s.ball} style={{ paddingLeft: item.randomMargin + 'rem' }}>
+                    <svg class={s.svg}><use xlinkHref='#star'></use></svg>{item.name}：{item.feedBackValue}
+                  </div>
+                })}
+              </div>
             </div>
             <div class={s.chart}>
               <Map />
@@ -84,7 +106,7 @@ export const FeedBack = defineComponent({
             </div> : null}
             {
               isShowMenu.value ?
-                <MenuBar  onClose={() => isShowMenu.value = false} />
+                <MenuBar onClose={() => isShowMenu.value = false} />
                 : null
             }
           </div>

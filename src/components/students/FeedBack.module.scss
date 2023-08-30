@@ -1,32 +1,39 @@
 .wrapper{
   padding: 0.4rem 1rem;
   font-size: 1rem;
-  .feedback{
+  width: 100%;
+  box-sizing: border-box;
+  .container{
     margin: 1rem 0;
     width: 100%;
+    min-height: 8.4rem;
+    max-height: 8.4rem;
+    padding: 0.2rem 0;
+    overflow: hidden;
+    background: var(--lunbo-wrapper-bg);
+  }
+  .feedback{
+    margin: 1rem 0;
     min-height: 8rem;
     max-height: 8rem;
+    width: 1000px;
     display: flex;
     flex-direction: column;
-    background: var(--lunbo-wrapper-bg);
-    position: relative;
-    overflow: hidden;
     border-radius: 0.5rem;
     padding: 0.2rem 0 ;
     flex-wrap: wrap;
     box-sizing: border-box;
+    animation-name: resetSlide;
+    animation-duration: 8s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
     .ball{
       height: 1.8rem;
       color: var(--theme-font-color);
-      width: 100%;
       padding: 0.2rem;
       box-sizing: border-box;
       display: flex;
       align-items: center;
-      animation-name: resetSlide;
-      animation-duration: 3s;
-      animation-timing-function: linear;
-      animation-iteration-count: infinite;
       .svg{
         width: 1.3rem;
         height: 1.3rem;
