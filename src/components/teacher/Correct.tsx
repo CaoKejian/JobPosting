@@ -101,6 +101,7 @@ export const Correct = defineComponent({
         }, { _autoLoading: true })
         workData.value = data.data
         Toast.clear()
+        if(workData.value.length===0) Toast({message: '没有更多作业了'})
       } catch (err) {
         console.log(err)
       }

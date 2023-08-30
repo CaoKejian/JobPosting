@@ -1,4 +1,4 @@
-import { PropType, defineComponent, onMounted, reactive, ref } from 'vue';
+import { PropType, defineComponent, onMounted, reactive, ref, watch } from 'vue';
 import s from './Publish.module.scss';
 import { MainLayout } from '../../layouts/MainLayout';
 import { BackIcon } from '../../shared/BackIcon';
@@ -43,8 +43,11 @@ export const Publish = defineComponent({
       cutTime: [],
       content: []
     })
-    const router = useRouter()
+    watch(()=>formData.classId, (newValue) => {
+      fetchSubjectData(classIdMapFunction(formData.classId), formData.user)
+    })
     const fetchSubjectData = async (classId: string, user: string) => {
+      selectData.subjectMap = []
       try {
         const data = await http.get<Class>('/subject/myAll/subject', { classId, user }, { _autoLoading: true })
         const subjects = data.data.subjects
@@ -88,7 +91,6 @@ export const Publish = defineComponent({
       // }
       await setClassMapSelection()
       fetchAddClass(info.stuId, info.name)
-      fetchSubjectData(classIdMapFunction(formData.classId), formData.user)
     })
     const publish = async (e: Event) => {
       e.preventDefault()
