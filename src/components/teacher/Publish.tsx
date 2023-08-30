@@ -44,6 +44,7 @@ export const Publish = defineComponent({
       content: []
     })
     watch(()=>formData.classId, (newValue) => {
+      if(!formData.classId || !isNaN(+formData.classId)) return
       fetchSubjectData(classIdMapFunction(formData.classId), formData.user)
     })
     const fetchSubjectData = async (classId: string, user: string) => {
