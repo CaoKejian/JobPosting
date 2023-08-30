@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, reactive, toRefs } from 'vue';
+import { defineComponent, onMounted, reactive, ref, toRefs } from 'vue';
 import s from './FeedBack.module.scss';
 import { MainLayout } from '../../layouts/MainLayout';
 import { BackIcon } from '../../shared/BackIcon';
@@ -8,6 +8,7 @@ import { http } from '../../shared/Http';
 import { FeedBackObj } from '../../vite-env';
 import { randomFn } from '../../config/utils';
 import { Map } from '../charts/feedback/Map';
+import { MenuBar } from '../../layouts/MenuBar';
 
 interface UseDataObj {
   isLoading: boolean,
@@ -21,6 +22,7 @@ interface UseDataObj {
 }
 export const FeedBack = defineComponent({
   setup: (props, context) => {
+    const isShowMenu = ref(false)
     const useData = reactive<UseDataObj>({
       isLoading: false,
       feedArr: [],
@@ -41,7 +43,7 @@ export const FeedBack = defineComponent({
       const data = await http.get<FeedBackObj[]>('/feedback', {}, { _autoLoading: true })
       feedArr.value = data.data
       feedArr.value.map(item => {
-        item.randomMargin = randomFn(1,6)
+        item.randomMargin = randomFn(1, 6)
       })
     }
     onMounted(() => {
@@ -52,7 +54,7 @@ export const FeedBack = defineComponent({
     return () => (
       <MainLayout>{
         {
-          icon: () => <BackIcon svg='menu' />,
+          icon: () => <BackIcon svg='menu' onClick={() => isShowMenu.value = true} />,
           title: () => '反馈系统',
           default: () => <div class={s.wrapper}>
             <Quote name="您的反馈是我最大的动力！" />
@@ -80,6 +82,11 @@ export const FeedBack = defineComponent({
             {isLoading.value ? <div class={s.icon}>
               <svg class={s.svg}><use xlinkHref='#feedback'></use></svg>
             </div> : null}
+            {
+              isShowMenu.value ?
+                <MenuBar  onClose={() => isShowMenu.value = false} />
+                : null
+            }
           </div>
         }
       }</MainLayout>
