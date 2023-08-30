@@ -99,7 +99,7 @@ export const MenuBar = defineComponent({
                       </RouterLink>
                     </li>
                     <li>
-                      <RouterLink to="/student/feedback">
+                      <RouterLink to="/feedback">
                         <svg class={s.icon}><use xlinkHref='#homefeedback'></use></svg>
                         <span onClick={() => onClick(5)}>用户反馈</span>
                       </RouterLink>
@@ -141,31 +141,31 @@ export const MenuBar = defineComponent({
                     <li>
                       <RouterLink to="/teacher/subject">
                         <svg class={s.icon}><use xlinkHref='#subject'></use></svg>
-                        <span onClick={() => onClick(2)}>新的学科</span>
-                      </RouterLink>
-                    </li>
-                    <li>
-                      <RouterLink to="/teacher/search">
-                        <svg class={s.icon}><use xlinkHref='#worksearch'></use></svg>
-                        <span onClick={() => onClick(3)}>作业查询</span>
+                        <span onClick={() => onClick(3)}>新的学科</span>
                       </RouterLink>
                     </li>
                     <li>
                       <RouterLink to="/teacher/analyze">
                         <svg class={s.icon}><use xlinkHref='#analyze'></use></svg>
-                        <span onClick={() => onClick(7)}>数据分析</span>
+                        <span onClick={() => onClick(4)}>数据分析</span>
                       </RouterLink>
                     </li>
                     <li>
                       <RouterLink to="/teacher/auth">
                         <svg class={s.icon}><use xlinkHref='#setAuth'></use></svg>
-                        <span onClick={() => onClick(8)}>权限配置</span>
+                        <span onClick={() => onClick(5)}>权限配置</span>
+                      </RouterLink>
+                    </li>
+                    <li>
+                      <RouterLink to="/feedback">
+                        <svg class={s.icon}><use xlinkHref='#homefeedback'></use></svg>
+                        <span onClick={() => onClick(6)}>用户反馈</span>
                       </RouterLink>
                     </li>
                     <li>
                       <RouterLink to="/">
                         <svg class={s.icon}><use xlinkHref='#home'></use></svg>
-                        <span onClick={() => onClick(6)}>回到首页</span>
+                        <span onClick={() => onClick(7)}>回到首页</span>
                       </RouterLink>
                     </li>
                   </ul>

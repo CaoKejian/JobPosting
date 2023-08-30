@@ -86,3 +86,5 @@ export const FeedBack = defineComponent({
     )
   }
 })
+
+export default FeedBack
