@@ -74,7 +74,7 @@ export const DownLoads = defineComponent({
       e.preventDefault()
       try {
         isHaveAuth().then(async res => {
-          if(!res){
+          if(res){
             for (const file of downloadsInfo.value) {
               await DownLoadInfo(file.file);
               await new Promise(resolve => setTimeout(resolve, 1000))

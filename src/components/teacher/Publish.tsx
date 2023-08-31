@@ -43,8 +43,8 @@ export const Publish = defineComponent({
       cutTime: [],
       content: []
     })
-    watch(()=>formData.classId, (newValue) => {
-      if(!formData.classId || !isNaN(+formData.classId)) return
+    watch(() => formData.classId, (newValue) => {
+      if (!formData.classId || !isNaN(+formData.classId)) return
       fetchSubjectData(classIdMapFunction(formData.classId), formData.user)
     })
     const fetchSubjectData = async (classId: string, user: string) => {
@@ -78,8 +78,8 @@ export const Publish = defineComponent({
       }
     }
     const setClassMapSelection = () => {
-      for (const [value,text] of Object.entries(classMap)) {
-        selectData.classMap.unshift({value,text})
+      for (const [value, text] of Object.entries(classMap)) {
+        selectData.classMap.unshift({ value, text })
       }
       formData.classId = selectData.classMap[0].text
     }
@@ -150,6 +150,7 @@ export const Publish = defineComponent({
                 error={errors.cutTime?.[0] ?? '　'}
               ></FormItem>
               <FormItem label='作业描述' type='text'
+                placeholder='「可选」填写作业描述'
                 v-model={formData.content} >
               </FormItem>
               <div class={s.button}>

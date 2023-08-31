@@ -9,9 +9,16 @@ type InfoObj = {
   name: string
   email: string
 }
+
 export const isHaveAuth = async() => {
   const info = JSON.parse(localStorage.getItem('info') as string)
   const Auth = await http.get<any>('/user/president/auth', info)
+  return Auth.data.data
+}
+
+export const isHaveRootAuth = async() => {
+  const info = JSON.parse(localStorage.getItem('info') as string)
+  const Auth = await http.get<any>('/user/root/auth', info)
   return Auth.data.data
 }
 
