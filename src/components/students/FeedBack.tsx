@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, onUnmounted, reactive, ref, toRefs } from 'vue';
+import { defineComponent, onMounted, onUnmounted, reactive, ref, toRefs, watchEffect } from 'vue';
 import s from './FeedBack.module.scss';
 import { MainLayout } from '../../layouts/MainLayout';
 import { BackIcon } from '../../shared/BackIcon';
@@ -40,36 +40,38 @@ export const FeedBack = defineComponent({
     const { isLoading, formData, feedArr, page, isHaveData } = toRefs(useData)
     const onSubmit = async () => {
       await http.post('/feedback/submit', { form: formData.value }, { _autoLoading: true })
-      fetchFeedValue(1)
+      page.value = 1
+      fetchFeedValue()
       formData.value.feedBackValue = ''
     }
-    const fetchFeedValue = async (page: number) => {
-      const data = await http.get<any>('/feedback', { page }, { _autoLoading: true })
-      if (data.data.pagination.totalPages <= page) {
-        isHaveData.value = false
-      } else {
-        isHaveData.value = true
+    const fetchFeedValue = async () => {
+      const data = await http.get<any>('/feedback', { page: page.value })
+      const result = data.data
+      if (result.pagination.totalPages === +result.pagination.currentPage) {
+        page.value = 0
       }
-      feedArr.value = data.data.data
+      isHaveData.value = true
+      feedArr.value = result.data
       feedArr.value.map(item => {
         item.randomMargin = randomFn(1, 6)
       })
     }
-    const uploadFeedValue = () => {
-      if (isHaveData.value) {
-        page.value++;
-        feedArr.value = [];
-        fetchFeedValue(page.value);
+    watchEffect(() => {
+      const intervalId = setInterval(() => {
+        if (isHaveData.value) {
+          page.value++;
+          feedArr.value = [];
+          fetchFeedValue();
+        }
+      }, 8000)
+      return () => {
+        clearInterval(intervalId)
       }
-    }
+    })
     onMounted(() => {
-      fetchFeedValue(page.value)
+      fetchFeedValue()
       const info = JSON.parse(localStorage.getItem('info') as string)
       Object.assign(formData.value, { name: info.name, email: info.email, stuId: info.stuId, })
-      const intervalId = setInterval(uploadFeedValue, 10000)
-      onUnmounted(() => {
-        clearInterval(intervalId);
-      });
     })
     return () => (
       <MainLayout>{
@@ -111,7 +113,7 @@ export const FeedBack = defineComponent({
             }
           </div>
         }
-      }</MainLayout>
+      }</MainLayout >
     )
   }
 })
