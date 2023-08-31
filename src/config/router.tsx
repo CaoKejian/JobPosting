@@ -29,11 +29,13 @@ export const routes: RouteRecordRaw[] = [
     path: '/feedback', component: () => import('../components/students/FeedBack')
   },
   {
+    path: '/view/:id', component: () => import('../components/students/View')
+  },
+  {
     path: '/student', component: () => import('../views/Student'),
     children: [
       { path: '', redirect: '/student/detail' },
       { path: 'detail', component: Detail },
-      { path: 'view/:id', component: View },
       { path: ':id/handWork', component: HandWork },
       { path: 'statistics', component: Statistics },
       { path: 'downloads', component: DownLoads },

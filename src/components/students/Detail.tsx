@@ -147,7 +147,7 @@ export const Detail = defineComponent({
         router.push(`/student/${id}/handWork`)
         return
       }
-      router.push(`/student/view/${id}`)
+      router.push(`/view/${id}`)
     }
     return () => (
       <MainLayout onUpdate:value={handleValue}>{
