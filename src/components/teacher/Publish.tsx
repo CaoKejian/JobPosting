@@ -1,4 +1,4 @@
-import { PropType, defineComponent, onMounted, reactive, ref, watch } from 'vue';
+import { defineComponent, onMounted, reactive, ref, watch } from 'vue';
 import s from './Publish.module.scss';
 import { MainLayout } from '../../layouts/MainLayout';
 import { BackIcon } from '../../shared/BackIcon';
@@ -7,12 +7,11 @@ import { Form, FormItem } from '../../shared/Form';
 import { Button } from '../../shared/Button';
 import { Rules, hasError, validate } from '../../shared/Validate';
 import { http } from '../../shared/Http';
-import { classIdMapFunction, classMap, teacherIdMapFunction } from '../../config/NameMap';
+import { classIdMapFunction, classMap } from '../../config/NameMap';
 import { Timestamp } from '../../shared/Time';
 import { Class, pubWork } from '../../vite-env';
 import { Toast } from 'vant';
 import { Quote } from '../../shared/Quote';
-import { useRouter } from 'vue-router';
 export const Publish = defineComponent({
   setup: (props, context) => {
     const isShowMenu = ref<boolean>(false)

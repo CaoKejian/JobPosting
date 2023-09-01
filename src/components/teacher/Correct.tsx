@@ -15,11 +15,6 @@ import { Time } from '../../shared/Time';
 import { DownLoadInfo } from '../../shared/DownLoad';
 import { MenuBar } from '../../layouts/MenuBar';
 export const Correct = defineComponent({
-  props: {
-    name: {
-      type: String as PropType<string>
-    }
-  },
   setup: (props, context) => {
     const isShowMenu = ref(false)
     const classSelect = ref<ClassSelectItem[]>([])
@@ -29,25 +24,7 @@ export const Correct = defineComponent({
       user: '',
       branch: ''
     })
-    const workData = ref<WorkObj[]>([
-      // {
-      //   _id: '123',
-      //   stuId: 2001063037,
-      //   classId: 123123,
-      //   subject: '数据挖掘',
-      //   time: 1692364849562,
-      //   branch: '抖音数据挖掘',
-      //   file: { fileName: '抖音..docx', fileUrl: '' },
-      //   favor: false,
-      //   content: '认真完成这一次作业',
-      //   score: 0,
-      //   tComments: '',
-      //   isPass: false,
-      //   publish: '曹Sir',
-      //   cutTime: 1692364849563,
-      //   __v: 123
-      // }
-    ])
+    const workData = ref<WorkObj[]>([])
     const passData = ref<{
       isPass: boolean,
       tComments: string,
@@ -63,9 +40,10 @@ export const Correct = defineComponent({
       classId: [],
       branch: []
     })
-    const fetchMyClass = async () => {
-      try {
-        const branchRes = await http.get<Work[]>('/pub/user', { user: formData.user })
+    const fetchClassBranch = async () => {
+      try{
+        subjectSelect.value = []
+        const branchRes = await http.get<Work[]>('/pub/user', { user: formData.user, classId: classIdMapFunction(formData.classId)})
         const branches = branchRes.data.map((item: any) => item = item.branch)
         branches.forEach((item, index) => {
           const subjectObj = {
@@ -74,6 +52,12 @@ export const Correct = defineComponent({
           };
           subjectSelect.value.push(subjectObj);
         });
+      }catch(err){
+        console.log(err)
+      }
+    }
+    const fetchMyClass = async () => {
+      try {
         const response = await http.get<Class>('/subject/myclass', { user: formData.user }, { _autoLoading: true })
         const data = response.data.classes
         data.forEach((item, index) => {
@@ -113,6 +97,9 @@ export const Correct = defineComponent({
       }
       fetchMyClassWork()
     })
+    watch(() => formData.classId, (newValue) => {
+      fetchClassBranch()
+    })
     const download = async (index: number) => {
       await DownLoadInfo(workData.value[index].file);
       await new Promise(resolve => setTimeout(resolve, 1000))
@@ -138,7 +125,8 @@ export const Correct = defineComponent({
       swipe.value.prev()
     }
     onMounted(() => {
-      formData.user = JSON.parse(localStorage.getItem('info') as string).name
+      const info = JSON.parse(localStorage.getItem('info') as string)
+      formData.user = info.name
       fetchMyClass()
     })
     const swipe = ref()
