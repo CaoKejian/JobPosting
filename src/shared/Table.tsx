@@ -2,15 +2,17 @@ import { PropType, defineComponent, onMounted, ref } from 'vue';
 import s from './Table.module.scss';
 import { Form, FormItem } from './Form';
 import { ClassSelectItem, User } from '../vite-env';
+import { throttle } from './Throttle';
 export const Table = defineComponent({
   props: {
     data: {
       type: Array as PropType<User[]>
     },
     pagination: {
-      type: Object as PropType<{currentPage: string,perPage: number,total: number,totalPages: number}>
+      type: Object as PropType<{ currentPage: string, perPage: number, total: number, totalPages: number }>
     }
   },
+  emits: ['update:value'],
   setup: (props, context) => {
     const selectData = ref<ClassSelectItem[]>([
       { value: '1', text: '姓名' },
@@ -21,27 +23,13 @@ export const Table = defineComponent({
     ])
     const searchValue = ref('')
     const selectValue = ref(selectData.value[0].text)
-    const tdata = [
-      { name: '曹珂俭', email: '1849201815@qq.com', stuId: 2001063037, classId: '大数据B201', isAuth: false, isRoot: false },
-      { name: '2', email: '1@qq.com', stuId: 2001, classId: '智能B2222', isAuth: false, isRoot: false },
-      { name: '3', email: '1@qq.com', stuId: 2001, classId: 111, isAuth: false, isRoot: false },
-      { name: '4', email: '1@qq.com', stuId: 2001, classId: 111, isAuth: false, isRoot: false },
-      { name: '5', email: '1@qq.com', stuId: 2001, classId: 111, isAuth: false, isRoot: false },
-    ]
     const tTitle = ['姓名', '学号', '邮箱', '班级', '操作']
-    const prev = () => {
-
-    }
-    const next = () => {
-
-    }
+    const getData = throttle((n: string) => {
+      context.emit('update:value', n)
+    },1000)
     const onSearch = () => {
 
     }
-    onMounted(() => {
-      selectValue.value = selectData.value[0].text
-      console.log(selectData.value[0].text)
-    })
     return () => (
       <div class={s.wrapper}>
         <Form>
@@ -85,8 +73,8 @@ export const Table = defineComponent({
           </div>
         </div>
         <div class={s.page}>
-          <svg class={s.svg} onClick={prev}><use xlinkHref='#prev'></use></svg>
-          <svg class={s.svg} onClick={next}><use xlinkHref='#next'></use></svg>
+          <svg class={s.svg} onClick={() => getData('prev')}><use xlinkHref='#prev'></use></svg>
+          <svg class={s.svg} onClick={() => getData('next')}><use xlinkHref='#next'></use></svg>
         </div>
       </div >
     )

@@ -19,6 +19,9 @@ export const Auth = defineComponent({
       const response = await http.get<any>('/user/all', { page: page.value }, { _autoLoading: true })
       peopleData.value = response.data.data
     }
+    const onGetdata = (n: string) => {
+      console.log(n)
+    }
     onMounted(() => {
       fetchUserData()
     })
@@ -30,7 +33,7 @@ export const Auth = defineComponent({
           default: () => <div class={s.wrapper}>
             <Quote name='选择查询方向' />
             <div class={s.table}>
-              <Table data={peopleData.value} />
+              <Table data={peopleData.value} onUpdate:value={onGetdata} />
             </div>
             {
               isShowMenu.value ?
