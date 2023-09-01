@@ -1,20 +1,23 @@
 import { PropType, defineComponent, onMounted, ref } from 'vue';
 import s from './Table.module.scss';
 import { Form, FormItem } from './Form';
-import { ClassSelectItem } from '../vite-env';
+import { ClassSelectItem, User } from '../vite-env';
 export const Table = defineComponent({
   props: {
     data: {
-      type: Array as PropType<any[]>
+      type: Array as PropType<User[]>
+    },
+    pagination: {
+      type: Object as PropType<{currentPage: string,perPage: number,total: number,totalPages: number}>
     }
   },
   setup: (props, context) => {
     const selectData = ref<ClassSelectItem[]>([
-      {value:'1',text:'姓名'},
-      {value:'2',text:'学号'},
-      {value:'3',text:'班级'},
-      {value:'4',text:'学委'},
-      {value:'5',text:'超级管理员'},
+      { value: '1', text: '姓名' },
+      { value: '2', text: '学号' },
+      { value: '3', text: '班级' },
+      { value: '4', text: '学委' },
+      { value: '5', text: '超级管理员' },
     ])
     const searchValue = ref('')
     const selectValue = ref(selectData.value[0].text)
@@ -26,14 +29,14 @@ export const Table = defineComponent({
       { name: '5', email: '1@qq.com', stuId: 2001, classId: 111, isAuth: false, isRoot: false },
     ]
     const tTitle = ['姓名', '学号', '邮箱', '班级', '操作']
-    const prev =() => {
+    const prev = () => {
 
     }
-    const  next = () => {
+    const next = () => {
 
     }
     const onSearch = () => {
-      
+
     }
     onMounted(() => {
       selectValue.value = selectData.value[0].text
@@ -68,10 +71,10 @@ export const Table = defineComponent({
         <div class={s.list}>
           <div class={s.list_list}>
             {
-              tdata.map(item => {
+              props.data?.map(item => {
                 return <div class={s.item} key={item.name}>
                   <ul>
-                    <li>{item.name}</li>
+                    <li style={{ color: (item.isRoot ? '#5764f1' : (item.isAuth ? '#386b78' : '#000')) }}>{item.name}</li>
                     <li>{item.stuId}</li>
                     <li>{item.email}</li>
                     <li>{item.classId}</li>
@@ -85,7 +88,7 @@ export const Table = defineComponent({
           <svg class={s.svg} onClick={prev}><use xlinkHref='#prev'></use></svg>
           <svg class={s.svg} onClick={next}><use xlinkHref='#next'></use></svg>
         </div>
-      </div>
+      </div >
     )
   }
 })

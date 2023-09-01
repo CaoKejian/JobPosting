@@ -33,7 +33,11 @@ export type Root = Work[]
 type User = {
   data: [],
   stuId: number
-  emial: string
+  email: string
+  classId: number
+  name: string
+  isRoot: boolean
+  isAuth: boolean
 }
 
 type pubWork = {
