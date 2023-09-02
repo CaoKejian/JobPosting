@@ -9,7 +9,8 @@ type InfoState = {
 type InfoActions = {
   fetchInfo: () => Promise<void>
   refresh: () => void
-  stuIdMapFunction: (stuId: number) => Promise<string | undefined> 
+  stuIdMapFunction: (stuId: number) => Promise<string | undefined>
+  teacherMapFunction: (stuId: number) => Promise<string | undefined>
 }
 export const useInfoStore = defineStore<string, InfoState, {}, InfoActions>('info', {
   state: () => ({
@@ -18,33 +19,34 @@ export const useInfoStore = defineStore<string, InfoState, {}, InfoActions>('inf
   }),
   actions: {
     async fetchInfo() {
-      const classId = localStorage.getItem('classID')
-      if (!classId) return
-      const res = await http.get<User[]>('/class', { classId })
-      res.data.map((item: User) => (
-        this.student[item.stuId] = item.name
-      ))
+      const res = await http.get<User[]>('/class/all')
+      res.data.map((item: User) => {
+        if (item.classId) {
+          this.student[item.stuId] = item.name;
+        } else {
+          this.teacher[item.stuId] = item.name;
+        }
+      });
     },
     refresh() {
       if (Object.keys(this.student).length === 0) {
         this.fetchInfo()
       }
     },
-    stuIdMapFunction(stuId: number) {
+    async stuIdMapFunction(stuId: number) {
       if (Object.keys(this.student).length === 0) {
-        return new Promise<string | undefined>((resolve, reject) => {
-          http.get<User[]>('/class', { classId: 123123 }).then(res => {
-            res.data.forEach((item: User) => (
-              this.student[item.stuId] = item.name
-            ));
-            console.log("Student data is available now.");
-            resolve(this.student[Number(stuId)] ? this.student[Number(stuId)] : '未录入'); 
-          }).catch(error => {
-            reject(error);
-          });
-        });
+        await this.fetchInfo()
+        return await Promise.resolve(this.student[Number(stuId)] ? this.student[Number(stuId)] : '未录入');
       } else {
         return Promise.resolve(this.student[Number(stuId)] ? this.student[Number(stuId)] : '未录入');
+      }
+    },
+    async teacherMapFunction(stuId: number) {
+      if (Object.keys(this.student).length === 0) {
+        await this.fetchInfo()
+        return await Promise.resolve(this.teacher[Number(stuId)] ? this.teacher[Number(stuId)] : '未录入');
+      } else {
+        return Promise.resolve(this.teacher[Number(stuId)] ? this.teacher[Number(stuId)] : '未录入');
       }
     }
   }
