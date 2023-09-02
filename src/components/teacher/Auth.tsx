@@ -22,6 +22,9 @@ export const Auth = defineComponent({
     const onGetdata = (n: string) => {
       console.log(n)
     }
+    const onSearch = (n: string) => {
+      console.log(n)
+    }
     onMounted(() => {
       fetchUserData()
     })
@@ -33,7 +36,9 @@ export const Auth = defineComponent({
           default: () => <div class={s.wrapper}>
             <Quote name='选择查询方向' />
             <div class={s.table}>
-              <Table data={peopleData.value} onUpdate:value={onGetdata} />
+              <Table data={peopleData.value} onUpdate:value={onGetdata}
+                onSearch:value={onSearch} onRefresh:value={fetchUserData}
+              />
             </div>
             {
               isShowMenu.value ?
