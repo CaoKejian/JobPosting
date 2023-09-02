@@ -116,6 +116,12 @@ export const Correct = defineComponent({
               Toast({message: '全部批改完成'})
             },1000)
           }
+          Object.assign(passData.value, {
+            isPass: false,
+            tComments: '',
+            favor: false,
+            score: null,
+          })
           swipe.value.next()
         }catch(err){
           Toast({message: '批改失败！'})
@@ -158,7 +164,6 @@ export const Correct = defineComponent({
                         workData.value.map((item, index) => {
                           return (
                             <van-swipe-item key={index}>
-                              {/* 预期否、打分、是否优秀、下一个【通过】）-已批12/61份未批 */}
                               <div class={s.box}>
                                 <div class={s.top}>
                                   {item.time - item.cutTime < 0 ?

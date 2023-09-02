@@ -8,7 +8,7 @@ export const Analyze = defineComponent({
   },
   setup: (props, context) => {
     return () => (
-      <div>Analyze</div>
+      <div>敬请期待</div>
     )
   }
 })
