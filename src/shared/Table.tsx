@@ -50,8 +50,11 @@ export const Table = defineComponent({
           stuId:selectUser.value?.stuId,
           isRoot
         },{_autoLoading:true})
-        context.emit('refresh:value', 'refresh')
       }
+      if(selectAuth.value==='无'&&value2 ===1){
+        http.post('/user/president/delete',{stuId:selectUser.value?.stuId},{_autoLoading:true})
+      }
+      context.emit('refresh:value', 'refresh')
     }
     const onSearch = () => {
       context.emit('search:value', searchValue.value)
