@@ -10,6 +10,8 @@ import './assets/fonts/fonts.css'
 import 'vant/lib/index.css';
 import { Toast, DatetimePicker, Search, Icon, Dialog, Uploader, Swipe, SwipeItem, Step, Steps, ConfigProvider } from 'vant';
 import { http } from './shared/Http'
+import { createPinia } from 'pinia'
+const pinia = createPinia()
 // 调试
 import VConsole from 'vconsole';
 import { stuIdMapFunction, teacherMapFunction } from './config/NameMap'
@@ -23,6 +25,7 @@ if (!isDev()) {
   new VConsole()
 }
 const app = createApp(App)
+app.use(pinia)
 const router = createRouter({
   history,
   routes,

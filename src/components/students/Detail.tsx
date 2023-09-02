@@ -14,6 +14,7 @@ import { Toast } from 'vant';
 import { Time } from '../../shared/Time';
 import { getAssetsFile } from '../../config/imgUtil';
 import { Quote } from '../../shared/Quote';
+import { useInfoStore } from '../../store/useInfoStore';
 
 export const Detail = defineComponent({
   setup: (props, context) => {
@@ -29,11 +30,13 @@ export const Detail = defineComponent({
     const isCancel = ref<boolean>(false)
     const isCancelId =ref<string>('')
     const router = useRouter()
+    const infoStore = useInfoStore()
     const onChangeModel = async(value1:string,value2:number) => {
       if(value2===1){
         fetchData(classId.value ,page.value)
         isHaveClass.value = true
         localStorage.setItem('classID', classId.value)
+        infoStore.fetchInfo()
       }
     }
     const fetchData = async (id:string, page: number) => {
@@ -139,6 +142,7 @@ export const Detail = defineComponent({
         isHaveClass.value = false
         isShowVisible.value = true
       }
+      infoStore.fetchInfo()
       classId.value && fetchData(classId.value,page.value)
       getStuId()
     })
