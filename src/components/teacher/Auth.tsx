@@ -9,6 +9,7 @@ import { http } from '../../shared/Http';
 interface UseData {
   isShowMenu: boolean,
   page: number,
+  searchValue: string,
   peopleData: [],
   paginData: { currentPage: string, perPage: number, total: number, totalPages: number }
 }
@@ -17,21 +18,57 @@ export const Auth = defineComponent({
     const useData = reactive<UseData>({
       isShowMenu: false,
       page: 1,
+      searchValue: '',
       peopleData: [],
       paginData: { currentPage: '1', perPage: 1, total: 1, totalPages: 1 }
     })
-    const { isShowMenu, page, peopleData, paginData } = toRefs(useData)
+    const { isShowMenu, page, searchValue, peopleData, paginData } = toRefs(useData)
     const fetchUserData = async () => {
       const response = await http.get<any>('/user/all', { page: page.value }, { _autoLoading: true })
       peopleData.value = response.data.data
       paginData.value = response.data.pagination
     }
-    const onGetdata = (n: number) => {
-      page.value = n
-      fetchUserData()
+    const onGetdata = (obj: { n: number, type: string }) => {
+      const { n, type } = obj
+      switch (type) {
+        case 'default':
+          page.value = n
+          fetchUserData()
+          break;
+        case 'classId':
+          fetchSearchValueData("classId", searchValue.value, n)
+          break
+        default:
+          break;
+      }
     }
-    const onSearch = (n: string) => {
-      console.log(n)
+    const fetchSearchValueData = async (type: string, value: string, page: number = 1) => {
+      const res = await http.get<any>('/user/type/search', { type, value, page }, { _autoLoading: true })
+      peopleData.value = res.data.data
+      paginData.value = res.data.pagination
+    }
+    const onSearch = (obj: { type: string, value: string }) => {
+      const { type, value } = obj
+      searchValue.value = value
+      switch (type) {
+        case '姓名':
+          fetchSearchValueData("name", value)
+          break;
+        case '学号':
+          fetchSearchValueData("stuId", value)
+          break;
+        case '班级':
+          fetchSearchValueData("classId", value, 1)
+          break;
+        case '总裁':
+          fetchSearchValueData("Auth", value)
+          break;
+        case '超级管理员':
+          fetchSearchValueData("Root", value)
+          break;
+        default:
+          break;
+      }
     }
     onMounted(() => {
       fetchUserData()

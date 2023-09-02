@@ -21,7 +21,7 @@ export const Table = defineComponent({
       { value: '1', text: '姓名' },
       { value: '2', text: '学号' },
       { value: '3', text: '班级' },
-      { value: '4', text: '学委' },
+      { value: '4', text: '总裁' },
       { value: '5', text: '超级管理员' },
     ])
     const selectAuthData = ref<ClassSelectItem[]>([
@@ -37,14 +37,15 @@ export const Table = defineComponent({
     const isOpen = ref(false)
     const getData = throttle((n: string) => {
       const pagin = props.pagination
+      const type= selectValue.value === '班级' ? 'classId' : 'defalut'
       if(n==='prev'){
         parseInt(pagin?.currentPage as string) >= 2 &&
-        context.emit('update:value', {page: +(pagin?.currentPage)! - 1 })
+        context.emit('update:value', {page: +(pagin?.currentPage)! - 1 ,type})
       }else if(n==='next'){
-        if(pagin?.currentPage === pagin?.totalPages){
+        if(parseInt(pagin?.currentPage as string) === pagin?.totalPages){
           Toast({message: '没有下一页了'})
         }else{
-        context.emit('update:value', {page: +(pagin?.currentPage)! + 1 })
+        context.emit('update:value', {page: +(pagin?.currentPage)! + 1 , type})
         }
       }
     }, 1000)
@@ -67,7 +68,7 @@ export const Table = defineComponent({
       context.emit('refresh:value', 'refresh')
     }
     const onSearch = () => {
-      context.emit('search:value', searchValue.value)
+      context.emit('search:value', {type:selectValue.value, value:searchValue.value})
     }
     return () => (
       <div class={s.wrapper}>
@@ -131,7 +132,7 @@ export const Table = defineComponent({
         }
         <div class={s.page}>
           <svg class={s.svg} onClick={() => getData('prev')}><use xlinkHref='#prev'></use></svg>
-          <div class={s.currentPage}>{props.pagination?.currentPage}</div>
+          <div class={s.currentPage}>{props.pagination?.currentPage||1}</div>
           <svg class={s.svg} onClick={() => getData('next')}><use xlinkHref='#next'></use></svg>
         </div>
       </div >
