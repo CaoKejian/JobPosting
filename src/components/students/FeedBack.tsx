@@ -76,7 +76,7 @@ export const FeedBack = defineComponent({
     return () => (
       <MainLayout>{
         {
-          icon: () => <BackIcon svg='menu' onClick={() => isShowMenu.value = true} />,
+          icon: () => <BackIcon svg='return' onClick={() => isShowMenu.value = true} />,
           title: () => '反馈系统',
           default: () => <div class={s.wrapper}>
             <Quote name="您的反馈是我最大的动力！" />
