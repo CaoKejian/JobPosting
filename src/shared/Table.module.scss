@@ -69,6 +69,15 @@
     justify-content: flex-end;
     padding-right: 1rem;
     box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    .currentPage{
+      font-size: 1.2rem;
+      width: 2rem;
+      height: 2rem;
+      line-height: 2rem;
+      text-align: center;
+    }
     .svg{
       width: 2.4rem;
       height: 2.4rem;

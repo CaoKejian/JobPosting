@@ -4,7 +4,7 @@ import { Form, FormItem } from './Form';
 import { ClassSelectItem, User } from '../vite-env';
 import { throttle } from './Throttle';
 import { Model } from './Model';
-import { Checkbox } from 'vant';
+import { Checkbox, Toast } from 'vant';
 import { http } from './Http';
 export const Table = defineComponent({
   props: {
@@ -36,7 +36,17 @@ export const Table = defineComponent({
     const tTitle = ['姓名', '学号', '邮箱', '班级', '操作']
     const isOpen = ref(false)
     const getData = throttle((n: string) => {
-      context.emit('update:value', n)
+      const pagin = props.pagination
+      if(n==='prev'){
+        parseInt(pagin?.currentPage as string) >= 2 &&
+        context.emit('update:value', {page: +(pagin?.currentPage)! - 1 })
+      }else if(n==='next'){
+        if(pagin?.currentPage === pagin?.totalPages){
+          Toast({message: '没有下一页了'})
+        }else{
+        context.emit('update:value', {page: +(pagin?.currentPage)! + 1 })
+        }
+      }
     }, 1000)
     const onSet = (item: User) => {
       isOpen.value = true
@@ -121,6 +131,7 @@ export const Table = defineComponent({
         }
         <div class={s.page}>
           <svg class={s.svg} onClick={() => getData('prev')}><use xlinkHref='#prev'></use></svg>
+          <div class={s.currentPage}>{props.pagination?.currentPage}</div>
           <svg class={s.svg} onClick={() => getData('next')}><use xlinkHref='#next'></use></svg>
         </div>
       </div >
