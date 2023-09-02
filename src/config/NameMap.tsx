@@ -1,3 +1,5 @@
+import { useInfoStore } from "../store/useInfoStore"
+
 export const classMap: Record<number, string> = {
   123123: '大数据B201',
   122122: '智能B222'
@@ -18,6 +20,7 @@ export const teacherMao: Record<number,string> = {
   2002: 'JackSonYao',
   2003: '嘿老师'
 }
+
 export const stuIdMapFunction = (stuId: number) => {
   return stuIdMap[Number(stuId)] ? stuIdMap[Number(stuId)] : '未录入'
 }

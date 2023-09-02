@@ -14,7 +14,8 @@ import { createPinia } from 'pinia'
 const pinia = createPinia()
 // 调试
 import VConsole from 'vconsole';
-import { stuIdMapFunction, teacherMapFunction } from './config/NameMap'
+import {  teacherMapFunction } from './config/NameMap'
+import { useInfoStore } from './store/useInfoStore'
 function isDev() {
   if (location.hostname !== 'localhost'
     && location.hostname !== '127.0.0.1'
@@ -26,6 +27,7 @@ if (!isDev()) {
 }
 const app = createApp(App)
 app.use(pinia)
+const infoStore = useInfoStore()
 const router = createRouter({
   history,
   routes,
@@ -33,6 +35,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
   if (to.path === '/' || to.path === '/student/detail' || to.path.startsWith('/welcome') || to.path.startsWith('/login')) {
+    infoStore.refresh()
     return true
   } else if (to.path.startsWith('/teacher')) {
     try {
@@ -57,10 +60,12 @@ router.beforeEach(async (to, from) => {
       if (!info) {
         return router.push('/login')
       }
-      const stuId = stuIdMapFunction(info.stuId)
-      if (stuId === '未录入') {
-        router.push('/error/noauth')
-      }
+      // const stuId = stuIdMapFunction(info.stuId)
+      infoStore.stuIdMapFunction(info.stuId).then(res=>{
+        if (res === '未录入') {
+          router.push('/error/noauth')
+        }
+      })
       await http.post('/user/isself/auth', info)
       await http.get('/user/verify/jwt')
       return true
