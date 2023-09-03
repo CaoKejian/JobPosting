@@ -166,6 +166,9 @@ export const HandWork = defineComponent({
     }
     // 提交函数
     const onSubmit = throttle(async (e: Event) => {
+      if (await infoStore.isTeacher(formData.stuId)) {
+        return Toast({ message: '老师不能提交作业！' })
+      }
       e.preventDefault()
       Object.assign(errors, {
         classId: [], subject: [], branch: []

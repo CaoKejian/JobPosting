@@ -15,6 +15,7 @@ type InfoActions = {
   nameMapFunction: (name: string) => Promise<string>
   classMapFunction: (classId?: number) => Promise<string>
   classIdMapFunction: (className?: string) => Promise<string>
+  isTeacher: (stuId: string) => Promise<boolean>
 }
 export const useInfoStore = defineStore<string, InfoState, {}, InfoActions>('info', {
   state: () => ({
@@ -72,6 +73,15 @@ export const useInfoStore = defineStore<string, InfoState, {}, InfoActions>('inf
         }
       }
       return Promise.resolve('未录入')
+    },
+    async isTeacher(stuId: string) {
+      return this.refresh().then(res => {
+        if (stuId in this.teacher) {
+          return Promise.resolve(true)
+        } else {
+          return Promise.resolve(false)
+        }
+      })
     }
   }
 })
