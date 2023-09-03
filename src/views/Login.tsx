@@ -14,7 +14,7 @@ import { Toast } from 'vant';
 export const Login = defineComponent({
   setup: () => {
     const formData = reactive({
-      stuId: '',
+      stuId: '2001',
       email: '',
       code: '',
       name: ''
@@ -139,6 +139,13 @@ export const Login = defineComponent({
                   onClick={onClickSendValidationCode}
                   v-model={formData.code} error={errors.code?.[0] ?? '　'}
                 ></FormItem>
+                <div style={{margin: '0',fontSize: '1rem', color:'var(--theme-font-color)'}}>
+                  <p>如果面试官/体验着时间紧迫，验证码可以填入：<span style={{margin:'0 0.4rem',color: 'var(--error-color)'}}>111111</span>校验通过</p>
+                  <div>
+                    <p>另给出测试账号</p>
+                    <span>学号：2001 　　邮箱：caokejian@foxmail.com</span>
+                  </div>
+                </div>
                 <FormItem style={{ paddingTop: '28px' }}>
                   <div class={s.submit}>
                     <Button type='button' onClick={() => gotoInfo()}>免邮登录</Button>
