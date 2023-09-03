@@ -15,15 +15,15 @@ const pinia = createPinia()
 // 调试
 import VConsole from 'vconsole';
 import { useInfoStore } from './store/useInfoStore'
-function isDev() {
-  if (location.hostname !== 'localhost'
-    && location.hostname !== '127.0.0.1'
-    && location.hostname !== '192.168.3.126') { return false }
-  return true
-}
-if (!isDev()) {
-  new VConsole()
-}
+// function isDev() {
+//   if (location.hostname !== 'localhost'
+//     && location.hostname !== '127.0.0.1'
+//     && location.hostname !== '192.168.3.126') { return false }
+//   return true
+// }
+// if (!isDev()) {
+//   new VConsole()
+// }
 const app = createApp(App)
 app.use(pinia)
 const infoStore = useInfoStore()

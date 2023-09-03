@@ -12,13 +12,10 @@ export default defineConfig({
   ],
   
   server: {
-    // host: '172.16.227.98',
-    // host: '192.168.3.125',
-    // port: 5173,
     proxy: {
       '/api': {
-        // target: 'http://43.139.142.203:3000',
-        target: 'http://localhost:3000',
+        target: 'http://43.139.142.203',
+        // target: 'http://localhost',
       }
     }
   },

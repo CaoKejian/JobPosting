@@ -142,8 +142,9 @@ export const Login = defineComponent({
                 <div style={{margin: '0',fontSize: '1rem', color:'var(--theme-font-color)'}}>
                   <p>如果面试官/体验着时间紧迫，验证码可以填入：<span style={{margin:'0 0.4rem',color: 'var(--error-color)'}}>111111</span>校验通过</p>
                   <div>
-                    <p>另给出测试账号</p>
-                    <span>学号：2001 　　邮箱：caokejian@foxmail.com</span>
+                    <p>另给出测试账号「只输入学号即可」</p>
+                    <p>学号：2001 　　(老师账号)</p>
+                    <p>学号：2001063037 　　(学生账号)</p>
                   </div>
                 </div>
                 <FormItem style={{ paddingTop: '28px' }}>
