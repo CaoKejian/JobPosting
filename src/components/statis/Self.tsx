@@ -3,13 +3,13 @@ import s from './Self.module.scss';
 import { Form, FormItem } from '../../shared/Form';
 import { Toast } from 'vant';
 import { getAssetsFile } from '../../config/imgUtil';
-import { classMapFunction, nameMapFunction } from '../../config/NameMap';
 import { http } from '../../shared/Http';
 import { Work } from '../../vite-env';
 import { Rules, hasError, validate } from '../../shared/Validate';
 import { Time } from '../../shared/Time';
 import { Quote } from '../../shared/Quote';
 import { useRouter } from 'vue-router';
+import { useInfoStore } from '../../store/useInfoStore';
 
 type formDataObj = {
   searchPeople: string
@@ -18,13 +18,9 @@ type formDataObj = {
   info: { name: string, classId?: number, stuId?: number}
 }
 export const Self = defineComponent({
-  props: {
-    name: {
-      type: String as PropType<string>
-    }
-  },
   setup: (props, context) => {
     const router = useRouter()
+    const infoStore = useInfoStore()
     const formData = reactive<formDataObj>({
       searchPeople: '2001063037',
       isEmpty: true,
@@ -64,10 +60,7 @@ export const Self = defineComponent({
         Toast({ message: err as any })
       }
     }
-    const isName = (name: string) => {
-      return nameMapFunction(name)
-    }
-    const onSearch = () => {
+    const onSearch = async () => {
       if (!/^\d+$/.test(formData.searchPeople)) {
         Object.assign(errors, {
           searchPeople: []
@@ -89,7 +82,7 @@ export const Self = defineComponent({
           return
         }
         if (!hasError(errors)) {
-          fetchWork(isName(formData.searchPeople))
+          fetchWork(await infoStore.nameMapFunction(formData.searchPeople))
         }
       } else {
         if (!formData.searchPeople) {
@@ -107,7 +100,7 @@ export const Self = defineComponent({
         <p><Quote name={'查询同学提交过的作业：'} /></p>
         <Form>
           <FormItem label='' type='search'
-            onSearch={onSearch}
+            onClick={onSearch}
             v-model={formData.searchPeople}
             placeholder='学号/姓名'
             error={errors.searchPeople?.[0] ?? '　'}
@@ -119,7 +112,7 @@ export const Self = defineComponent({
               <img src={`${getAssetsFile('empty.png')}`} alt="" />
             </div> : <div class={s.list}>
               <div class={s.item}>
-                <span class={s.info}>{formData.info?.name}-{formData.info.stuId}-{classMapFunction(formData.info.classId)}</span>
+                <span class={s.info}>{formData.info?.name}-{formData.info.stuId}-{infoStore.classMapFunction(formData.info.classId)}</span>
                 <span>请核验信息！</span>
                 <div class={s.itemList}>
                   {

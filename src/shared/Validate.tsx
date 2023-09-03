@@ -1,4 +1,5 @@
 import { nameMapFunction } from "../config/NameMap"
+import { useInfoStore } from "../store/useInfoStore"
 import { JSONValue } from "../vite-env"
 
 interface FData {
@@ -20,7 +21,7 @@ export const validate = <T extends FData>(formData: T, rules: Rules<T>) => {
     [k in keyof T]?: string[]
   }
   const errors: Errors = {}
-  rules.map(rule => {
+  rules.map(async rule => {
     const { key, type, message } = rule
     const value = formData[key]
     switch (type) {
@@ -31,7 +32,7 @@ export const validate = <T extends FData>(formData: T, rules: Rules<T>) => {
         }
         break;
       case 'type':
-        if (isEnter(value)){
+        if (await isEnter(value)){
           errors[key] = errors[key] ?? []
           errors[key]?.push(message)
         }
@@ -57,8 +58,9 @@ export const validate = <T extends FData>(formData: T, rules: Rules<T>) => {
 function isEmpty(value: null | undefined | string | number | FData) {
   return value === null || value === undefined || value === ''
 }
-function isEnter(value: string) {
-  return nameMapFunction(value) === '未录入'
+async function isEnter(value: string) {
+  const infoStore = useInfoStore()
+  return await infoStore.nameMapFunction(value) === '未录入'
 }
 export function hasError(errors: Record<string, string[]>) {
   let result = false

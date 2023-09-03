@@ -1,6 +1,5 @@
-import { PropType, defineComponent, ref, watch, watchEffect } from 'vue';
+import { PropType, defineComponent } from 'vue';
 import s from './PeopleShow.module.scss';
-import { stuIdMapFunction } from '../config/NameMap';
 export const PeopleShow = defineComponent({
   props: {
     array: {

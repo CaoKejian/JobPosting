@@ -5,7 +5,6 @@ import { BackIcon } from '../../shared/BackIcon';
 import { Quote } from '../../shared/Quote';
 import { Form, FormItem } from '../../shared/Form';
 import { http } from '../../shared/Http';
-import { classMapFunction, classIdMapFunction } from '../../config/NameMap';
 import { Class, ClassSelectItem, Work, WorkObj } from '../../vite-env';
 import { getAssetsFile } from '../../config/imgUtil';
 import { Toast } from 'vant';
@@ -14,8 +13,10 @@ import { Time } from '../../shared/Time';
 
 import { DownLoadInfo } from '../../shared/DownLoad';
 import { MenuBar } from '../../layouts/MenuBar';
+import { useInfoStore } from '../../store/useInfoStore';
 export const Correct = defineComponent({
   setup: (props, context) => {
+    const infoStore = useInfoStore()
     const isShowMenu = ref(false)
     const classSelect = ref<ClassSelectItem[]>([])
     const subjectSelect = ref<ClassSelectItem[]>([])
@@ -43,7 +44,7 @@ export const Correct = defineComponent({
     const fetchClassBranch = async () => {
       try{
         subjectSelect.value = []
-        const branchRes = await http.get<Work[]>('/pub/user', { user: formData.user, classId: classIdMapFunction(formData.classId)})
+        const branchRes = await http.get<Work[]>('/pub/user', { user: formData.user, classId: infoStore.classIdMapFunction(formData.classId)})
         const branches = branchRes.data.map((item: any) => item = item.branch)
         branches.forEach((item, index) => {
           const subjectObj = {
@@ -60,10 +61,10 @@ export const Correct = defineComponent({
       try {
         const response = await http.get<Class>('/subject/myclass', { user: formData.user }, { _autoLoading: true })
         const data = response.data.classes
-        data.forEach((item, index) => {
+        data.forEach(async (item, index) => {
           const classObj = {
             value: `${index} + 1`,
-            text: classMapFunction(item)
+            text: await infoStore.classMapFunction(item)
           };
           classSelect.value.push(classObj);
         });
@@ -81,7 +82,7 @@ export const Correct = defineComponent({
           forbidClick: true,
         })
         const data = await http.get<Work[]>('/work/correct/work', {
-          classId: classIdMapFunction(formData.classId), branch: formData.branch,
+          classId: infoStore.classIdMapFunction(formData.classId), branch: formData.branch,
         }, { _autoLoading: true })
         workData.value = data.data
         Toast.clear()

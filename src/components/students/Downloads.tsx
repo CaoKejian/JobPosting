@@ -6,15 +6,16 @@ import { Toast } from 'vant';
 import { MenuBar } from '../../layouts/MenuBar';
 import { Form, FormItem } from '../../shared/Form';
 import { Button } from '../../shared/Button';
-import { classMap } from '../../config/NameMap';
 import { http } from '../../shared/Http';
 import { Class, User, Work } from '../../vite-env';
 import { DownLoadInfo } from '../../shared/DownLoad';
 import { PeopleShow } from '../../shared/PeopleShow';
 import { isHaveAuth } from '../../config/utils';
+import { useInfoStore } from '../../store/useInfoStore';
 
 export const DownLoads = defineComponent({
   setup: (props, context) => {
+    const infoStore = useInfoStore()
     const isShowVisible = ref<boolean>(false)
     const className = ref<string>('')
     const classId = ref<number>(0)
@@ -131,7 +132,7 @@ export const DownLoads = defineComponent({
       classId.value = Number(localStorage.getItem('classID')) || 0
       const info = JSON.parse(localStorage.getItem('info') as string)
       formData.stuId = info.stuId
-      className.value = classMap[classId.value] ? classMap[classId.value] : String(classId.value)
+      className.value = infoStore.class[classId.value] ? infoStore.class[classId.value] : String(classId.value)
       await fetchSubjectData(classId.value)
     })
     return () => (

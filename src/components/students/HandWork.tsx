@@ -10,13 +10,14 @@ import { Button } from '../../shared/Button';
 import { throttle } from '../../shared/Throttle';
 import { Rules, hasError, validate } from '../../shared/Validate';
 import { useRoute, useRouter } from 'vue-router';
-import { classMap } from '../../config/NameMap';
 import { Class, Work } from '../../vite-env';
 import { Quote } from '../../shared/Quote';
 import { Time } from '../../shared/Time';
+import { useInfoStore } from '../../store/useInfoStore';
 
 export const HandWork = defineComponent({
   setup: (props, context) => {
+    const infoStore = useInfoStore()
     const className = ref<string>('')
     const isReady = ref<boolean>(false)
     const submitInfo = reactive<{
@@ -132,7 +133,7 @@ export const HandWork = defineComponent({
       const classId = Number(localStorage.getItem('classID'))
       fetchSubjectData(classId)
       formData.classId = classId
-      className.value = classMap[classId] ? classMap[classId] : String(classId)
+      className.value = infoStore.class[classId] ? infoStore.class[classId] : String(classId)
       isReady.value = true
     })
     watch(() => formData.branch, (newValue, oldValue) => {

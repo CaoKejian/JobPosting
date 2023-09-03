@@ -107,7 +107,6 @@ export const Login = defineComponent({
     }
     watch(()=> formData.stuId, async () => {
       const data = await http.get<{name:string,email:string}>('/class/stuid/name', {stuId:+formData.stuId},{_autoLoading:true})
-      console.log(data)
       if(data.data.name === ''){
         canModifyName.value = true
       }

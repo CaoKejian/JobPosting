@@ -7,13 +7,14 @@ import { Form, FormItem } from '../../shared/Form';
 import { Button } from '../../shared/Button';
 import { Rules, hasError, validate } from '../../shared/Validate';
 import { http } from '../../shared/Http';
-import { classIdMapFunction, classMap } from '../../config/NameMap';
 import { Timestamp } from '../../shared/Time';
 import { Class, pubWork } from '../../vite-env';
 import { Toast } from 'vant';
 import { Quote } from '../../shared/Quote';
+import { useInfoStore } from '../../store/useInfoStore';
 export const Publish = defineComponent({
   setup: (props, context) => {
+    const infoStore = useInfoStore()
     const isShowMenu = ref<boolean>(false)
     const selectData = reactive<{
       classMap: { value: string, text: string }[],
@@ -42,9 +43,9 @@ export const Publish = defineComponent({
       cutTime: [],
       content: []
     })
-    watch(() => formData.classId, (newValue) => {
+    watch(() => formData.classId, async (newValue) => {
       if (!formData.classId || !isNaN(+formData.classId)) return
-      fetchSubjectData(classIdMapFunction(formData.classId), formData.user)
+      fetchSubjectData(await infoStore.classIdMapFunction(formData.classId), formData.user)
     })
     const fetchSubjectData = async (classId: string, user: string) => {
       selectData.subjectMap = []
@@ -77,7 +78,7 @@ export const Publish = defineComponent({
       }
     }
     const setClassMapSelection = () => {
-      for (const [value, text] of Object.entries(classMap)) {
+      for (const [value, text] of Object.entries(infoStore.class)) {
         selectData.classMap.unshift({ value, text })
       }
       formData.classId = selectData.classMap[0].text
@@ -104,7 +105,7 @@ export const Publish = defineComponent({
       Object.assign(errors, validate(formData, rules))
       if (!hasError(errors)) {
         formData.cutTime = Timestamp(String(formData.cutTime))
-        formData.classId = classIdMapFunction(String(formData.classId))
+        formData.classId = await infoStore.classIdMapFunction(String(formData.classId))
         try {
           await http.post('/pub', formData, { _autoLoading: true })
           Object.assign(formData, { classId: selectData.classMap[0].text, subject: selectData.classMap[0].text, cutTime: '', content: '', branch: '' })

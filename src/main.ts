@@ -14,7 +14,6 @@ import { createPinia } from 'pinia'
 const pinia = createPinia()
 // 调试
 import VConsole from 'vconsole';
-import {  teacherMapFunction } from './config/NameMap'
 import { useInfoStore } from './store/useInfoStore'
 function isDev() {
   if (location.hostname !== 'localhost'

@@ -5,13 +5,14 @@ import { BackIcon } from '../../shared/BackIcon';
 import { Quote } from '../../shared/Quote';
 import { Form, FormItem } from '../../shared/Form';
 import { Button } from '../../shared/Button';
-import { classIdMapFunction, classMap } from '../../config/NameMap';
 import { Rules, hasError, validate } from '../../shared/Validate';
 import { http } from '../../shared/Http';
 import { Toast } from 'vant';
 import { MenuBar } from '../../layouts/MenuBar';
+import { useInfoStore } from '../../store/useInfoStore';
 export const Subject = defineComponent({
   setup: (props, context) => {
+    const infoStore = useInfoStore()
     const isShowMenu = ref(false)
     const selectData = reactive<{
       classOpt: {value:string,text:string}[]
@@ -38,7 +39,7 @@ export const Subject = defineComponent({
       ]
       Object.assign(errors, validate(formData, rules))
       if (!hasError(errors)) {
-        formData.classId = classIdMapFunction(formData.classId)
+        formData.classId = await infoStore.classIdMapFunction(formData.classId)
         try {
           await http.post('/subject', formData, { _autoLoading: true })
           Toast({
@@ -57,7 +58,7 @@ export const Subject = defineComponent({
       }
     }
     const setClassMapSelection = () => {
-      for (const [value,text] of Object.entries(classMap)) {
+      for (const [value,text] of Object.entries(infoStore.class)) {
         selectData.classOpt.unshift({value,text})
       }
       formData.classId = selectData.classOpt[0].text

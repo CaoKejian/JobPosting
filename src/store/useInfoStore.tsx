@@ -4,18 +4,26 @@ import { User } from "../vite-env";
 
 type InfoState = {
   student: Record<number, string>,
-  teacher: Record<number, string>
+  teacher: Record<number, string>,
+  class: Record<number, string>,
 }
 type InfoActions = {
   fetchInfo: () => Promise<void>
-  refresh: () => void
+  refresh: () => Promise<boolean | undefined>
   stuIdMapFunction: (stuId: number) => Promise<string | undefined>
   teacherMapFunction: (stuId: number) => Promise<string | undefined>
+  nameMapFunction: (name: string) => Promise<string>
+  classMapFunction: (classId?: number) => Promise<string>
+  classIdMapFunction: (className?: string) => Promise<string>
 }
 export const useInfoStore = defineStore<string, InfoState, {}, InfoActions>('info', {
   state: () => ({
     student: {},
-    teacher: {}
+    teacher: {},
+    class: {
+      123123: '大数据B201',
+      122122: '智能B222'
+    }
   }),
   actions: {
     async fetchInfo() {
@@ -28,26 +36,42 @@ export const useInfoStore = defineStore<string, InfoState, {}, InfoActions>('inf
         }
       });
     },
-    refresh() {
+    async refresh() {
       if (Object.keys(this.student).length === 0) {
-        this.fetchInfo()
+        await this.fetchInfo()
       }
+      return Promise.resolve(true)
     },
     async stuIdMapFunction(stuId: number) {
-      if (Object.keys(this.student).length === 0) {
-        await this.fetchInfo()
-        return await Promise.resolve(this.student[Number(stuId)] ? this.student[Number(stuId)] : '未录入');
-      } else {
+      return this.refresh().then(res => {
         return Promise.resolve(this.student[Number(stuId)] ? this.student[Number(stuId)] : '未录入');
-      }
+      })
     },
     async teacherMapFunction(stuId: number) {
-      if (Object.keys(this.student).length === 0) {
-        await this.fetchInfo()
-        return await Promise.resolve(this.teacher[Number(stuId)] ? this.teacher[Number(stuId)] : '未录入');
-      } else {
+      return this.refresh().then(res => {
         return Promise.resolve(this.teacher[Number(stuId)] ? this.teacher[Number(stuId)] : '未录入');
+      })
+    },
+    async nameMapFunction(name: string) {
+      for (const [stuId, stuName] of Object.entries(this.student)) {
+        if (stuName === name) {
+          return Promise.resolve(String(stuId))
+        }
       }
+      return Promise.resolve('未录入')
+    },
+    async classMapFunction(classId?: number) {
+      return this.refresh().then(res => {
+        return Promise.resolve(this.class[Number(classId)] ? this.class[Number(classId)] : '未录入');
+      })
+    },
+    async classIdMapFunction(className?: string) {
+      for (const [classId, claName] of Object.entries(this.class)) {
+        if (claName === className) {
+          return Promise.resolve(String(classId))
+        }
+      }
+      return Promise.resolve('未录入')
     }
   }
 })
