@@ -6,10 +6,12 @@ type InfoState = {
   student: Record<number, string>,
   teacher: Record<number, string>,
   class: Record<number, string>,
+  isRoot: number[]
 }
 type InfoActions = {
   fetchInfo: () => Promise<void>
   refresh: () => Promise<boolean | undefined>
+  isRootFunction: (stuId: number) => Promise<boolean>
   stuIdMapFunction: (stuId: number) => Promise<string | undefined>
   teacherMapFunction: (stuId: number) => Promise<string | undefined>
   nameMapFunction: (name: string) => Promise<string>
@@ -24,12 +26,16 @@ export const useInfoStore = defineStore<string, InfoState, {}, InfoActions>('inf
     class: {
       123123: '大数据B201',
       122122: '智能B222'
-    }
+    },
+    isRoot: []
   }),
   actions: {
     async fetchInfo() {
       const res = await http.get<User[]>('/class/all')
       res.data.map((item: User) => {
+        if(item.isRoot){
+          this.isRoot.push(item.stuId)
+        }
         if (item.classId) {
           this.student[item.stuId] = item.name;
         } else {
@@ -42,6 +48,11 @@ export const useInfoStore = defineStore<string, InfoState, {}, InfoActions>('inf
         await this.fetchInfo()
       }
       return Promise.resolve(true)
+    },
+    async isRootFunction(stuId: number){
+      return this.refresh().then(res => {
+        return Promise.resolve(this.isRoot.includes(stuId) ? true : false);
+      })
     },
     async stuIdMapFunction(stuId: number) {
       return this.refresh().then(res => {

@@ -48,7 +48,7 @@ function isDev() {
 }
 export const http = new Http(isDev() ? '/api' : 'http://43.139.142.203/api')
 /* 未发布时暂时手动切换 */
-// export const http = new Http(isDev() ? 'http://43.139.142.203:3000/api' : '/api')
+// export const http = new Http(isDev() ? 'http://43.139.142.203/api' : '/api')
 
 http.instance.interceptors.request.use(config => {
     const jwt = localStorage.getItem('jwt')
