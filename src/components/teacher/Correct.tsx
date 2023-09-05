@@ -14,9 +14,11 @@ import { Time } from '../../shared/Time';
 import { DownLoadInfo } from '../../shared/DownLoad';
 import { MenuBar } from '../../layouts/MenuBar';
 import { useInfoStore } from '../../store/useInfoStore';
+import { useRouter } from 'vue-router';
 export const Correct = defineComponent({
   setup: (props, context) => {
     const infoStore = useInfoStore()
+    const router = useRouter()
     const isShowMenu = ref(false)
     const classSelect = ref<ClassSelectItem[]>([])
     const subjectSelect = ref<ClassSelectItem[]>([])
@@ -71,8 +73,11 @@ export const Correct = defineComponent({
         if(response.data.classes.length!==0){
           formData.classId = classSelect.value[0].text
         }
-      } catch (err) {
-        console.log(err)
+      } catch (err:any) {
+        Toast({message:err.response.data.message})
+        setTimeout(() => {
+          router.back()
+        }, 1500);
       }
     }
     const fetchMyClassWork = async () => {
