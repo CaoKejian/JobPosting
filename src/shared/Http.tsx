@@ -46,9 +46,9 @@ function isDev() {
     && location.hostname !== '192.168.3.126') { return false }
   return true
 }
-export const http = new Http(isDev() ? '/api' : 'http://43.139.142.203/api')
+export const http = new Http(isDev() ? '/api' : 'http://124.70.188.74/api')
 /* 未发布时暂时手动切换 */
-// export const http = new Http(isDev() ? 'http://43.139.142.203/api' : '/api')
+// export const http = new Http(isDev() ? 'http://124.70.188.74/api' : '/api')
 
 http.instance.interceptors.request.use(config => {
     const jwt = localStorage.getItem('jwt')
