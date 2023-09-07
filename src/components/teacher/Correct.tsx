@@ -46,7 +46,7 @@ export const Correct = defineComponent({
     const fetchClassBranch = async () => {
       try{
         subjectSelect.value = []
-        const branchRes = await http.get<Work[]>('/pub/user', { user: formData.user, classId: infoStore.classIdMapFunction(formData.classId)})
+        const branchRes = await http.get<Work[]>('/pub/user', { user: formData.user, classId: await infoStore.classIdMapFunction(formData.classId)})
         const branches = branchRes.data.map((item: any) => item = item.branch)
         branches.forEach((item, index) => {
           const subjectObj = {
@@ -87,7 +87,7 @@ export const Correct = defineComponent({
           forbidClick: true,
         })
         const data = await http.get<Work[]>('/work/correct/work', {
-          classId: infoStore.classIdMapFunction(formData.classId), branch: formData.branch,
+          classId: await infoStore.classIdMapFunction(formData.classId), branch: formData.branch,
         }, { _autoLoading: true })
         workData.value = data.data
         Toast.clear()

@@ -100,7 +100,13 @@ export const HandWork = defineComponent({
           };
           submitInfo.subjectArr.push(subjectObj);
         });
-      } catch (err) {
+      } catch (err: any) {
+        if(err.response.status === 402){
+          Toast({message: '班级码错误！'})
+          setTimeout(() => {
+            router.push('/student/detail')
+          }, 1000)
+        }
         console.log(err)
       }
     }

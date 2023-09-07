@@ -27,6 +27,7 @@ export const Self = defineComponent({
       searchInfo: null,
       info: { name: '', classId: undefined, stuId: undefined }
     })
+    const classMap = ref()
     const errors = reactive({
       searchPeople: []
     })
@@ -56,6 +57,7 @@ export const Self = defineComponent({
             classId: data.data[0].classId
           }
         })
+        classMap.value = await infoStore.classMapFunction(formData.info.classId)
       } catch (err) {
         Toast({ message: err as any })
       }
@@ -112,7 +114,7 @@ export const Self = defineComponent({
               <img src={`${getAssetsFile('empty.png')}`} alt="" />
             </div> : <div class={s.list}>
               <div class={s.item}>
-                <span class={s.info}>{formData.info?.name}-{formData.info.stuId}-{infoStore.classMapFunction(formData.info.classId)}</span>
+                <span class={s.info}>{formData.info?.name}-{formData.info.stuId}-{classMap.value}</span>
                 <span>请核验信息！</span>
                 <div class={s.itemList}>
                   {
