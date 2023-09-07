@@ -17,40 +17,48 @@ export const TabsLayout = defineComponent({
     component: {
       type: Object as PropType<typeof demo>,
       required: true
+    },
+    tabMap: {
+      type: Array as PropType<string[]>,
+      default: ['我的','班级','全校的','自定义']
+    },
+    title:{
+      type: String as PropType<string>
     }
   },
   setup: (props, context) => {
-    const refSelected = ref('我的')
+    const {tabMap, title} = props
     const isBoolean = reactive({
       isShowMenu: false
     })
+    const refSelected = ref(tabMap[0])
     return () => (
        <MainLayout>{
         {
           icon: () => <BackIcon svg='menu' onClick={() => isBoolean.isShowMenu = true}/>,
-          title: () => '作业统计',
+          title: () => title,
           default:() => <><div class={s.wrapper}>
             <Tabs v-model:selected={refSelected.value}
               rerenderOnSelect={true}>
-              <Tab value='我的' name='我的'>
+              <Tab value={tabMap[0]} name={tabMap[0]}>
                 <props.component
                   id={'0'}
                 >
                 </props.component>
               </Tab>
-              <Tab value='班级' name='班级'>
+              <Tab value={tabMap[1]} name={tabMap[1]}>
                 <props.component
                     id={'1'}
                   >
                 </props.component>
               </Tab>
-              <Tab value='全校的' name='全校的'>
+              <Tab value={tabMap[2]} name={tabMap[2]}>
                 <props.component
                     id={'2'}
                   >
                 </props.component>
               </Tab>
-              <Tab value='自定义' name='自定义'>
+              <Tab value={tabMap[3]} name={tabMap[3]}>
                 <props.component
                     id={'3'}
                   >

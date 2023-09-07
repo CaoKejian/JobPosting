@@ -4,7 +4,7 @@ import { StatisList } from './StatisList';
 export const Statistics = defineComponent({
   setup: (props, context) => {
     return () => (
-      <TabsLayout component={StatisList}/>
+      <TabsLayout component={StatisList} title='作业统计'/>
     )
   }
 })
