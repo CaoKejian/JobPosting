@@ -14,7 +14,7 @@ export const Time = (time: number | Date, format?: string) => {
     return `${month}月${day}日`;
   }
   if (format === 'YY-MM-SS') {
-    return `${year}年${month}月${day}日`;
+    return `${year}-${month}-${day}`;
   }
   if (format === 'MM-SS-DD') {
     return `${month}月${day}日 ${hours}:${minutes}`;
