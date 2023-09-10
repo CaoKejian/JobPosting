@@ -1,42 +1,24 @@
-import { PropType, defineComponent, onMounted, ref } from 'vue';
+import { PropType, defineComponent, onMounted, ref, watchEffect } from 'vue';
 import s from '../statis/LineChart.module.scss';
 import * as echarts from 'echarts';
 
 export const Good = defineComponent({
   props: {
-    name: {
-      type: String as PropType<string>
+    indicator: {
+      type: Array as PropType<string[]>,
+      default: []
+    },
+    value: {
+      type: Array as PropType<number[]>,
+      default: []
     }
   },
   setup: (props, context) => {
     const color = ['#3c90ff', '#fff225', '#24ffdf', '#ff9c3c', '#7536ff']
-    const indicator = [
-      {
-        name: '文明村',
-        max: 100
-      },
-      {
-        name: '卫生村',
-        max: 100
-      },
-      {
-        name: '森林村庄',
-        max: 100
-      },
-      {
-        name: '全面小康',
-        max: 100
-      },
-      {
-        name: '景区村庄',
-        max: 100
-      }
-    ]
-    const Data = [80, 61, 70, 86, 77]
     const setData = () => {
       return [
         {
-          value: Data,
+          value: props.value,
           itemStyle: {
             lineStyle: {
               color: '#4BFFFC',
@@ -101,7 +83,7 @@ export const Good = defineComponent({
     }
     const setSpot = () => {
       var scatterData: any[] = []
-      Data.map((o, i) => {
+      props.value?.map((o, i) => {
         scatterData.push({
           value: [o, i],
           itemStyle: {
@@ -115,12 +97,8 @@ export const Good = defineComponent({
       })
       return scatterData
     }
-    const refDiv = ref<HTMLDivElement>()
-    let chart: echarts.ECharts | undefined = undefined
-    onMounted(() => {
-      if (refDiv.value === undefined) { return }
-      chart = echarts.init(refDiv.value)
-      chart.setOption({
+    const update = (indicator: { name: string, max: number }[], value: number[]) => {
+      chart?.setOption({
         polar: {
           center: ['50%', '50%'],
           radius: '70%'
@@ -221,6 +199,22 @@ export const Good = defineComponent({
           }
         ]
       })
+    }
+    const refDiv = ref<HTMLDivElement>()
+    let chart: echarts.ECharts | undefined = undefined
+    onMounted(() => {
+      if (refDiv.value === undefined) { return }
+      chart = echarts.init(refDiv.value)
+    })
+    watchEffect(() => {
+      const indicator: { name: string, max: number }[] = []
+      let obj = { name: '', max: 100 }
+      props.indicator?.map(item => {
+        obj = { name: '', max: 100 }
+        obj.name = item
+        indicator.push(obj)
+      })
+      update(indicator, props.value)
     })
     return () => (
       <div ref={refDiv} class={s.goodchart}></div>

@@ -12,7 +12,7 @@ export const Selfgood = defineComponent({
     const quency = ref<number[]>([])
     const subject = ref<string[]>([])
     const fetchAverage = async (name: string) => {
-      const res = await http.get<{ average: number, subject: string }[]>('/analyze/average', { name })
+      const res = await http.get<{ average: number, subject: string }[]>('/analyze/average', { name }, { _autoLoading: true })
       const data = res.data
       data.map(item => {
         value.value.push(item.average)
@@ -22,7 +22,7 @@ export const Selfgood = defineComponent({
       if (data.length === 0) {
         value.value = [83, 68, 73, 56, 90]
         quency.value = [70, 75, 65, 60, 85]
-        subject.value = ['数据挖掘','Vue3','TypeScript','React','高数(1)']
+        subject.value = ['数据挖掘', 'Vue3', 'TypeScript', 'React', '高数(1)']
       }
     }
     onMounted(async () => {
@@ -32,9 +32,9 @@ export const Selfgood = defineComponent({
     return () => (
       <div class={s.wrapper}>
         <Quote name='平均分预览' />
-        <Average value={value.value} quency={quency.value} subject={subject.value}/>
+        <Average value={value.value} quency={quency.value} subject={subject.value} />
         <Quote name='个人擅长方向' />
-        <Good />
+        <Good indicator={subject.value} value={value.value} />
       </div>
     )
   }
