@@ -2,6 +2,7 @@ import { PropType, defineComponent } from 'vue';
 import s from './StatisList.module.scss';
 import { WeekFrequency } from '../analyze/WeeFrequencey';
 import { Selfgood } from '../analyze/Selfgood';
+import { Habit } from '../analyze/Habit';
 export const AnalyzeList = defineComponent({
   props: {
     id: {
@@ -16,7 +17,7 @@ export const AnalyzeList = defineComponent({
         ) : props.id === '1' ? (
           <Selfgood />
         ) : props.id === '2' ? (
-          <div>2</div>
+          <Habit />
         ) : props.id === '3' ? (
           <div>3</div>
         ) : null
