@@ -2,7 +2,6 @@ import { PropType, defineComponent, onMounted, ref } from 'vue';
 import s from './WeekFrequency.module.scss';
 import { Quote } from '../../shared/Quote';
 import { Average } from '../charts/stuAnalyze/Average';
-import { Difference } from '../charts/stuAnalyze/Difference';
 import { Good } from '../charts/stuAnalyze/Good';
 import { http } from '../../shared/Http';
 import { useInfoStore } from '../../store/useInfoStore';
@@ -34,8 +33,6 @@ export const Selfgood = defineComponent({
       <div class={s.wrapper}>
         <Quote name='平均分预览' />
         <Average value={value.value} quency={quency.value} subject={subject.value}/>
-        <Quote name='平均分差值' />
-        <Difference />
         <Quote name='个人擅长方向' />
         <Good />
       </div>

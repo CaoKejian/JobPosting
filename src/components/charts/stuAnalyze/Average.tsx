@@ -61,8 +61,9 @@ export const Average = defineComponent({
           axisLabel: {
             show: true,
             color: '#446a76',
-            fontSize: 13,
+            fontSize: 12,
             fontFamily: 'Source Han Sans CN-Normal',
+            rotate: 45
           },
         },
         yAxis: [{
