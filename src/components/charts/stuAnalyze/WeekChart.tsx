@@ -81,7 +81,6 @@ export const WeekChart = defineComponent({
       })
     }
     onMounted(() => {
-      console.log(props.data)
       if (refDiv.value === undefined) { return }
       chart = echarts.init(refDiv.value)
     })
