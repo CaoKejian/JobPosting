@@ -22,13 +22,15 @@ export const Tabs = defineComponent({
         }
       }
       return <div class={s.tabs}>
-        <ol class={s.tabs_nav}>
-          {array.map(item =>
-            <li class={item.props?.value === props.selected ? s.selected : s.li}
-              onClick={() => context.emit('update:selected', item.props?.value)}
-            >
-              {item.props?.name}</li>)}
-        </ol>
+        <div class={s.tabs_wrapper}>
+          <ol class={s.tabs_nav}>
+            {array.map(item =>
+              <li class={item.props?.value === props.selected ? s.selected : s.li}
+                onClick={() => context.emit('update:selected', item.props?.value)}
+              >
+                {item.props?.name}</li>)}
+          </ol>
+        </div>
         {props.rerenderOnSelect ?
           <div key={props.selected} class={s.content}>
             {array.find(item => item.props?.value === props.selected)}
