@@ -4,8 +4,13 @@ import * as echarts from 'echarts';
 
 export const HabitChart = defineComponent({
   props: {
-    name: {
-      type: String as PropType<string>
+    goodData: {
+      type: Array as PropType<{ name: string, value: number[] }[]>,
+      default:[]
+    },
+    typeArr: {
+      type: Array as PropType<string[]>,
+      default: []
     }
   },
   setup: (props, context) => {
@@ -14,10 +19,9 @@ export const HabitChart = defineComponent({
     onMounted(() => {
       if (refDiv.value === undefined) { return }
       chart = echarts.init(refDiv.value)
-      update()
-      updateSeries()
+      update(props.typeArr, props.goodData)
     })
-    const update = () => {
+    const update = (typeArr:string[],seriesData: { name: string, value: number[] }[]) => {
       chart?.setOption({
         title: {
           text: '提交习惯统计',
@@ -63,7 +67,7 @@ export const HabitChart = defineComponent({
               var percentageValue = (dataPoint.value * 100).toFixed(2) + '%';
               tooltipText += dataPoint.seriesName + ': ' + percentageValue + '<br>';
             }
-            return `提交占个人比<br>${tooltipText}`;
+            return `提交占个人比(展示五项)<br>${tooltipText}`;
           }
         },
         grid: {
@@ -72,7 +76,7 @@ export const HabitChart = defineComponent({
         },
         xAxis: [{
           type: 'category',
-          data: ['png', 'docx', 'jpeg', 'pdf'],
+          data: typeArr,
           axisLine: {
             lineStyle: {
               color: '#DCE2E8'
@@ -136,6 +140,7 @@ export const HabitChart = defineComponent({
           }
         }],
       })
+      updateSeries(seriesData)
     }
     const getRandomColor = () => {
       const letters = '0123456789ABCDEF';
@@ -145,12 +150,8 @@ export const HabitChart = defineComponent({
       }
       return color;
     }
-    const updateSeries = () => {
-      const data = [
-        { name: 'x', value: [0.42, 0.3, 0.14, 0.24,], start: getRandomColor(), end: getRandomColor() },
-        { name: 'y', value: [0.34, 0.24, 0.12, 0.3], start: getRandomColor(), end: getRandomColor() }
-      ]
-      const series:any[] = []
+    const updateSeries = (data: { name: string, value: number[] }[]) => {
+      const series: any[] = []
       data.map(item => {
         series.push(
           {
@@ -166,11 +167,11 @@ export const HabitChart = defineComponent({
               width: 2,
               color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
                 offset: 0,
-                color: item.start
+                color: getRandomColor()
               },
               {
                 offset: 1,
-                color: item.end
+                color: getRandomColor()
               }
               ]),
               shadowColor: 'rgba(158,135,255, 0.3)',
@@ -185,7 +186,7 @@ export const HabitChart = defineComponent({
       })
     }
     watchEffect(() => {
-      update()
+      update(props.typeArr, props.goodData)
     })
     return () => (
       <div ref={refDiv} class={s.goodchart}></div>
