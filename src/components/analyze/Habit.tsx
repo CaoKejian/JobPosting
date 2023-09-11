@@ -11,6 +11,7 @@ export const Habit = defineComponent({
     const router = useRouter()
     const goodData = ref<{ name: string, value: number[] }[]>([])
     const typeArr = ref<string[]>(['png', 'docx', 'jpeg', 'pdf'])
+    const pieData = ref<{ name: string, value: number }[]>([])
     const fetchHabit = async (classId: string) => {
       try {
         const res = await http.get<{ cluster_centers: number[][], file_types: string[], student_labels: {} }>('/analyze/habit', { classId }, { _autoLoading: true })
@@ -40,6 +41,15 @@ export const Habit = defineComponent({
         typeArr.value = ['png', 'docx', 'jpeg', 'pdf']
       }
     }
+    const fetchPieData = async (classId: string) => {
+      try {
+        const res = await http.get<{ name: string, value: number }[]>('/analyze/typebit', { classId }, { _autoLoading: true })
+        pieData.value = res.data
+      } catch (err) {
+        Toast({ message: '网络异常，此为Mock环境！' })
+        pieData.value = [{ name: 'jpeg', value: 0.24 }, { name: 'pdf', value: 0.12 }, { name: 'docx', value: 0.32 }, { name: 'png', value: 0.27 }]
+      }
+    }
     onMounted(() => {
       const classId = localStorage.getItem('classID') as string
       if (!classId) {
@@ -50,13 +60,14 @@ export const Habit = defineComponent({
         return
       }
       fetchHabit(classId)
+      fetchPieData(classId)
     })
     return () => (
       <div class={s.wrapper}>
         <Quote name='聚类分析全班提交习惯' />
         <HabitChart goodData={goodData.value} typeArr={typeArr.value} />
         <Quote name='全国类型占比指示图' />
-        <HabitPie />
+        <HabitPie pieData={pieData.value} />
       </div>
     )
   }

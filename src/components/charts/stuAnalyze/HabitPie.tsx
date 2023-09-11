@@ -1,35 +1,34 @@
-import { PropType, defineComponent, onMounted, ref } from 'vue';
+import { PropType, defineComponent, onMounted, ref, watchEffect } from 'vue';
 import s from '../statis/LineChart.module.scss';
 import * as echarts from 'echarts';
 
 interface SeriesType {
   name: string, value: number, label?: {}, labelLine?: {}, itemStyle?: {}
 }
+interface PieDataType {
+  name: string, value: number
+}
 export const HabitPie = defineComponent({
   props: {
-    name: {
-      type: String as PropType<string>
-    }
+    pieData: {
+      type: Array as PropType<PieDataType[]>,
+      default: []
+    },
   },
   setup: (props, context) => {
     const refDiv = ref<HTMLDivElement>()
     let chart: echarts.ECharts | undefined = undefined
-    let mockData = [{ name: 'jpeg', value: 0.24 }, { name: 'pdf', value: 0.12 }, { name: 'docx', value: 0.32 }, { name: 'png', value: 0.27 }]
-    let legendData: string[] = [], seriesData: SeriesType[] = []
-    mockData.map((v, i) => {
-      legendData.push(v.name)
-      seriesData.push({ value: v.value, name: v.name })
-    })
-    for (let i = 0; i < mockData.length; i++) {
-      seriesData.push({ value: 0, name: "", label: { show: false }, labelLine: { show: false }, itemStyle: { color: 'rgba(0,0,0,0)' } })
-    }
+    const legendData = ref<string[]>([])
+    const seriesData = ref<SeriesType[]>([])
     onMounted(() => {
       if (refDiv.value === undefined) { return }
       chart = echarts.init(refDiv.value)
-      chart.setOption({
+    })
+    const update = (data: PieDataType[]) => {
+      chart?.setOption({
         legend: {
           icon: 'circle',
-          data: legendData,
+          data: legendData.value,
           textStyle: { color: '#446a76', fontSize: 12 },
           right: 20,
           top: '15%',
@@ -59,12 +58,18 @@ export const HabitPie = defineComponent({
           bottom: '10%',
         },
         series: [{
-          hoverAnimation: false,
+          scale: false,
           radius: [0, '85%'],
           center: ['10%', '50%'],
           type: 'pie',
-          label: { normal: { show: false }, emphasis: { show: false } },
-          labelLine: { normal: { show: false }, emphasis: { show: false } },
+          label: { show: false }, emphasis: {
+            labelLine: {
+              show: false
+            }
+          },
+          labelLine: {
+            show: false,
+          },
           animation: false,
           tooltip: { show: false },
           // 阴影颜色
@@ -82,9 +87,19 @@ export const HabitPie = defineComponent({
           label: {
             show: false,
           },
-          data: seriesData
+          data: seriesData.value
         }]
       })
+    }
+    watchEffect(() => {
+      props.pieData.map((v, i) => {
+        legendData.value.push(v.name)
+        seriesData.value.push({ value: v.value, name: v.name })
+      })
+      for (let i = 0; i < props.pieData.length; i++) {
+        seriesData.value.push({ value: 0, name: "", label: { show: false }, labelLine: { show: false } })
+      }
+      update(props.pieData)
     })
     return () => (
       <div ref={refDiv} class={s.habitPie}></div>
