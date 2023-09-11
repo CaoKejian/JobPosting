@@ -189,7 +189,7 @@ export const HabitChart = defineComponent({
       update(props.typeArr, props.goodData)
     })
     return () => (
-      <div ref={refDiv} class={s.goodchart}></div>
+      <div ref={refDiv} style={{marginBottom: '1rem'}} class={s.goodchart}></div>
     )
   }
 })

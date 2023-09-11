@@ -5,6 +5,7 @@ import { HabitChart } from '../charts/stuAnalyze/HabitChart';
 import { http } from '../../shared/Http';
 import { Toast } from 'vant';
 import { useRouter } from 'vue-router';
+import { HabitPie } from '../charts/stuAnalyze/HabitPie';
 export const Habit = defineComponent({
   setup: (props, context) => {
     const router = useRouter()
@@ -54,6 +55,8 @@ export const Habit = defineComponent({
       <div class={s.wrapper}>
         <Quote name='聚类分析全班提交习惯' />
         <HabitChart goodData={goodData.value} typeArr={typeArr.value} />
+        <Quote name='全国类型占比指示图' />
+        <HabitPie />
       </div>
     )
   }
