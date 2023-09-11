@@ -15,6 +15,7 @@ export const HabitChart = defineComponent({
       if (refDiv.value === undefined) { return }
       chart = echarts.init(refDiv.value)
       update()
+      updateSeries()
     })
     const update = () => {
       chart?.setOption({
@@ -134,57 +135,53 @@ export const HabitChart = defineComponent({
             show: false
           }
         }],
-        series: [{
-          name: 'Adidas',
-          type: 'line',
-          data: [0.34, 0.24, 0.12, 0.3],
-          symbolSize: 1,
-          symbol: 'circle',
-          smooth: true,
-          yAxisIndex: 0,
-          showSymbol: false,
-          lineStyle: {
-            width: 2,
-            color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
-              offset: 0,
-              color: '#9effff'
+      })
+    }
+    const getRandomColor = () => {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+    const updateSeries = () => {
+      const data = [
+        { name: 'x', value: [0.42, 0.3, 0.14, 0.24,], start: getRandomColor(), end: getRandomColor() },
+        { name: 'y', value: [0.34, 0.24, 0.12, 0.3], start: getRandomColor(), end: getRandomColor() }
+      ]
+      const series:any[] = []
+      data.map(item => {
+        series.push(
+          {
+            name: item.name,
+            type: 'line',
+            data: item.value,
+            symbolSize: 1,
+            symbol: 'circle',
+            smooth: true,
+            yAxisIndex: 0,
+            showSymbol: false,
+            lineStyle: {
+              width: 2,
+              color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
+                offset: 0,
+                color: item.start
+              },
+              {
+                offset: 1,
+                color: item.end
+              }
+              ]),
+              shadowColor: 'rgba(158,135,255, 0.3)',
+              shadowBlur: 10,
+              shadowOffsetY: 20
             },
-            {
-              offset: 1,
-              color: '#9E87FF'
-            }
-            ]),
-            shadowColor: 'rgba(158,135,255, 0.3)',
-            shadowBlur: 10,
-            shadowOffsetY: 20
-          },
-        },
-        {
-          name: 'xxx',
-          type: 'line',
-          data: [0.12, 0.3, 0.34, 0.24,],
-          symbolSize: 1,
-          symbol: 'circle',
-          smooth: true,
-          yAxisIndex: 0,
-          showSymbol: false,
-          lineStyle: {
-            width: 2,
-            color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
-              offset: 0,
-              color: '#9effff'
-            },
-            {
-              offset: 1,
-              color: '#9E87FF'
-            }
-            ]),
-            shadowColor: 'rgba(158,135,255, 0.3)',
-            shadowBlur: 10,
-            shadowOffsetY: 20
-          },
-        }
-        ]
+          }
+        )
+      })
+      chart?.setOption({
+        series: series
       })
     }
     watchEffect(() => {

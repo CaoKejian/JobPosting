@@ -5,6 +5,7 @@ import { http } from '../../shared/Http';
 import { Time } from '../../shared/Time';
 import { WeekChart } from '../charts/stuAnalyze/WeekChart';
 import { Quote } from '../../shared/Quote';
+import { Toast } from 'vant';
 
 interface UseData {
   selectDate: string
@@ -24,13 +25,14 @@ export const WeekFrequency = defineComponent({
     })
     const fetchWeekFrequency = async (time: string) => {
       try {
-        const res = await http.get('/analyze/week/frequency', {
+        await http.get('/analyze/week/frequency', {
           time,
           name: '曹珂俭'
         }, { _autoLoading: true })
         data.value = [+(Math.random()*100).toFixed(0), 40, 30, +(Math.random()*100).toFixed(0), 30, 25, +(Math.random()*100).toFixed(0)]
-        console.log(res)
       } catch (err) {
+        Toast({message:'网络异常，此为Mock环境！'})
+        data.value = [+(Math.random()*100).toFixed(0), 40, 30, +(Math.random()*100).toFixed(0), 30, 25, +(Math.random()*100).toFixed(0)]
         console.log(err)
       }
     }

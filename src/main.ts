@@ -6,7 +6,6 @@ import { history } from './shared/history'
 import './assets/css/reset.scss'
 import './assets/css/vari.scss'
 import "@svgstore"
-import './assets/fonts/fonts.css'
 import 'vant/lib/index.css';
 import { Toast, DatetimePicker, Search, Icon, Dialog, Uploader, Swipe, SwipeItem, Step, Steps, ConfigProvider } from 'vant';
 import { http } from './shared/Http'

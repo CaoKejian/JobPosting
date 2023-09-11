@@ -20,7 +20,7 @@ export const AnalyzeList = defineComponent({
           <Habit />
         ) : props.id === '3' ? (
           <div>3</div>
-        ) : null
+        ) : <div>网页异常，请刷新重试！</div>
       }
     </div>
     )

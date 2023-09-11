@@ -5,6 +5,7 @@ import { Average } from '../charts/stuAnalyze/Average';
 import { Good } from '../charts/stuAnalyze/Good';
 import { http } from '../../shared/Http';
 import { useInfoStore } from '../../store/useInfoStore';
+import { Toast } from 'vant';
 export const Selfgood = defineComponent({
   setup: (props, context) => {
     const infoStore = useInfoStore()
@@ -12,18 +13,26 @@ export const Selfgood = defineComponent({
     const quency = ref<number[]>([])
     const subject = ref<string[]>([])
     const fetchAverage = async (name: string) => {
-      const res = await http.get<{ average: number, subject: string }[]>('/analyze/average', { name }, { _autoLoading: true })
-      const data = res.data
-      data.map(item => {
-        value.value.push(item.average)
-        subject.value.push(item.subject)
-      })
-      quency.value = [70, 75, 65, 60, 85]
-      if (data.length === 0) {
+      try {
+        const res = await http.get<{ average: number, subject: string }[]>('/analyze/average', { name }, { _autoLoading: true })
+        const data = res.data
+        data.map(item => {
+          value.value.push(item.average)
+          subject.value.push(item.subject)
+        })
+        quency.value = [70, 75, 65, 60, 85]
+        if (data.length === 0) {
+          value.value = [83, 68, 73, 56, 90]
+          quency.value = [70, 75, 65, 60, 85]
+          subject.value = ['数据挖掘', 'Vue3', 'TypeScript', 'React', '高数(1)']
+        }
+      } catch (err) {
+        Toast({ message: '网络异常，此为Mock环境！' })
         value.value = [83, 68, 73, 56, 90]
         quency.value = [70, 75, 65, 60, 85]
         subject.value = ['数据挖掘', 'Vue3', 'TypeScript', 'React', '高数(1)']
       }
+
     }
     onMounted(async () => {
       const info = JSON.parse(localStorage.getItem('info') as string)
