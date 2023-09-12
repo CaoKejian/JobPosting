@@ -3,6 +3,7 @@ import s from './StatisList.module.scss';
 import { WeekFrequency } from '../analyze/WeeFrequencey';
 import { Selfgood } from '../analyze/Selfgood';
 import { Habit } from '../analyze/Habit';
+import { Similarity } from '../analyze/Similarity';
 export const AnalyzeList = defineComponent({
   props: {
     id: {
@@ -19,7 +20,7 @@ export const AnalyzeList = defineComponent({
         ) : props.id === '2' ? (
           <Habit />
         ) : props.id === '3' ? (
-          <div>3</div>
+          <Similarity />
         ) : <div>网页异常，请刷新重试！</div>
       }
     </div>

@@ -64,7 +64,7 @@ export const Habit = defineComponent({
     })
     return () => (
       <div class={s.wrapper}>
-        <Quote name='聚类分析全班提交习惯' />
+        <Quote name='聚类分析全班提交习惯(K-means算法聚类分析)' />
         <HabitChart goodData={goodData.value} typeArr={typeArr.value} />
         <Quote name='全国类型占比指示图' />
         <HabitPie pieData={pieData.value} />
