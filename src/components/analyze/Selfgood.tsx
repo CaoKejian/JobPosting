@@ -6,6 +6,7 @@ import { Good } from '../charts/stuAnalyze/Good';
 import { http } from '../../shared/Http';
 import { useInfoStore } from '../../store/useInfoStore';
 import { Toast } from 'vant';
+import { MockQuency, MockSubject, MockValue } from '../../config/mock';
 export const Selfgood = defineComponent({
   setup: (props, context) => {
     const infoStore = useInfoStore()
@@ -22,15 +23,15 @@ export const Selfgood = defineComponent({
         })
         quency.value = [70, 75, 65, 60, 85]
         if (data.length === 0) {
-          value.value = [83, 68, 73, 56, 90]
-          quency.value = [70, 75, 65, 60, 85]
-          subject.value = ['数据挖掘', 'Vue3', 'TypeScript', 'React', '高数(1)']
+          value.value = MockQuency
+          quency.value = MockValue
+          subject.value = MockSubject
         }
       } catch (err) {
         Toast({ message: '网络异常，此为Mock环境！' })
-        value.value = [83, 68, 73, 56, 90]
-        quency.value = [70, 75, 65, 60, 85]
-        subject.value = ['数据挖掘', 'Vue3', 'TypeScript', 'React', '高数(1)']
+        value.value = MockValue
+        quency.value = MockQuency
+        subject.value = MockSubject
       }
 
     }

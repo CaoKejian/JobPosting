@@ -6,6 +6,7 @@ import { http } from '../../shared/Http';
 import { Toast } from 'vant';
 import { useRouter } from 'vue-router';
 import { HabitPie } from '../charts/stuAnalyze/HabitPie';
+import { MockGoodData, MockTypeArr } from '../../config/mock';
 export const Habit = defineComponent({
   setup: (props, context) => {
     const router = useRouter()
@@ -29,16 +30,8 @@ export const Habit = defineComponent({
         typeArr.value = data.file_types
       } catch (err) {
         Toast({ message: '网络异常，此为Mock环境！' })
-        goodData.value = [
-          { name: '曹珂俭', value: [0.42, 0.3, 0.14, 0.24] },
-          { name: '黄梦瑶', value: [0.34, 0.24, 0.12, 0.3] },
-          { name: '蔡奇奇', value: [0.24, 0.14, 0.32, 0.4] },
-          { name: '李梓良', value: [0.14, 0.54, 0.12, 0.3] },
-          { name: '捏于波', value: [0.44, 0.04, 0.22, 0.2] },
-          { name: '张博涵', value: [0.31, 0.14, 0.12, 0.3] },
-          { name: '王硕', value: [0.24, 0.44, 0.02, 0.1] },
-        ]
-        typeArr.value = ['png', 'docx', 'jpeg', 'pdf']
+        goodData.value = MockGoodData
+        typeArr.value = MockTypeArr
       }
     }
     const fetchPieData = async (classId: string) => {

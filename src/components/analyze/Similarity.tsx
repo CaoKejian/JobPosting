@@ -5,6 +5,8 @@ import { Quote } from '../../shared/Quote';
 import { SimilarityChart } from '../charts/stuAnalyze/SimilarityChart';
 import { SimilarityLei } from '../charts/stuAnalyze/SimilarityLei';
 import { Form, FormItem } from '../../shared/Form';
+import { Toast } from 'vant';
+import { MockSelectOptions, MockSlelectData, MockStaticData } from '../../config/mock';
 type RadarData = {
   [key: string]: number;
 };
@@ -15,13 +17,22 @@ export const Similarity = defineComponent({
     const slelectData = ref<{ name: string, value: number, max: number }[]>([])
     let staticData = {}
     const fetchSimilary = async (name: string) => {
-      const res = await http.get<any>('/analyze/subjectscores', { name }, { _autoLoading: true })
-      const data = res.data
-      staticData = data
-      for (const [subject, value] of Object.entries(staticData)) {
-        handleSubject(subject)
+      try{
+        const res = await http.get<any>('/analyze/subjectscores', { name }, { _autoLoading: true })
+        const data = res.data
+        staticData = data
+        for (const [subject, value] of Object.entries(staticData)) {
+          handleSubject(subject)
+        }
+        handleData(selectOptions.value[0].text)
+      }catch(err){
+        Toast({ message: '网络异常，此为Mock环境！' })
+        staticData = MockStaticData
+        selectValue.value ='数据挖掘'
+        selectOptions.value = MockSelectOptions
+        slelectData.value = MockSlelectData
       }
-      handleData(selectOptions.value[0].text)
+     
     }
     const handleData = (name: string) => {
       for (const [subject, value] of Object.entries(staticData)) {
