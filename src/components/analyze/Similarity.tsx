@@ -32,7 +32,7 @@ export const Similarity = defineComponent({
     }
     const handleSelectData = (subjectMap: RadarData) => {
       slelectData.value = []
-      const max = 70
+      const max = 100
       for (const [name, value] of Object.entries(subjectMap)) {
         slelectData.value.push({ name, value, max })
       }

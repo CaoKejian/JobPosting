@@ -1,4 +1,4 @@
-import { PropType, defineComponent } from 'vue';
+import { PropType, defineComponent, ref, watch } from 'vue';
 import s from './StatisList.module.scss';
 import { WeekFrequency } from '../analyze/WeeFrequencey';
 import { Selfgood } from '../analyze/Selfgood';
@@ -11,7 +11,7 @@ export const AnalyzeList = defineComponent({
     }
   },
   setup: (props, context) => {
-    return () => (<div class={s.wrapper} style={{fontSize: '1rem'}}>
+    return () => (<div class={s.wrapper} style={{ fontSize: '1rem' }}>
       {
         props.id === '0' ? (
           <WeekFrequency />

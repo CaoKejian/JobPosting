@@ -28,7 +28,7 @@ export const SimilarityLei = defineComponent({
       return a?.value + '%'
     }
     const handleValue = () => {
-      if (dataValue.value.length >= 4) {
+      if (dataValue.value.length >= props.slelectData.length) {
         dataValue.value = []
       }
       data.value.map(item => {
