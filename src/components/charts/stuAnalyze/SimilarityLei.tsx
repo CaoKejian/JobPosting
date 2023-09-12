@@ -1,52 +1,48 @@
-import { PropType, defineComponent, onMounted, ref } from 'vue';
+import { PropType, defineComponent, onMounted, ref, watchEffect } from 'vue';
 import s from '../statis/LineChart.module.scss';
 import * as echarts from 'echarts';
 
+interface SelectType {
+  name: string, value: number, max: number
+}
 export const SimilarityLei = defineComponent({
   props: {
-    name: {
-      type: String as PropType<string>
+    slelectData: {
+      type: Array as PropType<SelectType[]>,
+      default: []
+    },
+    selectValue: {
+      type: String as PropType<string>,
+      default: ''
     }
   },
   setup: (props, context) => {
     const refDiv = ref<HTMLDivElement>()
     let chart: echarts.ECharts | undefined = undefined
-    const selectValue = ref('数据挖掘')
-    const dataValue = ref([37, 46, 13.33, 51])
-    const mapTransitionFn = [
-      { name: 'TypeScript', value: 37, max: 70 },
-      { name: 'Vue3', value: 46, max: 70 },
-      { name: 'React', value: 13.33, max: 70 },
-      { name: '高数(1)', value: 51, max: 70 },
-    ]
+    const dataValue = ref<number[]>([])
+    const data = ref<SelectType[]>([])
     const findValue = (name: string) => {
-      const a = mapTransitionFn.find(item => {
+      const a = props.slelectData.find(item => {
         return item.name === name
       })
       return a?.value + '%'
     }
-    const dataArr = [
-      {
-        value: dataValue.value,
-        name: '',
-        itemStyle: {
-          lineStyle: {
-            color: '#17E7FF',
-          },
-          shadowColor: '#17E7FF',
-          shadowBlur: 5,
-        },
-      },
-    ];
+    const handleValue = () => {
+      if (dataValue.value.length >= 4) {
+        dataValue.value = []
+      }
+      data.value.map(item => {
+        dataValue.value.push(item.value)
+      })
+    }
     onMounted(() => {
       if (refDiv.value === undefined) { return }
       chart = echarts.init(refDiv.value)
-      update()
     })
-    const update = () => {
+    const update = (selectValue: string) => {
       chart?.setOption({
         title: {
-          text: [`{b|${selectValue.value}}`].join(''),
+          text: [`{b|${selectValue}}`].join(''),
           bottom: 'center',
           left: 'center',
           textStyle: {
@@ -95,7 +91,7 @@ export const SimilarityLei = defineComponent({
             },
           },
           axisNameGap: 2,
-          indicator: mapTransitionFn,
+          indicator: props.slelectData,
           splitArea: {
             show: false,
           },
@@ -112,7 +108,7 @@ export const SimilarityLei = defineComponent({
             type: 'radar',
             symbolSize: 3,
             symbol: 'circle',
-            data: dataArr,
+            data: [dataValue.value],
             areaStyle: {
               color: '#d4dbf2',
               opacity: 0.5,
@@ -141,6 +137,12 @@ export const SimilarityLei = defineComponent({
         ],
       })
     }
+    watchEffect(() => {
+      data.value = props.slelectData
+      handleValue()
+      update(props.selectValue)
+    })
+
     return () => (
       <div ref={refDiv} class={s.averagechart}></div>
     )
