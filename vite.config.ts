@@ -14,8 +14,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://124.70.188.74/',
-        // target: 'http://localhost:3000',
+        // target: 'http://124.70.188.74/',
+        target: 'http://localhost:3000',
       }
     }
   },

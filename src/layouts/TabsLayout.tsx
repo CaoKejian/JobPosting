@@ -31,7 +31,7 @@ export const TabsLayout = defineComponent({
     const isBoolean = reactive({
       isShowMenu: false
     })
-    const refSelected = ref(tabMap[3])
+    const refSelected = ref(tabMap[0])
     return () => (
        <MainLayout>{
         {
