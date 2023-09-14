@@ -47,6 +47,7 @@ export const HistoryBit = defineComponent({
         },
         toolbox: {
           feature: {
+            dataView: { show: true, readOnly: false },
             saveAsImage: {
               show: true,
               title: '下载图片',
