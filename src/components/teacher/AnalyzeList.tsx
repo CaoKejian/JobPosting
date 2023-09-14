@@ -1,5 +1,6 @@
 import { PropType, defineComponent, ref } from 'vue';
 import s from '../students/Analyze.module.scss';
+import { History } from '../analyze/History';
 export const AnalyzeList = defineComponent({
   props: {
     id: {
@@ -10,7 +11,7 @@ export const AnalyzeList = defineComponent({
     return () => (<div class={s.wrapper} style={{ fontSize: '1rem' }}>
       {
         props.id === '0' ? (
-          1
+          <History />
         ) : props.id === '1' ? (
           2
         ) : props.id === '2' ? (
