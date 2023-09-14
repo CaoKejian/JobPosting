@@ -1,5 +1,4 @@
 import { PropType, defineComponent, ref } from 'vue';
-import s from './Analyze.module.scss';
 import { TabsLayout } from '../../layouts/TabsLayout';
 import { AnalyzeList } from '../teacher/AnalyzeList';
 export const Analyze = defineComponent({

@@ -1,5 +1,4 @@
 import { PropType, defineComponent, reactive, ref } from 'vue';
-import s from './TabsLayout.module.scss';
 import { Tab, Tabs } from '../shared/Tabs';
 import { BackIcon } from '../shared/BackIcon';
 import { MainLayout } from './MainLayout';
@@ -37,7 +36,7 @@ export const TabsLayout = defineComponent({
         {
           icon: () => <BackIcon svg='menu' onClick={() => isBoolean.isShowMenu = true}/>,
           title: () => title,
-          default:() => <><div class={s.wrapper}>
+          default:() => <><div>
             <Tabs v-model:selected={refSelected.value}
               rerenderOnSelect={true}>
               <Tab value={tabMap[0]} name={tabMap[0]}>
