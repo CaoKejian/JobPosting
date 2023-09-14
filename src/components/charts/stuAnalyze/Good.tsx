@@ -103,6 +103,17 @@ export const Good = defineComponent({
           center: ['50%', '50%'],
           radius: '70%'
         },
+        toolbox: {
+          feature: {
+            dataView: { show: true, readOnly: false },
+            saveAsImage: {
+              show: true,
+              title: '下载图片',
+              name: '个人擅长方向',
+              type: 'png',
+            },
+          }
+        },
         radar: {
           shape: 'circle',
           center: ['50%', '50%'],

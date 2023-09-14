@@ -27,6 +27,17 @@ export const Average = defineComponent({
     })
     const update = (value: number[], quency: number[], subject: string[]) => {
       const option = {
+        toolbox: {
+          feature: {
+            dataView: { show: true, readOnly: false },
+            saveAsImage: {
+              show: true,
+              title: '下载图片',
+              name: '平均分',
+              type: 'png',
+            },
+          }
+        },
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -41,7 +52,7 @@ export const Average = defineComponent({
           extraCssText: 'opacity: 0.8;background-color:#050F1B;padding:16px;box-shadow: 1px 6px 15px 1px rgba(0,0,0,0.13);border-radius: 4px;filter: blur(undefinedpx);border:none;'
         },
         grid: {
-          top: '10%',//上边距
+          top: '14%',//上边距
           right: '16',//右边距
           left: '16',//左边距
           bottom: '4%',//下边距

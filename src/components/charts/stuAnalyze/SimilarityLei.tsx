@@ -57,6 +57,8 @@ export const SimilarityLei = defineComponent({
         },
         toolbox: {
           feature: {
+            dataView: { show: true, readOnly: false },
+            restore: { show: true },
             saveAsImage: {
               show: true,
               title: '下载图片',

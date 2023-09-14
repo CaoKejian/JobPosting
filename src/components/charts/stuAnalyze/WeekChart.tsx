@@ -20,6 +20,18 @@ export const WeekChart = defineComponent({
           right: '10%',
           bottom: '10%',
         },
+        toolbox: {
+          feature: {
+            dataView: { show: true, readOnly: false },
+            restore: { show: true },
+            saveAsImage: {
+              show: true,
+              title: '下载图片',
+              name: '提交周频率',
+              type: 'png',
+            },
+          }
+        },
         tooltip: {
           trigger: 'axis'
         },
