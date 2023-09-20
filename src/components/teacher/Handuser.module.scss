@@ -16,7 +16,10 @@
       width: 1.5rem;
       height: 1.5rem;
       margin-right: 0.4rem;
-      animation: rotate 2s linear infinite;
+      animation-name: rotate;
+      animation-duration: 2s;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
     }
   }
   >p{
