@@ -9,6 +9,7 @@ import { Correct } from '../components/teacher/Correct';
 import { Subject } from '../components/teacher/Subject';
 import { Authority } from '../components/error/Authority';
 import { Auth } from '../components/teacher/Auth';
+import { Handuser } from '../components/teacher/Handuser';
 
 export const routes: RouteRecordRaw[] = [
   { path: '/', redirect: '/welcome' },
@@ -50,6 +51,7 @@ export const routes: RouteRecordRaw[] = [
       { path: 'correct', component: Correct },
       { path: 'subject', component: Subject },
       { path: 'auth', component: Auth },
+      { path: 'handuser', component: Handuser },
       { path: 'analyze', component: () => import('../components/teacher/Analyze') },
     ]
   }

@@ -19,7 +19,7 @@ import { useInfoStore } from '../../store/useInfoStore';
 export const Detail = defineComponent({
   setup: (props, context) => {
     const isShowVisible = ref<boolean>(true)
-    const classId = ref<string>('')
+    const classId = ref<string>('123123')
     const isHaveClass = ref<boolean>(false)
     const searchValue = ref<string>('')
     const myArr = ref<Work[]>([])

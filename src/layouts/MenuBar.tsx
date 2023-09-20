@@ -163,6 +163,12 @@ export const MenuBar = defineComponent({
                       </RouterLink>
                     </li>
                     <li>
+                      <RouterLink to="/teacher/handuser">
+                        <svg class={s.icon}><use xlinkHref='#handuser'></use></svg>
+                        <span onClick={() => onClick(6)}>上传用户</span>
+                      </RouterLink>
+                    </li>
+                    <li>
                       <RouterLink to="/">
                         <svg class={s.icon}><use xlinkHref='#home'></use></svg>
                         <span onClick={() => onClick(7)}>回到首页</span>
