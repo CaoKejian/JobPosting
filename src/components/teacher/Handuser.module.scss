@@ -1,3 +1,37 @@
 .wrapper{
-  
+  font-size: 1rem;
+  padding: 0 1rem;
+  box-sizing: border-box;
+  .upload{
+    width: 100%;
+    padding: 0.4rem;
+    box-sizing: border-box;
+  }
+  .status{
+    color: gray;
+    padding: 1rem 0.4rem;
+    display: flex;
+    align-items: center;
+    .svg{
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-right: 0.4rem;
+      animation: rotate 2s linear infinite;
+    }
+  }
+  >p{
+    margin: 0.4rem 0;
+    .content{
+      color: var(--table-set-color);
+      margin: 0 0.2rem;
+    }
+  }
+}
+@keyframes rotate{
+	0%{
+		transform: rotateZ(0deg)
+	}
+	100%{
+		transform: rotateZ(360deg)
+	}
 }
