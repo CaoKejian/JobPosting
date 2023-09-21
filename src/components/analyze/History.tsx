@@ -4,6 +4,7 @@ import { Quote } from '../../shared/Quote';
 import { HistoryBit } from '../charts/teaAnalyze/HistoryBit';
 import { HistorySubject } from '../charts/teaAnalyze/HistorySubject';
 import { FormItem } from '../../shared/Form';
+import { HistoryQuency } from '../charts/teaAnalyze/HistoryQuency';
 export const History = defineComponent({
   
   setup: (props, context) => {
@@ -24,6 +25,8 @@ export const History = defineComponent({
         options={selectData.value}
         ></FormItem>
         <HistorySubject selectValue={selectValue.value}/>
+        <Quote name='逾期次数趋势追踪（时间序列分析）'/>
+        <HistoryQuency />
       </div>
     )
   }
