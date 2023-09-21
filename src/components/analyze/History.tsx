@@ -40,8 +40,11 @@ export const History = defineComponent({
         quency.value = x
       } catch (err) {
         Toast({ message: '网络异常，此为Mock环境！' })
-
       }
+    }
+    const fetchClass = async (classId: string) => {
+      const res = await http.get('/analyze/history/subject', { classId })
+      console.log(res)
     }
     watch(() => selectValue.value, (n) => {
     })
@@ -49,7 +52,11 @@ export const History = defineComponent({
       fetchQuency(await infostore.nameMapFunction(n))
     }, { immediate: true })
     onMounted(() => {
-      // const info = JSON.parse(localStorage.getItem('info') as string)
+      const classId = JSON.parse(localStorage.getItem('classID') as string)
+      if(!classId){
+        return Toast({message: '班级码错误！'})
+      }
+      fetchClass(classId)
     })
     return () => (
       <div class={s.wrapper}>

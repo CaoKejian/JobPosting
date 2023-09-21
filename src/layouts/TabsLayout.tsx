@@ -67,7 +67,7 @@ export const TabsLayout = defineComponent({
           </div>
           {
             isBoolean.isShowMenu ?
-            <MenuBar onClose={() => isBoolean.isShowMenu = false} />
+            <MenuBar name={tabMap[0]!=='我的' ? 'teacher': 'student'} onClose={() => isBoolean.isShowMenu = false} />
             : null
           }</>
         }
