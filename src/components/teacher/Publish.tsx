@@ -12,10 +12,13 @@ import { Class, pubWork } from '../../vite-env';
 import { Toast } from 'vant';
 import { Quote } from '../../shared/Quote';
 import { useInfoStore } from '../../store/useInfoStore';
+import { Model } from '../../shared/Model';
 export const Publish = defineComponent({
   setup: (props, context) => {
     const infoStore = useInfoStore()
     const isShowMenu = ref<boolean>(false)
+    const isShowVisible = ref<boolean>(false)
+    const classId = ref('')
     const selectData = reactive<{
       classMap: { value: string, text: string }[],
       subjectMap: { value: string, text: string }[],
@@ -86,13 +89,19 @@ export const Publish = defineComponent({
     onMounted(async () => {
       //* 判断是否有权限 * //
       const info = JSON.parse(localStorage.getItem('info') as string)
+      const classId = JSON.parse(localStorage.getItem('classID') as string)
+      if(!classId){
+       isShowVisible.value= true
+      }
       formData.user = info.name
-      // if (formData.user === '未录入') {
-      //   router.push('/error/noauth')
-      // }
       await setClassMapSelection()
       fetchAddClass(info.stuId, info.name)
     })
+    const onChangeModel = async(value1:string,value2:number) => {
+      if(value2===1){
+        localStorage.setItem('classID', classId.value)
+      }
+    }
     const publish = async (e: Event) => {
       e.preventDefault()
       Object.assign(errors, { classId: [], subject: [], branch: [], cutTime: [], content: [] })
@@ -161,6 +170,17 @@ export const Publish = defineComponent({
               isShowMenu.value ?
                 <MenuBar name={'teacher'} onClose={() => isShowMenu.value = false} />
                 : null
+            }
+            {isShowVisible.value ?
+              <Model v-model:modelVisible={isShowVisible.value}
+                onUpdate:modelVisible={onChangeModel}
+                v-model:classId={classId.value}
+                isShowForm={true}
+              >{
+                {
+                  title:() => '请填写班级码',
+                }
+              }</Model> : null
             }
           </div>
         }
