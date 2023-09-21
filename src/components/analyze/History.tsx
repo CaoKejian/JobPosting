@@ -13,7 +13,8 @@ import { useRouter } from 'vue-router';
 interface UseDataType {
   quency: { value: number, name: string }[]
   historySubject: { name: string, bit: number }[]
-  historyClass: {bit: number, id: string}[]
+  historyClass: { bit: number, id: string }[]
+  historySelf: {name: string, lateCounts: number, notlateCounts: number, bit: number}[]
 }
 export const History = defineComponent({
 
@@ -34,8 +35,9 @@ export const History = defineComponent({
       quency: [],
       historySubject: [],
       historyClass: [],
+      historySelf: []
     })
-    const { quency, historySubject, historyClass } = toRefs(useData)
+    const { quency, historySubject, historyClass, historySelf } = toRefs(useData)
     const fetchQuency = async (stuId: string) => {
       try {
         const res = await http.get<{ is_late: number, time: string }[]>('/analyze/history/tendency', { stuId })
@@ -62,9 +64,21 @@ export const History = defineComponent({
           { name: "TypeScript", bit: 55 },
           { name: "React", bit: 24 },
         ]
-        historyClass.value= [{ bit: 1048, id: '大数据B201' },
+        historyClass.value = [{ bit: 1048, id: '大数据B201' },
         { bit: 735, id: '智能B222' }]
       }
+    }
+    const fetchSelf = async (classId: string) => {
+      const res = await http.get<any[]>('/analyze/history', { classId })
+      const x = res.data
+      x[0].lateCounts.map((item: any, index: number) => {
+        const obj: any = {}
+        obj.name = item.name
+        obj.lateCounts = item.value
+        obj.notlateCounts = x[1].notlateCounts[index].value
+        obj.bit = (item.value + x[1].notlateCounts[index].value) * x[2].totallateBit
+        historySelf.value.push(obj)
+      })
     }
     watch(() => selectValue.value, (n) => {
     })
@@ -78,11 +92,12 @@ export const History = defineComponent({
         return router.push('/teacher/publish')
       }
       fetchClass(classId)
+      fetchSelf(classId)
     })
     return () => (
       <div class={s.wrapper}>
         <Quote name='个人提交历史监控(分组聚合)' />
-        <HistoryBit />
+        <HistoryBit historySelf={historySelf.value}/>
         <Quote name='班级/学科提交历史监控(聚类分析)' />
         <FormItem label='' type='select'
           v-model={selectValue.value}

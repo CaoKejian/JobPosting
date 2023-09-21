@@ -1,30 +1,24 @@
-import { PropType, defineComponent, onMounted, ref } from 'vue';
+import { PropType, defineComponent, onMounted, ref, watchEffect } from 'vue';
 import s from './teacherChart.module.scss';
 import * as echarts from 'echarts';
 
 export const HistoryBit = defineComponent({
   props: {
-    name: {
-      type: String as PropType<string>
+    historySelf: {
+      type: Array as PropType<{ name: string, lateCounts: number, notlateCounts: number, bit: number }[]>,
+      default: []
     }
   },
   setup: (props, context) => {
     const refDiv = ref<HTMLDivElement>()
     let chart: echarts.ECharts | undefined = undefined
-    const inTime = ref([12, 8, 4, 1, 9])
-    const outTime = ref([1, 2, 3, 4, 5])
-    const averageBit = ref([6, 4, 4, 3, 7])
-    const xData = (function () {
-      var data = [];
-      for (var i = 1; i < 6; i++) {
-        data.push("学生" + i);
-      }
-      return data;
-    })();
+    const inTime = ref<number[]>([])
+    const outTime = ref<number[]>([])
+    const averageBit = ref<number[]>([])
+    const xData = ref<string[]>([])
     onMounted(() => {
       if (refDiv.value === undefined) { return }
       chart = echarts.init(refDiv.value)
-      update()
     })
     const update = () => {
       chart?.setOption({
@@ -84,9 +78,8 @@ export const HistoryBit = defineComponent({
             },
             axisLabel: {
               interval: 0,
-              rotate: 45
             },
-            data: xData,
+            data: xData.value,
           },
         ],
         yAxis: [
@@ -195,6 +188,18 @@ export const HistoryBit = defineComponent({
         ],
       })
     }
+    const handleXData = async () => {
+      return props.historySelf.map((item) => {
+        xData.value.push(item.name)
+        inTime.value.push(item.notlateCounts)
+        outTime.value.push(item.lateCounts)
+        averageBit.value.push(item.bit)
+      })
+    }
+    watchEffect(() => {
+      handleXData()
+      update()
+    })
     return () => (
       <div ref={refDiv} class={s.chart}></div>
     )
