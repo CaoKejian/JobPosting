@@ -1,31 +1,31 @@
-import { PropType, defineComponent, onMounted, ref } from 'vue';
+import { PropType, defineComponent, onMounted, ref, watchEffect } from 'vue';
 import s from './teacherChart.module.scss';
 import * as echarts from 'echarts';
 
 export const HistoryQuency = defineComponent({
   props: {
-    name: {
-      type: String as PropType<string>
+    quency: {
+      type: Array as PropType<{ value: number, name: string }[]>,
+      default: []
     }
   },
   setup: (props, context) => {
     const refDiv = ref<HTMLDivElement>()
     let chart: echarts.ECharts | undefined = undefined
-    const dataList = ref([{
+    const dataList = ref<{name:string,value:number}[]>([{
       name: '09-01',
-      value: '7'
+      value: 7
     }, {
       name: '09-07',
-      value: '2'
+      value: 2
     }, {
       name: '09-21',
-      value: '1'
+      value: 1
     }]
     )
     onMounted(() => {
       if (refDiv.value === undefined) { return }
       chart = echarts.init(refDiv.value)
-      update()
     })
     const update = () => {
       chart?.setOption({
@@ -181,6 +181,10 @@ export const HistoryQuency = defineComponent({
         }]
       })
     }
+    watchEffect(() => {
+      dataList.value = props.quency
+      update()
+    })
     return () => (
       <div ref={refDiv} class={s.subjectClass}></div>
     )
