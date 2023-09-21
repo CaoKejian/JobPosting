@@ -12,7 +12,7 @@ export const HistoryQuency = defineComponent({
   setup: (props, context) => {
     const refDiv = ref<HTMLDivElement>()
     let chart: echarts.ECharts | undefined = undefined
-    const dataList = ref<{name:string,value:number}[]>([{
+    const dataList = ref<{ name: string, value: number }[]>([{
       name: '09-01',
       value: 7
     }, {
@@ -32,12 +32,10 @@ export const HistoryQuency = defineComponent({
         title: {
           left: 26,
           top: 26,
-          textStyle: {
-            color: '#000',
-            fontSize: 15,
-            fontWeight: 50000,
-            fontFamily: 'PingFang SC'
-          }
+          color: '#000',
+          fontSize: 15,
+          fontWeight: 50000,
+          fontFamily: 'PingFang SC'
         },
         toolbox: {
           feature: {
@@ -76,10 +74,8 @@ export const HistoryQuency = defineComponent({
           //轴线上的字
           axisLabel: {
             show: true,
-            textStyle: {
-              color: '#2f6b77',
-              fontSize: '14'
-            }
+            color: '#2f6b77',
+            fontSize: '14'
           },
           data: dataList.value.map(item => item.name)
         },
@@ -96,10 +92,8 @@ export const HistoryQuency = defineComponent({
           //轴线上的字
           axisLabel: {
             show: true,
-            textStyle: {
-              fontSize: '14',
-              color: '#2f6b77'
-            }
+            fontSize: '14',
+            color: '#2f6b77'
           },
           axisLine: {
             lineStyle: {
@@ -132,50 +126,46 @@ export const HistoryQuency = defineComponent({
             borderWidth: 1
           },
           lineStyle: {
-            normal: {
-              width: 2,
-              color: {
-                type: 'linear',
-                colorStops: [{
-                  offset: 0,
-                  color: '#F3A22D' // 0% 处的颜色
-                },
-                {
-                  offset: 1,
-                  color: '#F3A22D' // 100% 处的颜色
-                }
-                ],
-                globalCoord: false // 缺省为 false
+            width: 2,
+            color: {
+              type: 'linear',
+              colorStops: [{
+                offset: 0,
+                color: '#F3A22D' // 0% 处的颜色
               },
-              shadowColor: '#F3A22D',
-              shadowBlur: 30,
-              shadowOffsetY: 5
-            }
+              {
+                offset: 1,
+                color: '#F3A22D' // 100% 处的颜色
+              }
+              ],
+              globalCoord: false // 缺省为 false
+            },
+            shadowColor: '#F3A22D',
+            shadowBlur: 30,
+            shadowOffsetY: 5
           },
           areaStyle: {
-            normal: {
-              color: new echarts.graphic.LinearGradient(
-                0,
-                0,
-                0,
-                1,
-                [{
-                  offset: 0,
-                  color: "rgba(243,162,45, 0.6)"
-                }, {
-                  offset: 0.6,
-                  color: "rgba(243,162,45, 0.2)"
-                },
-                {
-                  offset: 0.8,
-                  color: "rgba(243,162,45, 0.1)"
-                }
-                ],
-                false
-              ),
-              shadowColor: "rgba(243,162,45, 0.1)",
-              shadowBlur: 6
-            }
+            color: new echarts.graphic.LinearGradient(
+              0,
+              0,
+              0,
+              1,
+              [{
+                offset: 0,
+                color: "rgba(243,162,45, 0.6)"
+              }, {
+                offset: 0.6,
+                color: "rgba(243,162,45, 0.2)"
+              },
+              {
+                offset: 0.8,
+                color: "rgba(243,162,45, 0.1)"
+              }
+              ],
+              false
+            ),
+            shadowColor: "rgba(243,162,45, 0.1)",
+            shadowBlur: 6
           },
           data: dataList.value
         }]
