@@ -8,14 +8,18 @@ import { HistoryQuency } from '../charts/teaAnalyze/HistoryQuency';
 import { http } from '../../shared/Http';
 import { Toast } from 'vant';
 import { useInfoStore } from '../../store/useInfoStore';
+import { useRouter } from 'vue-router';
 
 interface UseDataType {
   quency: { value: number, name: string }[]
+  historySubject: { name: string, bit: number }[]
+  historyClass: {bit: number, id: string}[]
 }
 export const History = defineComponent({
 
   setup: (props, context) => {
     const infostore = useInfoStore()
+    const router = useRouter()
     const selectData = ref([
       { value: '班级', text: '按班级' },
       { value: '学科', text: '按学科' },
@@ -27,9 +31,11 @@ export const History = defineComponent({
     const selectValue = ref(selectData.value[1].text)
     const selectStudentValue = ref(selectStudentData.value[0].text)
     const useData = reactive<UseDataType>({
-      quency: []
+      quency: [],
+      historySubject: [],
+      historyClass: [],
     })
-    const { quency } = toRefs(useData)
+    const { quency, historySubject, historyClass } = toRefs(useData)
     const fetchQuency = async (stuId: string) => {
       try {
         const res = await http.get<{ is_late: number, time: string }[]>('/analyze/history/tendency', { stuId })
@@ -43,8 +49,22 @@ export const History = defineComponent({
       }
     }
     const fetchClass = async (classId: string) => {
-      const res = await http.get('/analyze/history/subject', { classId })
-      console.log(res)
+      try {
+        const res = await http.get<any[]>('/analyze/history/subject', { classId })
+        historySubject.value = res.data[0].subject
+        historyClass.value = res.data[1].class
+      } catch (err) {
+        Toast({ message: '网络异常，此为Mock环境！' })
+        historySubject.value = [
+          { name: "Vue3", bit: 61 },
+          { name: "数据挖掘", bit: 30 },
+          { name: "高数(1)", bit: 40 },
+          { name: "TypeScript", bit: 55 },
+          { name: "React", bit: 24 },
+        ]
+        historyClass.value= [{ bit: 1048, id: '大数据B201' },
+        { bit: 735, id: '智能B222' }]
+      }
     }
     watch(() => selectValue.value, (n) => {
     })
@@ -53,8 +73,9 @@ export const History = defineComponent({
     }, { immediate: true })
     onMounted(() => {
       const classId = JSON.parse(localStorage.getItem('classID') as string)
-      if(!classId){
-        return Toast({message: '班级码错误！'})
+      if (!classId) {
+        Toast({ message: '班级码错误！' })
+        return router.push('/teacher/publish')
       }
       fetchClass(classId)
     })
@@ -67,7 +88,7 @@ export const History = defineComponent({
           v-model={selectValue.value}
           options={selectData.value}
         ></FormItem>
-        <HistorySubject selectValue={selectValue.value} />
+        <HistorySubject selectValue={selectValue.value} historyClass={historyClass.value} historySubject={historySubject.value} />
         <Quote name='逾期次数趋势追踪（时间序列分析）' />
         <FormItem label='' type='select'
           v-model={selectStudentValue.value}

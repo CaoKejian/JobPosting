@@ -7,25 +7,34 @@ export const HistorySubject = defineComponent({
     selectValue: {
       type: String as PropType<string>,
       default: '按班级'
+    },
+    historyClass: {
+      type: Array as PropType<{ bit: number, id: string }[]>,
+      default: []
+    },
+    historySubject: {
+      type: Array as PropType<{ bit: number, name: string }[]>,
+      default: []
     }
   },
   setup: (props, context) => {
     const refDiv = ref<HTMLDivElement>()
     let chart: echarts.ECharts | undefined = undefined
-    let data = [
+    const subjectData = ref([
       { name: "Vue3", value: 61 },
       { name: "数据挖掘", value: 30 },
       { name: "高数(1)", value: 40 },
       { name: "TypeScript", value: 55 },
       { name: "React", value: 24 },
-    ];
-    data = data.sort((a, b) => {
+    ])
+    subjectData.value = subjectData.value.sort((a, b) => {
       return a.value - b.value;
     });
+    const classData = ref([{ value: 1048, name: '大数据B201' },
+    { value: 735, name: '智能B222' },])
     onMounted(() => {
       if (refDiv.value === undefined) { return }
       chart = echarts.init(refDiv.value)
-      updateSelect(props.selectValue)
     })
     const updateClass = () => {
       chart?.setOption({
@@ -55,10 +64,7 @@ export const HistorySubject = defineComponent({
           {
             type: 'pie',
             radius: '50%',
-            data: [
-              { value: 1048, name: '大数据B201' },
-              { value: 735, name: '智能B222' },
-            ],
+            data: classData.value,
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
@@ -149,7 +155,7 @@ export const HistorySubject = defineComponent({
             itemStyle: {
               borderWidth: 3,
             },
-            data: data
+            data: subjectData.value
           }
         ]
       })
@@ -171,7 +177,14 @@ export const HistorySubject = defineComponent({
           break;
       }
     }
+    const handleSubject = () => {
+      return props.historySubject.map(item => ({
+        name: item.name,
+        value: item.bit
+      }))
+    }
     watchEffect(() => {
+      subjectData.value = handleSubject()
       updateSelect(props.selectValue)
     })
     return () => (
