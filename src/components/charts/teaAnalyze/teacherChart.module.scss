@@ -1,4 +1,4 @@
-.chart, .subjectClass{
+.chart, .subjectClass, .difficulty{
   width: 100%;
   height: 360px;
   background: var(--chart-bg);
@@ -8,4 +8,7 @@
 }
 .subjectClass{
   height: 260px;
+}
+.difficulty{
+  height: 620px;
 }

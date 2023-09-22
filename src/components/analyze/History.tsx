@@ -80,8 +80,6 @@ export const History = defineComponent({
         historySelf.value.push(obj)
       })
     }
-    watch(() => selectValue.value, (n) => {
-    })
     watch(() => selectStudentValue.value, async (n) => {
       fetchQuency(await infostore.nameMapFunction(n))
     }, { immediate: true })

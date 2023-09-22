@@ -1,6 +1,7 @@
 import { PropType, defineComponent, ref } from 'vue';
 import s from '../students/Analyze.module.scss';
 import { History } from '../analyze/History';
+import { Difficulty } from '../analyze/Difficulty';
 export const AnalyzeList = defineComponent({
   props: {
     id: {
@@ -13,7 +14,7 @@ export const AnalyzeList = defineComponent({
         props.id === '0' ? (
           <History />
         ) : props.id === '1' ? (
-          2
+          <Difficulty />
         ) : props.id === '2' ? (
           3
         ) : props.id === '3' ? (

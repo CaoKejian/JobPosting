@@ -1,0 +1,247 @@
+import { PropType, defineComponent, onMounted, ref } from 'vue';
+import s from './teacherChart.module.scss';
+import * as echarts from 'echarts';
+
+export const DifficultyQuency = defineComponent({
+  props: {
+    name: {
+      type: String as PropType<string>
+    }
+  },
+  setup: (props, context) => {
+    const refDiv = ref<HTMLDivElement>()
+    let chart: echarts.ECharts | undefined = undefined
+    var weekCategory = ['1','2','3','4','5'] //x轴数据
+    var radarData = [78,52,98,62,45] //雷达图数据
+    var maxData = 100 // 条形图最大值
+    var weekLineData = []; //x轴数据
+    for (var i = 0; i < 5; i++) {
+      var distance = Math.round(Math.random() * 100);
+      weekLineData.push(distance);
+    }
+    const color = {
+      linearYtoG: {
+        type: 'linear',
+        x: 0,
+        y: 0,
+        x2: 1,
+        y2: 1,
+        colorStops: [{
+          offset: 0,
+          color: '#7580f5'
+        }, {
+          offset: 1,
+          color: '#939bf8'
+        }]
+      },
+      linearGtoB: {
+        type: 'linear',
+        x: 0,
+        y: 0,
+        x2: 1,
+        y2: 0,
+        colorStops: [{
+          offset: 0,
+          color: '#7580f5'
+        }, {
+          offset: 1,
+          color: '#939bf8'
+        }]
+      },
+      linearBtoG: {
+        type: 'linear',
+        x: 0,
+        y: 0,
+        x2: 1,
+        y2: 0,
+        colorStops: [{
+          offset: 0,
+          color: '#7580f5'
+        }, {
+          offset: 1,
+          color: '#939bf8'
+        }]
+      },
+      areaBtoG: {
+        type: 'linear',
+        x: 0,
+        y: 0,
+        x2: 0,
+        y2: 1,
+        colorStops: [{
+          offset: 0,
+          color: 'rgba(35,184,210,.2)'
+        }, {
+          offset: 1,
+          color: 'rgba(35,184,210,0)'
+        }]
+      }
+    }
+    var option = {
+      legend: {
+        top: 220,
+        left: 20,
+        orient: 'vertical',
+        itemGap: 15,
+        itemWidth: 12,
+        itemHeight: 12,
+        textStyle: {
+          color: 'rgba(77, 113, 191)',
+          fontSize: 14,
+        },
+      },
+      tooltip: {
+        trigger: 'item'
+      },
+      radar: {
+        center: ['65%', '20%'],
+        radius: '40%',
+        axisName: {
+          color: '#606eed'
+        },
+        splitNumber: 8,
+        axisLine: {
+          lineStyle: {
+            color: color.linearYtoG,
+            opacity: .6
+          }
+        },
+        splitLine: {
+          lineStyle: {
+            color: color.linearYtoG,
+            opacity: .6
+          }
+        },
+        splitArea: {
+          areaStyle: {
+            color: '#fff',
+            opacity: .1,
+            shadowBlur: 25,
+            shadowColor: '#000',
+            shadowOffsetX: 0,
+            shadowOffsetY: 5,
+          }
+        },
+        indicator: [{
+          name: 'Vue3',
+        }, {
+          name: 'React',
+        }, {
+          name: '数据挖掘',
+        }, {
+          name: 'CSS',
+        }, {
+          name: 'CSS',
+        }]
+      },
+      grid: {
+        left: 50,
+        right: 50,
+        bottom: 40,
+        top: '50%',
+      },
+      xAxis: {
+        type: 'category',
+        position: 'bottom',
+        axisLabel: {
+          color: '#386b77',
+          fontSize: 12
+        },
+        data: weekCategory,
+        axisLine: {
+          lineStyle: {
+            color: 'rgba(127, 163, 169)' // 设置 x 轴底线的颜色，这里是红色
+          }
+        }
+      },
+      yAxis: {
+        name: '分',
+        nameLocation: 'end',
+        nameGap: 14,
+        nameTextStyle: {
+          color: '#6e7feb',
+          fontSize: 14
+        },
+        max: maxData,
+        splitNumber: 4,
+        axisLabel: {
+          color: '#386b77',
+          fontSize: 12
+        }
+      },
+      series: [{
+        name: '学科平均分与难度估测',
+        type: 'radar',
+        symbolSize: 0,
+        data: [
+          {
+            value: radarData,
+            name: '难度预估',
+            itemStyle: {
+              color: 'rgba(77, 113, 191)',
+            },
+            lineStyle: {
+              opacity: 0,
+            },
+            areaStyle: {
+              color: color.linearGtoB,
+              shadowBlur: 15,
+              shadowColor: 'rgba(0,0,0,.2)',
+              shadowOffsetX: 0,
+              shadowOffsetY: 5,
+              opacity: .8
+            },
+          }]
+      }, {
+        name: '学科平均分',
+        type: 'line',
+        smooth: true,
+        symbol: 'emptyCircle',
+        symbolSize: 8,
+        itemStyle: {
+          color: '#5764f1'
+        },
+        lineStyle: {
+          color: color.linearBtoG,
+          width: 2
+        },
+        areaStyle: {
+          color: color.areaBtoG,
+        },
+        data: weekLineData,
+        lineSmooth: true,
+        markLine: {
+          silent: true,
+          data: [{
+            type: 'average',
+            name: '平均分'
+          }],
+          precision: 0,
+          label: {
+            formatter: '平均分 \n {c}'
+          },
+          lineStyle: {
+            color: 'rgba(77, 113, 191,.7)'
+          }
+        },
+        tooltip: {
+          position: 'top',
+          formatter: '{c} 分',
+          backgroundColor: 'rgba(77, 113, 191,.2)',
+          padding: 6
+        }
+      }],
+    };
+    onMounted(() => {
+      if (refDiv.value === undefined) { return }
+      chart = echarts.init(refDiv.value)
+      update()
+    })
+    const update = () => {
+      chart?.setOption(option)
+    }
+    return () => (
+      <div ref={refDiv} class={s.difficulty}></div>
+    )
+  }
+})
