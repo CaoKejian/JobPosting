@@ -34,3 +34,29 @@ export const MockGoodData = [
   { name: '王硕', value: [0.24, 0.44, 0.02, 0.1] },
 ]
 export const MockTypeArr = ['png', 'docx', 'jpeg', 'pdf']
+
+export const MockHistorySelf = [
+  { name: '曹珂俭', lateCounts: 6, notlateCounts: 1, bit: 6.125 },
+  { name: '黄梦瑶', lateCounts: 1, notlateCounts: 0, bit: 0.875 },
+  { name: '茉莉花开', lateCounts: 2, notlateCounts: 4, bit: 0.575 },
+  { name: '栀子花开', lateCounts: 3, notlateCounts: 8, bit: 0.375 },
+]
+export const MockHistorySubject = [
+  { name: "Vue3", bit: 61 },
+  { name: "数据挖掘", bit: 30 },
+  { name: "高数(1)", bit: 40 },
+  { name: "TypeScript", bit: 55 },
+  { name: "React", bit: 24 },
+]
+export const MockHistoryClass = [{ bit: 1048, id: '大数据B201' },
+{ bit: 735, id: '智能B222' }]
+export const MockHistoryQuency = [
+  {name: '08-26', value: 1},
+  {name: '09-01', value: 2},
+  {name: '09-03', value: 3},
+  {name: '09-11', value: 2},
+  {name: '09-21', value: 5},
+]
+
+export const MockDiffAverage = [46, 83, 74, 91, 61]
+export const MockDiffSubject = ['Vue3', 'React', '数据挖掘', 'CSS', '工程化']

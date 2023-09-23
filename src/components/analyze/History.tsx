@@ -9,6 +9,7 @@ import { http } from '../../shared/Http';
 import { Toast } from 'vant';
 import { useInfoStore } from '../../store/useInfoStore';
 import { useRouter } from 'vue-router';
+import { MockHistoryClass, MockHistoryQuency, MockHistorySelf, MockHistorySubject } from '../../config/mock';
 
 interface UseDataType {
   quency: { value: number, name: string }[]
@@ -48,6 +49,7 @@ export const History = defineComponent({
         quency.value = x
       } catch (err) {
         Toast({ message: '网络异常，此为Mock环境！' })
+        quency.value = MockHistoryQuency
       }
     }
     const fetchClass = async (classId: string) => {
@@ -57,28 +59,25 @@ export const History = defineComponent({
         historyClass.value = res.data[1].class
       } catch (err) {
         Toast({ message: '网络异常，此为Mock环境！' })
-        historySubject.value = [
-          { name: "Vue3", bit: 61 },
-          { name: "数据挖掘", bit: 30 },
-          { name: "高数(1)", bit: 40 },
-          { name: "TypeScript", bit: 55 },
-          { name: "React", bit: 24 },
-        ]
-        historyClass.value = [{ bit: 1048, id: '大数据B201' },
-        { bit: 735, id: '智能B222' }]
+        historySubject.value = MockHistorySubject
+        historyClass.value = MockHistoryClass
       }
     }
     const fetchSelf = async (classId: string) => {
-      const res = await http.get<any[]>('/analyze/history', { classId })
-      const x = res.data
-      x[0].lateCounts.map((item: any, index: number) => {
-        const obj: any = {}
-        obj.name = item.name
-        obj.lateCounts = item.value
-        obj.notlateCounts = x[1].notlateCounts[index].value
-        obj.bit = (item.value + x[1].notlateCounts[index].value) * x[2].totallateBit
-        historySelf.value.push(obj)
-      })
+      try{
+        const res = await http.get<any[]>('/analyze/history', { classId })
+        const x = res.data
+        x[0].lateCounts.map((item: any, index: number) => {
+          const obj: any = {}
+          obj.name = item.name
+          obj.lateCounts = item.value
+          obj.notlateCounts = x[1].notlateCounts[index].value
+          obj.bit = (item.value + x[1].notlateCounts[index].value) * x[2].totallateBit
+          historySelf.value.push(obj)
+        })
+      }catch(err){
+        historySelf.value = MockHistorySelf
+      }
     }
     watch(() => selectStudentValue.value, async (n) => {
       fetchQuency(await infostore.nameMapFunction(n))
@@ -96,12 +95,14 @@ export const History = defineComponent({
       <div class={s.wrapper}>
         <Quote name='个人提交历史监控(分组聚合)' />
         <HistoryBit historySelf={historySelf.value}/>
+
         <Quote name='班级/学科提交历史监控(聚类分析)' />
         <FormItem label='' type='select'
           v-model={selectValue.value}
           options={selectData.value}
         ></FormItem>
         <HistorySubject selectValue={selectValue.value} historyClass={historyClass.value} historySubject={historySubject.value} />
+
         <Quote name='逾期次数趋势追踪（时间序列分析）' />
         <FormItem label='' type='select'
           v-model={selectStudentValue.value}

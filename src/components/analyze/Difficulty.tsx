@@ -4,6 +4,7 @@ import { Quote } from '../../shared/Quote';
 import { DifficultyQuency } from '../charts/teaAnalyze/DifficultyQuenvy';
 import { http } from '../../shared/Http';
 import { Toast } from 'vant';
+import { MockDiffAverage, MockDiffSubject } from '../../config/mock';
 export const Difficulty = defineComponent({
   setup: (props, context) => {
     const average = ref<number[]>([])
@@ -20,10 +21,13 @@ export const Difficulty = defineComponent({
         })
       } catch (err) {
         Toast({ message: '网络异常，此为Mock环境！' })
+        average.value = MockDiffAverage
+        subject.value = MockDiffSubject
       }
     }
     onMounted(() => {
-      fetchData('123123')
+      const classId = localStorage.getItem('classID') as string
+      fetchData(classId)
     })
     return () => (
       <div class={s.wrapper}>
