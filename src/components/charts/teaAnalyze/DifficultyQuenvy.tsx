@@ -1,6 +1,7 @@
 import { PropType, defineComponent, onMounted, ref, watchEffect } from 'vue';
 import s from './teacherChart.module.scss';
 import * as echarts from 'echarts';
+import { Toast } from 'vant';
 
 export const DifficultyQuency = defineComponent({
   props: {
@@ -87,6 +88,13 @@ export const DifficultyQuency = defineComponent({
       if (refDiv.value === undefined) { return }
       chart = echarts.init(refDiv.value)
     })
+    const handleSubject = () => {
+      const arr: { name: string }[] = []
+      props.subject.map(item => {
+        arr.push({ name: item })
+      })
+      return arr
+    }
     const update = () => {
       chart?.setOption({
         legend: {
@@ -100,6 +108,17 @@ export const DifficultyQuency = defineComponent({
             color: 'rgba(77, 113, 191)',
             fontSize: 14,
           },
+        },
+        toolbox: {
+          feature: {
+            dataView: { show: true, readOnly: false },
+            saveAsImage: {
+              show: true,
+              title: '下载图片',
+              name: '学科平均分与难度估测',
+              type: 'png',
+            },
+          }
         },
         tooltip: {
           trigger: 'item'
@@ -133,17 +152,7 @@ export const DifficultyQuency = defineComponent({
               shadowOffsetY: 5,
             }
           },
-          indicator: [{
-            name: 'Vue3',
-          }, {
-            name: 'React',
-          }, {
-            name: '数据挖掘',
-          }, {
-            name: 'CSS',
-          }, {
-            name: 'CSS',
-          }]
+          indicator: handleSubject()
         },
         grid: {
           left: 50,
@@ -245,10 +254,17 @@ export const DifficultyQuency = defineComponent({
       })
     }
     watchEffect(() => {
+      Toast.loading({
+        message: '正在预估，请稍等...',
+        forbidClick: true,
+      })
       weekCategory.value = props.subject
       radarData.value = props.average
       weekLineData.value = props.average
-      update()
+      setTimeout(() => {
+        update()
+        Toast.clear()
+      }, 1000);
     })
     return () => (
       <div ref={refDiv} class={s.difficulty}></div>

@@ -8,17 +8,17 @@ export const Difficulty = defineComponent({
   setup: (props, context) => {
     const average = ref<number[]>([])
     const subject = ref<string[]>([])
-    const x= ref<{}[]>([])
-    const fetchData = async (classId:string) => {
-      try{
-        const res = await http.get<{average_score:number, subject:string}[]>('/analyze/difficulty',{classId})
+    const x = ref<{}[]>([])
+    const fetchData = async (classId: string) => {
+      try {
+        const res = await http.get<{ average_score: number, subject: string }[]>('/analyze/difficulty', { classId })
         const data = res.data
-        x.value=data
+        x.value = data
         data.map(item => {
           average.value.push(item.average_score)
           subject.value.push(item.subject)
         })
-      }catch(err){
+      } catch (err) {
         Toast({ message: '网络异常，此为Mock环境！' })
       }
     }
@@ -27,8 +27,12 @@ export const Difficulty = defineComponent({
     })
     return () => (
       <div class={s.wrapper}>
-        <Quote name='学科平均分与难度估测'/>
-        <DifficultyQuency x={x.value} average={average.value} subject={subject.value}/>
+        <Quote name='学科平均分与难度估测' />
+        {
+          x.value.length !== 0 ?
+            <DifficultyQuency x={x.value} average={average.value} subject={subject.value} />
+            : null
+        }
       </div>
     )
   }
