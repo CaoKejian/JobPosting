@@ -1,4 +1,4 @@
-.chart, .subjectClass, .difficulty{
+.chart, .subjectClass, .difficulty, .average{
   width: 100%;
   height: 360px;
   background: var(--chart-bg);
@@ -11,4 +11,7 @@
 }
 .difficulty{
   height: 620px;
+}
+.average{
+  height: 260px;
 }
