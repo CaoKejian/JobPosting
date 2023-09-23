@@ -4,7 +4,7 @@ import { Quote } from '../../shared/Quote';
 import { AnalyzeAverage } from '../charts/teaAnalyze/AnalyzeAverage';
 import { http } from '../../shared/Http';
 import { Toast } from 'vant';
-import { MockAnalyzeAverage } from '../../config/mock';
+import { MockAnalyzeAverage, MockAnalyzeTime } from '../../config/mock';
 import { AnalyzeTime } from '../charts/teaAnalyze/AnalyzeTime';
 import { useRouter } from 'vue-router';
 
@@ -49,7 +49,7 @@ export const HandAnalyze = defineComponent({
         timeAndScore.value = res.data
       } catch (err) {
         Toast({ message: '网络异常，此为Mock环境！' })
-        // timeAndScore.value = MockAnalyzeAverage
+        timeAndScore.value = MockAnalyzeTime
       }
     }
     onMounted(() => {

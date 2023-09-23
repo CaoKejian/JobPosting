@@ -20,20 +20,7 @@ export const AnalyzeTime = defineComponent({
     const legendValue = ref<string[]>([])
     const maxTime = ref<number | null>(null)
 
-    const mockData = () => {
-      const result = []
-      const nameMap = ['曹珂俭', '黄梦瑶', '蔡奇奇', '张博涵', '捏于波', '李梓良', '王硕']
-      for (let i = 0; i < 7; i++) {
-        const obj: { name: string, value: number[] } = { name: '', value: [] }
-        obj.name = nameMap[i]
-        for (let j = 0; j < 24; j++) {
-          obj.value.push(+(Math.random() * 10).toFixed(0))
-        }
-        result.push(obj)
-      }
-      seriesValue.value = result
-    }
-    // mockData()
+    
 
     const handleSeries = (data: { name: string, value: number[] }[]) => {
       const result: any = []

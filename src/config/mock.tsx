@@ -62,3 +62,257 @@ export const MockDiffAverage = [46, 83, 74, 91, 61]
 export const MockDiffSubject = ['Vue3', 'React', '数据挖掘', 'CSS', '工程化']
 
 export const MockAnalyzeAverage = { intime: 83, overtime: 61 }
+export const MockAnalyzeTime = {
+  maxtime: 23, result: [
+    {
+      "data": [
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "0:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "1:00"
+        },
+        {
+          "allSubmit": 3,
+          "score": 76.2,
+          "time": "2:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "3:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "4:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "5:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "6:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "7:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "8:00"
+        },
+        {
+          "allSubmit": 4,
+          "score": 56.5,
+          "time": "9:00"
+        },
+        {
+          "allSubmit": 2,
+          "score": 0,
+          "time": "10:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "11:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "12:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "13:00"
+        },
+        {
+          "allSubmit": 1,
+          "score": 98,
+          "time": "14:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "15:00"
+        },
+        {
+          "allSubmit": 3,
+          "score": 87,
+          "time": "16:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "17:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "18:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "19:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "20:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "21:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "22:00"
+        },
+        {
+          "allSubmit": 8,
+          "score": 97,
+          "time": "23:00"
+        }
+      ],
+      "name": "曹珂俭"
+    },
+    {
+      "data": [
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "0:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "1:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "2:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "3:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "4:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "5:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "6:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "7:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "8:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "9:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "10:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "11:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "12:00"
+        },
+        {
+          "allSubmit": 1,
+          "score": 87,
+          "time": "13:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "14:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "15:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "16:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "17:00"
+        },
+        {
+          "allSubmit": 4,
+          "score": 78,
+          "time": "18:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "19:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "20:00"
+        },
+        {
+          "allSubmit": 7,
+          "score": 94,
+          "time": "21:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "22:00"
+        },
+        {
+          "allSubmit": 0,
+          "score": 0,
+          "time": "23:00"
+        }
+      ],
+      "name": "黄梦瑶"
+    }
+  ]
+}
