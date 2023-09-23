@@ -2,6 +2,7 @@ import { PropType, defineComponent, onMounted, ref, watchEffect } from 'vue';
 import s from './teacherChart.module.scss';
 import * as echarts from 'echarts';
 import { Daum, Result, Root } from '../../analyze/HandAnalyze';
+import { Toast } from 'vant';
 
 type ResultItem = { allSubmit: number, score: number, time: string }
 export const AnalyzeTime = defineComponent({
@@ -19,8 +20,6 @@ export const AnalyzeTime = defineComponent({
     const scoreArr = ref<any[]>([])
     const legendValue = ref<string[]>([])
     const maxTime = ref<number | null>(null)
-
-    
 
     const handleSeries = (data: { name: string, value: number[] }[]) => {
       const result: any = []
@@ -108,8 +107,15 @@ export const AnalyzeTime = defineComponent({
       })
     }
     watchEffect(() => {
+      Toast.loading({
+        message: '正在分析，请稍等...',
+        forbidClick: true,
+      })
       handleData(props.timeAndScore)
-      update()
+      setTimeout(() => {
+        update()
+        Toast.clear()
+      }, 1000);
     })
     return () => (
       <div ref={refDiv} class={s.time}></div>

@@ -2,6 +2,8 @@ import { PropType, defineComponent, onMounted, ref } from 'vue';
 import s from './teacherChart.module.scss';
 import * as echarts from 'echarts';
 import { watchEffect } from 'vue';
+import { Button } from '../../../shared/Button';
+import { Toast } from 'vant';
 
 export const AnalyzeAverage = defineComponent({
   props: {
@@ -15,7 +17,12 @@ export const AnalyzeAverage = defineComponent({
     let chart: echarts.ECharts | undefined = undefined
     const datas = ref<{ value: number, name: string }[]>([])
     const maxArr = [100, 100]
+    const disable = ref(false)
     onMounted(() => {
+      Toast.loading({
+        message: '正在分析，请稍等...',
+        forbidClick: true,
+      })
       if (refDiv.value === undefined) { return }
       chart = echarts.init(refDiv.value)
     })
@@ -170,11 +177,44 @@ export const AnalyzeAverage = defineComponent({
       datas.value.push(x, y);
     }
     watchEffect(() => {
+      Toast.loading({
+        message: '正在分析，请稍等...',
+        forbidClick: true,
+      })
       handleAverage(props.average)
-      update()
+      setTimeout(() => {
+        Toast.clear()
+        update()
+      }, 1000);
     })
-    return () => (
+    const refresh = () => {
+      disable.value = true
+      Toast.loading({
+        message: '正在重新计算，请稍等...',
+        forbidClick: true,
+      })
+      setTimeout(() => {
+        if (chart) {
+          chart.dispose();
+        }
+        if (refDiv.value === undefined) { return }
+        chart = echarts.init(refDiv.value)
+        update()
+        disable.value = false
+        Toast.clear()
+      }, 1000)
+    }
+    return () => (<>
+      <div style={{ margin: '1rem', display: 'flex', "align-items": 'center', "justify-content": 'space-between' }}>
+        <span>逾期：{props.average.overtime}</span>
+        <span>未逾期：{props.average.intime}</span>
+        <Button style={{ fontSize: '0.8rem', lineHeight: '1.6rem', float: 'right' }}
+          onClick={refresh}
+          disabled={disable.value}
+        >点击重新计算</Button>
+      </div>
       <div ref={refDiv} class={s.average}></div>
+    </>
     )
   }
 })
