@@ -5,8 +5,10 @@ import { DifficultyQuency } from '../charts/teaAnalyze/DifficultyQuenvy';
 import { http } from '../../shared/Http';
 import { Toast } from 'vant';
 import { MockDiffAverage, MockDiffSubject } from '../../config/mock';
+import { useRouter } from 'vue-router';
 export const Difficulty = defineComponent({
   setup: (props, context) => {
+    const router = useRouter()
     const average = ref<number[]>([])
     const subject = ref<string[]>([])
     const x = ref<{}[]>([])
@@ -27,6 +29,10 @@ export const Difficulty = defineComponent({
     }
     onMounted(() => {
       const classId = localStorage.getItem('classID') as string
+      if (!classId) {
+        Toast({ message: '班级码错误！' })
+        return router.push('/teacher/publish')
+      }
       fetchData(classId)
     })
     return () => (

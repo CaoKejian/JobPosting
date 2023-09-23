@@ -46,10 +46,8 @@ export const AnalyzeAverage = defineComponent({
           itemWidth: 20,
           itemHeight: 9,
           itemGap: 21,
-          textStyle: {
-            fontSize: 14,
-            color: '#4d71bf'
-          },
+          fontSize: 14,
+          color: '#4d71bf'
         },
         xAxis: {
           show: false,
@@ -81,22 +79,16 @@ export const AnalyzeAverage = defineComponent({
             barWidth: 10,
             data: datas.value.map(item => ({ value: item.value })),
             itemStyle: {
-              normal: {
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                  { offset: 0, color: '#7580f5' },
-                  { offset: 1, color: '#939bf8' }
-                ])
-              }
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: '#7580f5' },
+                { offset: 1, color: '#939bf8' }
+              ])
             },
             label: {
-              normal: {
-                show: true,
-                position: ['90%', -20],
-                textStyle: {
-                  color: '#386b78',
-                  fontSize: 12
-                }
-              }
+              show: true,
+              position: ['90%', -20],
+              color: '#386b78',
+              fontSize: 12
             }
           },
           {
@@ -106,22 +98,16 @@ export const AnalyzeAverage = defineComponent({
             barWidth: 10,
             barGap: '-100%',
             itemStyle: {
-              normal: {
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                  { offset: 0, color: '#7580f5' },
-                  { offset: 1, color: '#d4dcf5' }
-                ])
-              }
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: '#7580f5' },
+                { offset: 1, color: '#d4dcf5' }
+              ])
             },
             label: {
-              normal: {
-                show: true,
-                position: ['95%', -20],
-                textStyle: {
-                  color: '#4d71bf',
-                  fontSize: 14
-                }
-              }
+              show: true,
+              position: ['95%', -20],
+              color: '#4d71bf',
+              fontSize: 14
             },
             data: maxArr
           },
@@ -130,10 +116,8 @@ export const AnalyzeAverage = defineComponent({
             symbolSize: [4, 9],
             z: 12,
             itemStyle: {
-              normal: {
-                color: '939bf8',
-                opacity: 0.3
-              }
+              color: '939bf8',
+              opacity: 0.3
             },
             data: maxArr.map(value => ({ value, symbolPosition: 'end' }))
           },
@@ -143,9 +127,7 @@ export const AnalyzeAverage = defineComponent({
             symbolOffset: [3, 0],
             z: 12,
             itemStyle: {
-              normal: {
-                color: '#c8fffa',
-              }
+              color: '#c8fffa',
             },
             data: datas.value.map(item => {
               return { value: item.value, symbolPosition: 'end' }
@@ -157,10 +139,8 @@ export const AnalyzeAverage = defineComponent({
             symbolOffset: [2, 0],
             z: 12,
             itemStyle: {
-              normal: {
-                color: '#d1daf5',
-                opacity: 0.4
-              }
+              color: '#d1daf5',
+              opacity: 0.4
             },
             data: [{ value: 0 }, { value: 0 }]
           },
@@ -170,12 +150,10 @@ export const AnalyzeAverage = defineComponent({
             symbolOffset: [10, 0],
             z: 0,
             itemStyle: {
-              normal: {
-                color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-                  { offset: 0, color: '#d1daf5' },
-                  { offset: 1, color: '#d1daf5' }
-                ]),
-              }
+              color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+                { offset: 0, color: '#d1daf5' },
+                { offset: 1, color: '#d1daf5' }
+              ]),
             },
             data: [{ value: 0 }, { value: 0 }],
             tooltip: {
@@ -186,7 +164,7 @@ export const AnalyzeAverage = defineComponent({
       })
     }
     const handleAverage = (data: { intime: number, overtime: number }) => {
-      if(data.intime === 0) return
+      if (data.intime === 0) return
       const y = { value: data.overtime, name: '逾期' };
       const x = { value: data.intime, name: '未逾期' };
       datas.value.push(x, y);
