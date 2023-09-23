@@ -1,25 +1,23 @@
 import { PropType, defineComponent, onMounted, ref } from 'vue';
 import s from './teacherChart.module.scss';
 import * as echarts from 'echarts';
+import { watchEffect } from 'vue';
 
 export const AnalyzeAverage = defineComponent({
   props: {
-    name: {
-      type: String as PropType<string>
+    average: {
+      type: Object as PropType<{ intime: number, overtime: number }>,
+      default: []
     }
   },
   setup: (props, context) => {
     const refDiv = ref<HTMLDivElement>()
     let chart: echarts.ECharts | undefined = undefined
-    const datas = ref([
-      { value: 60, name: '逾期' },
-      { value: 80, name: '未逾期' },
-    ])
+    const datas = ref<{ value: number, name: string }[]>([])
     const maxArr = [100, 100]
     onMounted(() => {
       if (refDiv.value === undefined) { return }
       chart = echarts.init(refDiv.value)
-      update()
     })
     const update = () => {
       chart?.setOption({
@@ -28,7 +26,7 @@ export const AnalyzeAverage = defineComponent({
         },
         grid: {
           left: 70,
-          bottom:10
+          bottom: 10
         },
         toolbox: {
           feature: {
@@ -187,7 +185,16 @@ export const AnalyzeAverage = defineComponent({
         ]
       })
     }
-    
+    const handleAverage = (data: { intime: number, overtime: number }) => {
+      if(data.intime === 0) return
+      const y = { value: data.overtime, name: '逾期' };
+      const x = { value: data.intime, name: '未逾期' };
+      datas.value.push(x, y);
+    }
+    watchEffect(() => {
+      handleAverage(props.average)
+      update()
+    })
     return () => (
       <div ref={refDiv} class={s.average}></div>
     )

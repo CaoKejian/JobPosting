@@ -51,12 +51,14 @@ export const MockHistorySubject = [
 export const MockHistoryClass = [{ bit: 1048, id: '大数据B201' },
 { bit: 735, id: '智能B222' }]
 export const MockHistoryQuency = [
-  {name: '08-26', value: 1},
-  {name: '09-01', value: 2},
-  {name: '09-03', value: 3},
-  {name: '09-11', value: 2},
-  {name: '09-21', value: 5},
+  { name: '08-26', value: 1 },
+  { name: '09-01', value: 2 },
+  { name: '09-03', value: 3 },
+  { name: '09-11', value: 2 },
+  { name: '09-21', value: 5 },
 ]
 
 export const MockDiffAverage = [46, 83, 74, 91, 61]
 export const MockDiffSubject = ['Vue3', 'React', '数据挖掘', 'CSS', '工程化']
+
+export const MockAnalyzeAverage = { intime: 83, overtime: 61 }
