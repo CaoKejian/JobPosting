@@ -294,3 +294,5 @@ export const Detail = defineComponent({
     )
   }
 })
+
+export default Detail

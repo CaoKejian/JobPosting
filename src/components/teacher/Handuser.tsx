@@ -129,3 +129,5 @@ export const Handuser = defineComponent({
     )
   }
 })
+
+export default Handuser

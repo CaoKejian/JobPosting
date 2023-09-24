@@ -223,3 +223,5 @@ export const Correct = defineComponent({
     )
   }
 })
+
+export default Correct

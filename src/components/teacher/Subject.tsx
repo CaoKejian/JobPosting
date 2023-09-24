@@ -93,3 +93,4 @@ export const Subject = defineComponent({
     )
   }
 })
+export default Subject

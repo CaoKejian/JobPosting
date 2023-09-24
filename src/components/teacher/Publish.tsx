@@ -188,3 +188,5 @@ export const Publish = defineComponent({
     )
   }
 })
+
+export default Publish

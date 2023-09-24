@@ -96,3 +96,4 @@ export const Auth = defineComponent({
     )
   }
 })
+export default Auth
