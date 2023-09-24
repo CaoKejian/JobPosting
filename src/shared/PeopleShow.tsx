@@ -3,7 +3,7 @@ import s from './PeopleShow.module.scss';
 export const PeopleShow = defineComponent({
   props: {
     array: {
-      type: Array as PropType<{ stuId: number, name?:string, classId: number, isSubmit?: boolean }[]>,
+      type: Array as PropType<{ stuId: number, name?:string, classId?: number, isSubmit?: boolean }[]>,
       default: []
     }
   },

@@ -6,7 +6,8 @@ type InfoState = {
   student: Record<number, string>,
   teacher: Record<number, string>,
   class: Record<number, string>,
-  isRoot: number[]
+  isRoot: number[],
+  canHandUser: number[]
 }
 type InfoActions = {
   fetchInfo: () => Promise<void>
@@ -27,7 +28,8 @@ export const useInfoStore = defineStore<string, InfoState, {}, InfoActions>('inf
       123123: '大数据B201',
       122122: '智能B222'
     },
-    isRoot: []
+    isRoot: [],
+    canHandUser: [2001, 2001063037]
   }),
   actions: {
     async fetchInfo() {

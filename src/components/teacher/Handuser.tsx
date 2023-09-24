@@ -7,6 +7,8 @@ import { MenuBar } from '../../layouts/MenuBar';
 import { Button } from '../../shared/Button';
 import { Toast } from 'vant';
 import { http } from '../../shared/Http';
+import { PeopleShow } from '../../shared/PeopleShow';
+import { useInfoStore } from '../../store/useInfoStore';
 interface UseDataType {
   isShowMenu: boolean,
   formData: [],
@@ -17,9 +19,11 @@ interface UseDataType {
   status: string,
   svg: string,
   action: string
+  repeat: { name: string, stuId: number }[]
 }
 export const Handuser = defineComponent({
   setup: (props, context) => {
+    const infoStore = useInfoStore()
     const useData = reactive<UseDataType>({
       isShowMenu: false,
       formData: [],
@@ -29,10 +33,15 @@ export const Handuser = defineComponent({
       },
       status: '',
       svg: '#isHandinfo',
-      action: 'running'
+      action: 'running',
+      repeat: []
     })
-    const { isShowMenu, formData, xfile, status, svg, action } = toRefs(useData)
+    const { isShowMenu, formData, xfile, status, svg, action, repeat } = toRefs(useData)
     const afterRead = (file: any) => {
+      const info = JSON.parse(localStorage.getItem('info') as string)
+      if(infoStore.canHandUser.some(item => info.stuId.includes(item))){
+        return Toast({message: '没有权限！'})
+      }
       let formDataFile = new FormData();
       formDataFile.append('file', file.file);
       http.post('/upload/file', formDataFile, {
@@ -66,12 +75,14 @@ export const Handuser = defineComponent({
       });
     }
     const handleData = async () => {
-      await http.post('/class/insertall', { url: xfile.value.fileUrl })
+      const res = await http.post<{ data: string, repeat: { name: string, stuId: number }[] }>('/class/insertall', { url: xfile.value.fileUrl })
+      repeat.value = res.data.repeat
       Toast.clear()
       status.value = '处理完成！'
       svg.value = '#success'
       action.value = 'paused'
     }
+    console.log(repeat.value)
     return () => (
       <MainLayout>{
         {
@@ -99,6 +110,14 @@ export const Handuser = defineComponent({
             }
             <p>注：此过程会持续导入表单学生信息</p>
             <p>保证表格有<span class={s.content}>name</span>（姓名）和<span class={s.content}>stuId</span>（学号）两列数据</p>
+            {
+              repeat.value.length !== 0 ? (<>
+                <hr />
+                <p>已存在数据库中，重复的人员：</p>
+                <PeopleShow array={repeat.value} />
+              </>
+              ) : null
+            }
             {
               isShowMenu.value ?
                 <MenuBar onClose={() => isShowMenu.value = false} />
