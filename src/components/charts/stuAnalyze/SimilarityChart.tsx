@@ -63,20 +63,16 @@ export const SimilarityChart = defineComponent({
             symbolSize: 7,
             initialTreeDepth: 1,
             label: {
-              normal: {
-                position: 'left',
-                verticalAlign: 'middle',
-                align: 'right',
-                fontSize: 15
-              }
+              position: 'left',
+              verticalAlign: 'middle',
+              align: 'right',
+              fontSize: 15
             },
             leaves: {
               label: {
-                normal: {
-                  position: 'right',
-                  verticalAlign: 'middle',
-                  align: 'left'
-                }
+                position: 'right',
+                verticalAlign: 'middle',
+                align: 'left'
               }
             },
             expandAndCollapse: true,

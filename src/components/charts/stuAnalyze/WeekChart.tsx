@@ -42,10 +42,8 @@ export const WeekChart = defineComponent({
         yAxis: {
           type: 'value',
           axisLabel: {
-            textStyle: {
-              color: '#446a76',
-              fontSize: 12
-            }
+            color: '#446a76',
+            fontSize: 12
           },
           splitLine: {
             show: true,
