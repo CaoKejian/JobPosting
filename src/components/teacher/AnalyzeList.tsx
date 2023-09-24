@@ -3,6 +3,7 @@ import s from '../students/Analyze.module.scss';
 import { History } from '../analyze/History';
 import { Difficulty } from '../analyze/Difficulty';
 import { HandAnalyze } from '../analyze/HandAnalyze';
+import { ForeeCast } from '../analyze/ForeCast';
 export const AnalyzeList = defineComponent({
   props: {
     id: {
@@ -19,7 +20,7 @@ export const AnalyzeList = defineComponent({
         ) : props.id === '2' ? (
           <HandAnalyze />
         ) : props.id === '3' ? (
-          4
+          <ForeeCast />
         ) : <div>网页异常，请刷新重试！</div>
       }
     </div>

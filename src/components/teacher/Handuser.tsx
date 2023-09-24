@@ -1,4 +1,4 @@
-import { PropType, defineComponent, reactive, ref, toRefs } from 'vue';
+import { PropType, defineComponent, onMounted, reactive, ref, toRefs } from 'vue';
 import s from './Handuser.module.scss';
 import { MainLayout } from '../../layouts/MainLayout';
 import { BackIcon } from '../../shared/BackIcon';
@@ -7,21 +7,34 @@ import { MenuBar } from '../../layouts/MenuBar';
 import { Button } from '../../shared/Button';
 import { Toast } from 'vant';
 import { http } from '../../shared/Http';
+interface UseDataType {
+  isShowMenu: boolean,
+  formData: [],
+  xfile: {
+    fileName: string
+    fileUrl: string
+  }
+  status: string,
+  svg: string,
+  action: string
+}
 export const Handuser = defineComponent({
   setup: (props, context) => {
-    const useData = reactive({
+    const useData = reactive<UseDataType>({
       isShowMenu: false,
       formData: [],
+      xfile: {
+        fileName: '',
+        fileUrl: ''
+      },
       status: '',
       svg: '#isHandinfo',
       action: 'running'
     })
-    const { isShowMenu, formData, status, svg, action } = toRefs(useData)
+    const { isShowMenu, formData, xfile, status, svg, action } = toRefs(useData)
     const afterRead = (file: any) => {
       let formDataFile = new FormData();
       formDataFile.append('file', file.file);
-      console.log(file)
-      console.log(formDataFile.get('file'))
       http.post('/upload/file', formDataFile, {
         _autoLoading: true
       }).then((response: any) => {
@@ -30,24 +43,31 @@ export const Handuser = defineComponent({
           message: `上传成功！`,
         });
         Object.assign(formData, {
-          file: {
-            fileName: response.data.fileName,
-            fileUrl: response.data.url
-          }
+          fileName: response.data.fileName,
+          fileUrl: response.data.url
         });
+        Object.assign(xfile.value, {
+          fileName: response.data.fileName,
+          fileUrl: response.data.url
+        })
         status.value = '数据正在处理入库，请稍后...'
-        setTimeout(() => {
-          handleData()
-        }, 2000);
+        Toast.loading({
+          message: '正在处理，请稍等...',
+          forbidClick: true,
+        })
+        handleData()
       }).catch(error => {
         Toast({
           message: `上传失败！${error}`,
         });
         status.value = '处理失败，请检查网络原因！'
+        action.value = 'paused'
         svg.value = '#error'
       });
     }
-    const handleData = () => {
+    const handleData = async () => {
+      await http.post('/class/insertall', { url: xfile.value.fileUrl })
+      Toast.clear()
       status.value = '处理完成！'
       svg.value = '#success'
       action.value = 'paused'
@@ -58,7 +78,7 @@ export const Handuser = defineComponent({
           icon: () => <BackIcon svg='menu' onClick={() => isShowMenu.value = true} />,
           title: () => '上传用户',
           default: () => <div class={s.wrapper}>
-            <Quote name='上传csv文件，需至少姓名、学号两列数据' />
+            <Quote name='上传xlsx文件，需至少姓名、学号两列数据' />
             <div class={s.upload}>
               <van-uploader
                 after-read={afterRead}
