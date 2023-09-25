@@ -27,3 +27,17 @@
     float: right;
   }
 }
+
+.box1{
+  width: 100%;
+  padding: 3rem 0;
+}
+.forecast{
+  border-radius: 50%;
+  width: 11.75rem;
+  height:11.75rem;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--button-light);
+}
