@@ -1,4 +1,4 @@
-.chart, .subjectClass, .difficulty, .average, .time{
+.chart, .subjectClass, .difficulty, .average, .time, .forechart{
   width: 100%;
   height: 360px;
   background: var(--chart-bg);
@@ -40,4 +40,7 @@
   left: 50%;
   transform: translateX(-50%);
   background: var(--button-light);
+}
+.forechart{
+  height: 220px;
 }

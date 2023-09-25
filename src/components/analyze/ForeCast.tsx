@@ -3,6 +3,8 @@ import s from './WeekFrequency.module.scss';
 import { Quote } from '../../shared/Quote';
 import { useInfoStore } from '../../store/useInfoStore';
 import { ForeCastBall } from '../charts/teaAnalyze/ForeCastBall';
+import { ForeModal } from '../charts/teaAnalyze/ForeModal';
+import { http } from '../../shared/Http';
 export interface UseDataType {
   selectData: { value: string, text: string }[],
   selectValue: string,
@@ -30,6 +32,7 @@ export const ForeeCast = defineComponent({
       }
       selectValue.value = (selectData?.value[0]?.text || '');
     }
+   
     onMounted(() => {
       handleStudentInfo()
     })
@@ -37,6 +40,10 @@ export const ForeeCast = defineComponent({
       <div class={s.wrapper}>
         <Quote name='预测提交作业比率和预测得分' />
         <ForeCastBall selectData={selectData.value}/>
+
+        <Quote name='学生行为特征分析和预测引擎（计算准确率、召回率、F1分数）'/>
+        <p style={{marginTop:'0.5rem'}}>注：特征分析及训练模型</p>
+        <ForeModal />
       </div>
     )
   }
