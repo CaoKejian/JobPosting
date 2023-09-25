@@ -45,6 +45,7 @@ export const Class = defineComponent({
     })
     // 全班人员
     const classSubmitArr = ref<{ stuId: number, classId: number, isSubmit?: boolean }[]>([])
+    const isNotice = ref(false)
     const fetchClassPeople = async (classId: number) => {
       try {
         const data = await http.get<{ stuId: number, classId: number }[]>('/class', { classId }, { _autoLoading: true })
@@ -110,6 +111,7 @@ export const Class = defineComponent({
             unSubmit: classSubmitArr.value.length - unSubmit.value.length
           })
           Toast.clear()
+          isNotice.value = true
         } else {
           Toast({ message: '你没有权限下载！' })
         }
@@ -126,7 +128,7 @@ export const Class = defineComponent({
     })
     return () => (
       <div class={s.content}>
-        <p><Quote name={`近30天已有 ${workNumber.value} 份作业发布，请选择查看提交状态:`} /></p>
+        <p><Quote name={`近30天已有 ${workNumber.value||0} 份作业发布，请选择查看提交状态:`} /></p>
         <Form>
           <FormItem label='' type='select'
             options={branchArr.value} v-model={formData.branch}
@@ -166,7 +168,7 @@ export const Class = defineComponent({
           formData.branch !== '' ? <>
             <PeopleShow array={classSubmitArr.value} />
             <div class={s.button}>
-              <Button onClick={onNotice}>一键通知未交同学</Button>
+              <Button onClick={onNotice} disabled={isNotice.value}>一键通知未交同学</Button>
             </div>
           </>
             :
