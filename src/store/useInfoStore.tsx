@@ -53,7 +53,7 @@ export const useInfoStore = defineStore<string, InfoState, {}, InfoActions>('inf
     },
     async isRootFunction(stuId: number){
       return this.refresh().then(res => {
-        if(this.isRoot.includes(stuId)){
+        if(this.isRoot.includes(+stuId)){
           return true
         }else{
           return Promise.reject('权限不足！')

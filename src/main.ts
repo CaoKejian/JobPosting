@@ -64,11 +64,6 @@ router.beforeEach(async (to, from) => {
       if (!info) {
         return router.push('/login')
       }
-      // infoStore.stuIdMapFunction(info.stuId).then(res=>{
-      //   if (res === '未录入') {
-      //     router.push('/error/noauth')
-      //   }
-      // })
       await http.post('/user/isself/auth', info)
       await http.get('/user/verify/jwt')
       return true
