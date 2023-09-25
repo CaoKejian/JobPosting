@@ -38,11 +38,7 @@ export const Difficulty = defineComponent({
     return () => (
       <div class={s.wrapper}>
         <Quote name='学科平均分与难度估测' />
-        {
-          x.value.length !== 0 ?
-            <DifficultyQuency x={x.value} average={average.value} subject={subject.value} />
-            : null
-        }
+        <DifficultyQuency x={x.value} average={average.value} subject={subject.value} />
       </div>
     )
   }
