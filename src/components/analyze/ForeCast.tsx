@@ -8,6 +8,7 @@ import { http } from '../../shared/Http';
 export interface UseDataType {
   selectData: { value: string, text: string }[],
   selectValue: string,
+  refresh: number
 }
 export const ForeeCast = defineComponent({
   props: {
@@ -20,8 +21,9 @@ export const ForeeCast = defineComponent({
     const useData = reactive<UseDataType>({
       selectData: [],
       selectValue: '',
+      refresh: 0
     })
-    const {  selectData, selectValue } = toRefs(useData)
+    const { selectData, selectValue, refresh } = toRefs(useData)
     const handleStudentInfo = async () => {
       const info = infoStore.student
       for (const item of Object.entries(info)) {
@@ -32,18 +34,22 @@ export const ForeeCast = defineComponent({
       }
       selectValue.value = (selectData?.value[0]?.text || '');
     }
-   
+    const reFresh = (value: string) => {
+      if (value === 'refresh') {
+        refresh.value++
+      }
+    }
     onMounted(() => {
       handleStudentInfo()
     })
     return () => (
       <div class={s.wrapper}>
         <Quote name='预测提交作业比率和预测得分' />
-        <ForeCastBall selectData={selectData.value}/>
+        <ForeCastBall selectData={selectData.value} onUpdate: refresh={reFresh} />
 
-        <Quote name='学生行为特征分析和预测引擎（计算准确率、召回率、F1分数）'/>
-        <p style={{marginTop:'0.5rem'}}>注：特征分析及训练模型</p>
-        <ForeModal />
+        <Quote name='学生行为特征分析和预测引擎（计算准确率、召回率、F1分数）' />
+        <p style={{ marginTop: '0.5rem' }}>注：特征分析及训练模型</p>
+        <ForeModal refresh={refresh.value} />
       </div>
     )
   }

@@ -17,10 +17,11 @@ interface UseDataType {
 export const ForeCastBall = defineComponent({
   props: {
     selectData: {
-      type: Array as PropType<{value:string, text:string}[]>,
-      default:[]
+      type: Array as PropType<{ value: string, text: string }[]>,
+      default: []
     }
   },
+  emits: ['update:refresh'],
   setup: (props, context) => {
     const infoStore = useInfoStore()
     const useData = reactive<UseDataType>({
@@ -34,22 +35,30 @@ export const ForeCastBall = defineComponent({
     })
     const { disable, selectValue, isShowStudentInfo, studentInfo } = toRefs(useData)
     const handleForeData = async (stuId: string) => {
-      const res = await http.get<{ bit: number, score: number }>('/analyze/complete', { stuId })
-      const data = res.data
-      Object.assign(studentInfo.value, {
-        bit: (data.bit * 100).toFixed(2) + '%',
-        score: (data.score).toFixed(2)
-      })
+      try {
+        const res = await http.get<{ bit: number, score: number }>('/analyze/complete', { stuId })
+        const data = res.data
+        Object.assign(studentInfo.value, {
+          bit: (data.bit * 100).toFixed(2) + '%',
+          score: (data.score).toFixed(2)
+        })
+      } catch (err) {
+        Toast({ message: '网络异常，此为Mock环境！' })
+      }
     }
     const handleFore = async () => {
+      Object.assign(studentInfo.value, {
+        bit: 0,
+        score: 0
+      })
       disable.value = true
       const res = await infoStore.nameMapFunction(selectValue.value)
       handleForeData(res)
       loading('正在预测，请稍后...')
     }
     watchEffect(() => {
-      if(props.selectData.length===0)return
-      selectValue.value = props.selectData[0].text 
+      if (props.selectData.length === 0) return
+      selectValue.value = props.selectData[0].text
     })
     const loading = (x: string) => {
       Toast.loading({
@@ -58,6 +67,11 @@ export const ForeCastBall = defineComponent({
       })
       setTimeout(() => {
         Toast.clear()
+        Object.assign(studentInfo.value, {
+          bit: (Math.random() * 100).toFixed(2) + '%',
+          score: (Math.random() * 100).toFixed(2)
+        })
+        context.emit('update:refresh', 'refresh')
         isShowStudentInfo.value = true
         disable.value = false
       }, 1000);
