@@ -69,7 +69,7 @@ export const HandAnalyze = defineComponent({
 
         <Quote name='时间段提交与分数的分析预测' />
         <p style={{ fontSize: '0.8rem', marginTop: '0.5rem' }}>注：完成作业分数与提交时间之间的关系</p>
-        <AnalyzeTime timeAndScore={timeAndScore.value}/>
+        <AnalyzeTime timeAndScore={timeAndScore.value} />
       </div>
     )
   }

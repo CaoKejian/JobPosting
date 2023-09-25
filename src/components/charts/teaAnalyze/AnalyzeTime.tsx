@@ -3,6 +3,7 @@ import s from './teacherChart.module.scss';
 import * as echarts from 'echarts';
 import { Daum, Result, Root } from '../../analyze/HandAnalyze';
 import { Toast } from 'vant';
+import { Button } from '../../../shared/Button';
 
 type ResultItem = { allSubmit: number, score: number, time: string }
 export const AnalyzeTime = defineComponent({
@@ -20,6 +21,8 @@ export const AnalyzeTime = defineComponent({
     const scoreArr = ref<any[]>([])
     const legendValue = ref<string[]>([])
     const maxTime = ref<number | null>(null)
+    const mightTime = ref('')
+    const disable = ref(false)
 
     const handleSeries = (data: { name: string, value: number[] }[]) => {
       const result: any = []
@@ -107,6 +110,7 @@ export const AnalyzeTime = defineComponent({
       })
     }
     watchEffect(() => {
+      console.log(props.timeAndScore)
       Toast.loading({
         message: '正在分析，请稍等...',
         forbidClick: true,
@@ -117,8 +121,28 @@ export const AnalyzeTime = defineComponent({
         Toast.clear()
       }, 1000);
     })
-    return () => (
+    const refresh = () => {
+      disable.value = true
+      Toast.loading({
+        message: '正在计算，请稍等...',
+        forbidClick: true,
+      })
+      setTimeout(() => {
+        Toast.clear()
+        mightTime.value = props.timeAndScore.maxtime + ':00'
+      }, 1000);
+    }
+    return () => (<>
+      <div class={s.content}>
+        <span>预测为：<span class={s.time}>{mightTime.value || ''}</span></span>
+        <Button style={{ fontSize: '0.8rem', lineHeight: '1.6rem', float: 'right' }}
+          onClick={refresh}
+          disabled={disable.value}
+        >点击计算最有可能的提交时间段</Button>
+      </div>
+
       <div ref={refDiv} class={s.time}></div>
+    </>
     )
   }
 })
