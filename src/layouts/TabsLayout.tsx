@@ -1,4 +1,4 @@
-import { PropType, defineComponent, reactive, ref } from 'vue';
+import { PropType, defineComponent, reactive, ref, watchEffect } from 'vue';
 import { Tab, Tabs } from '../shared/Tabs';
 import { BackIcon } from '../shared/BackIcon';
 import { MainLayout } from './MainLayout';
@@ -30,7 +30,8 @@ export const TabsLayout = defineComponent({
     const isBoolean = reactive({
       isShowMenu: false
     })
-    const refSelected = ref(tabMap[3])
+    const refSelected = ref(tabMap[0])
+    console.log(props.tabMap[0])
     return () => (
        <MainLayout>{
         {
@@ -67,7 +68,11 @@ export const TabsLayout = defineComponent({
           </div>
           {
             isBoolean.isShowMenu ?
-            <MenuBar name={tabMap[0]!=='我的' ? 'teacher': 'student'} onClose={() => isBoolean.isShowMenu = false} />
+            <MenuBar name={
+              props.tabMap[0]!=='周频率' ?
+              props.tabMap[0] ==='我的' ? 'student' : 'teacher' : 'student'
+             } 
+             onClose={() => isBoolean.isShowMenu = false} />
             : null
           }</>
         }
