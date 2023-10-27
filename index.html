@@ -8,7 +8,52 @@
     <title>交作业啦</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <svg width="50" height="50" viewBox="0 0 50 50">
+        <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+      </svg>
+      <br>
+      <span>正在进入 交作业啦...</span>
+      <style>
+        @keyframes rotate {
+          100% {
+            transform: rotate(1turn);
+          }
+        }
+        @keyframes dash {
+          0% {
+            stroke-dasharray: 1, 150;
+            stroke-dashoffset: 0;
+          }
+          50% {
+            stroke-dasharray: 90, 150;
+            stroke-dashoffset: -35;
+          }
+          100% {
+            stroke-dasharray: 90, 150;
+            stroke-dashoffset: -124;
+          }
+        }
+        #app {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          height: 100vh;
+          background-color: #f3f3f3;
+        }
+        #app svg {
+          animation: rotate 2s linear infinite;
+          width: 50px;
+          height: 50px;
+        }
+        #app .path {
+          stroke: #6666ff;
+          stroke-linecap: round;
+          animation: dash 1.5s ease-in-out infinite;
+        }
+      </style>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
