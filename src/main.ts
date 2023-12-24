@@ -23,6 +23,12 @@ import { useInfoStore } from './store/useInfoStore'
 // if (!isDev()) {
 //   new VConsole()
 // }
+const originalConsoleLog = console.log
+window.console.log = function() {
+  const x = Array.from(arguments).join(' ')
+  const logMessage = `========> ${x}: ` + Array.from(arguments).join(' ');
+  originalConsoleLog.apply(console, [logMessage]);
+}
 const app = createApp(App)
 app.use(pinia)
 const infoStore = useInfoStore()

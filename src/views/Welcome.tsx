@@ -6,7 +6,7 @@ export const Welcome = defineComponent({
   setup: (props, context) => {
     const router = useRouter()
     const gotoInfo = (where: string) => {
-      where === 'stu' ? router.push('/student') : router.push('/teacher') 
+      where === 'stu' ? router.push('/student') : router.push('/teacher')
     }
     return () => (
       <div class={s.wrapper}>
